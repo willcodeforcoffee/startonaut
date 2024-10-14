@@ -1,1 +1,4 @@
 # See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+# Don't index anything, this is not a live site.
+User-agent: *
+Disallow: /
