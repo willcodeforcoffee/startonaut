@@ -23,5 +23,8 @@ module Startonaut
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Default FactoryBot generator files to end with factory
+    config.generators { |g| g.factory_bot suffix: "factory" }
   end
 end
