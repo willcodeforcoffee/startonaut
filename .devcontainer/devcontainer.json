@@ -10,19 +10,32 @@
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {},
     "ghcr.io/rails/devcontainer/features/activestorage": {},
-    "ghcr.io/rails/devcontainer/features/sqlite3": {}
+    "ghcr.io/rails/devcontainer/features/sqlite3": {},
+    "ghcr.io/devcontainers/features/node:1": {}
   },
 
   "containerEnv": {
     "CAPYBARA_SERVER_PORT": "45678",
-    "SELENIUM_HOST": "selenium"
+    "SELENIUM_HOST": "selenium",
+    "PORT": "6250"
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [3000],
+  "forwardPorts": [6250],
 
   // Configure tool-specific properties.
-  // "customizations": {},
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Shopify.ruby-lsp",
+        "ms-azuretools.vscode-docker",
+        "esbenp.prettier-vscode",
+        "rubocop.vscode-rubocop",
+        "bradlc.vscode-tailwindcss",
+        "johnpapa.vscode-peacock"
+      ]
+    }
+  },
 
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
   // "remoteUser": "root",

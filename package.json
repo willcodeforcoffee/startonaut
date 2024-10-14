@@ -1,0 +1,30 @@
+{
+  "name": "startonaut",
+  "version": "1.0.0",
+  "description": "Start page for Internauts",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/willcodeforcoffee/startonaut.git"
+  },
+  "author": "Eric Hoff",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/willcodeforcoffee/startonaut/issues"
+  },
+  "homepage": "https://github.com/willcodeforcoffee/startonaut#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^19.4.0",
+    "@commitlint/config-conventional": "^19.1.0",
+    "husky": "^9.1.4",
+    "prettier": "3.3.3"
+  }
+}
