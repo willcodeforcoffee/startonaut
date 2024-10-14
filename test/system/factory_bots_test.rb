@@ -9,9 +9,8 @@ class FactoryBotsTest < ApplicationSystemTestCase
 
   FactoryBot.factories.map(&:name).each do |factory_name|
     test "#{factory_name} factory creates a valid object" do
-      o = build(factory_name)
-      expect(o.errors.full_messages).to eq([])
-      expect(o).to be_valid
+      o = FactoryBot.build(factory_name)
+      assert o.valid?
     end
   end
 end
