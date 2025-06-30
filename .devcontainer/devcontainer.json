@@ -17,14 +17,29 @@
   "containerEnv": {
     "CAPYBARA_SERVER_PORT": "45678",
     "SELENIUM_HOST": "selenium",
-    "KAMAL_REGISTRY_PASSWORD": "$KAMAL_REGISTRY_PASSWORD"
+    "KAMAL_REGISTRY_PASSWORD": "$KAMAL_REGISTRY_PASSWORD",
+    "PORT": "6250",
+    "SOLID_QUEUE_IN_PUMA": "false"
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [3000],
+  "forwardPorts": [6250],
 
   // Configure tool-specific properties.
-  // "customizations": {},
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Shopify.ruby-lsp",
+        "ms-azuretools.vscode-docker",
+        "esbenp.prettier-vscode",
+        "rubocop.vscode-rubocop",
+        "aliariff.vscode-erb-beautify",
+        "bradlc.vscode-tailwindcss",
+        "johnpapa.vscode-peacock",
+        "mechatroner.rainbow-csv"
+      ]
+    }
+  },
 
   // Uncomment to connect as root instead. More info: https://containers.dev/implementors/json_reference/#remoteUser.
   // "remoteUser": "root",

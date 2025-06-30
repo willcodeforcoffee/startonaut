@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "shopify.ruby-lsp",
+    "shopify.ruby-extensions-pack",
+    "esbenp.prettier-vscode",
+    "mechatroner.rainbow-csv",
+    "johnpapa.vscode-peacock",
+    "rubocop.vscode-rubocop",
+    "bradlc.vscode-tailwindcss",
+  ]
+}
