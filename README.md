@@ -1,2 +1,2 @@
-# startonaut
-A new start page for Internauts
+# Startonaut
+A new start page for Internauts!
