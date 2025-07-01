@@ -22,6 +22,7 @@ class BookmarksController < ApplicationController
   # POST /bookmarks or /bookmarks.json
   def create
     @bookmark = Bookmark.new(bookmark_params)
+    @bookmark.user = Current.user
 
     respond_to do |format|
       if @bookmark.save
@@ -65,6 +66,6 @@ class BookmarksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def bookmark_params
-      params.expect(bookmark: [ :url, :title, :description, :user_id ])
+      params.expect(bookmark: [ :url, :title, :description ])
     end
 end
