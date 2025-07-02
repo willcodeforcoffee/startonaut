@@ -66,6 +66,6 @@ class BookmarksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def bookmark_params
-      params.expect(bookmark: [ :url, :title, :description ])
+      params.expect(bookmark: [ :url, :title, :description, :tag_list, tag_ids: [] ])
     end
 end
