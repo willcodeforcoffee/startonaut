@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_01_195629) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_02_113217) do
   create_table "bookmarks", force: :cascade do |t|
     t.string "url", null: false
     t.string "title"
@@ -21,6 +21,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_01_195629) do
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
 
+  create_table "bookmarks_tags", id: false, force: :cascade do |t|
+    t.integer "bookmark_id", null: false
+    t.integer "tag_id", null: false
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "ip_address"
@@ -28,6 +33,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_01_195629) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_tags_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -40,4 +53,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_01_195629) do
 
   add_foreign_key "bookmarks", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "tags", "users"
 end
