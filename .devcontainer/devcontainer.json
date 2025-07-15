@@ -36,7 +36,8 @@
         "aliariff.vscode-erb-beautify",
         "bradlc.vscode-tailwindcss",
         "johnpapa.vscode-peacock",
-        "mechatroner.rainbow-csv"
+        "mechatroner.rainbow-csv",
+        "qwtel.sqlite-viewer"
       ]
     }
   },
