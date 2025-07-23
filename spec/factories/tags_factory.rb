@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :tag do
-    name { "MyString" }
-    user { nil }
+    sequence(:name) { |n| "tag#{n}" }
+    association :user
   end
 end

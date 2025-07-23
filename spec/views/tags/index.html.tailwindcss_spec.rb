@@ -1,15 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe "tags/index", type: :view do
+  let(:authentication_user) { FactoryBot.create(:user) }
+
   before(:each) do
+    sign_in_as(authentication_user)
+
     assign(:tags, [
       Tag.create!(
         name: "Name",
-        user: nil
+        user: authentication_user
       ),
       Tag.create!(
         name: "Name",
-        user: nil
+        user: authentication_user
       )
     ])
   end
