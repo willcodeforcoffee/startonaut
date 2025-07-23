@@ -13,15 +13,27 @@ require 'rails_helper'
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/tags", type: :request do
+  let(:authentication_user) { FactoryBot.create(:user) }
+  before(:each) do
+    sign_in_as(authentication_user)
+  end
+
+
   # This should return the minimal set of attributes required to create a valid
   # Tag. As you add validations to Tag, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      name: "Example Tag",
+      user: authentication_user
+    }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      name: "",
+      user: authentication_user
+    }
   }
 
   describe "GET /index" do

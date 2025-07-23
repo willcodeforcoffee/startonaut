@@ -12,13 +12,13 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :url %>
-    <%= form.text_field :url, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": bookmark.errors[:url].none?, "border-red-400 focus:outline-red-600": bookmark.errors[:url].any?}] %>
+    <%= form.label :title %>
+    <%= form.text_field :title, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": bookmark.errors[:title].none?, "border-red-400 focus:outline-red-600": bookmark.errors[:title].any?}] %>
   </div>
 
   <div class="my-5">
-    <%= form.label :title %>
-    <%= form.text_field :title, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": bookmark.errors[:title].none?, "border-red-400 focus:outline-red-600": bookmark.errors[:title].any?}] %>
+    <%= form.label :url %>
+    <%= form.text_field :url, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": bookmark.errors[:url].none?, "border-red-400 focus:outline-red-600": bookmark.errors[:url].any?}] %>
   </div>
 
   <div class="my-5">
