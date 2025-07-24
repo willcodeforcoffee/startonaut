@@ -50,5 +50,4 @@ RSpec.describe Bookmark, type: :model do
       expect(bookmark.url).to eq("http://example.com")
     end
   end
-
 end
