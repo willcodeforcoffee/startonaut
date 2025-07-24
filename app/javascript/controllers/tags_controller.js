@@ -9,6 +9,7 @@ export default class extends Controller {
 
   connect() {
     this.selectedTags = this.selectedTagsValue || []
+    this.highlightedIndex = -1  // Track which dropdown item is highlighted
     this.renderSelectedTags()
     this.updateHiddenInput()
   }
@@ -20,6 +21,9 @@ export default class extends Controller {
       this.hideDropdown()
       return
     }
+
+    // Reset highlight when searching
+    this.highlightedIndex = -1
 
     // Debounce the search
     clearTimeout(this.searchTimeout)
@@ -52,14 +56,17 @@ export default class extends Controller {
       !this.selectedTags.some(selected => selected.toLowerCase() === tag.name.toLowerCase())
     )
 
+    this.dropdownItems = [] // Store items for keyboard navigation
     let html = ''
     
     // Show existing tags that match
-    availableTags.forEach(tag => {
+    availableTags.forEach((tag, index) => {
+      this.dropdownItems.push({ type: 'existing', name: tag.name })
       html += `
-        <div class="px-3 py-2 hover:bg-gray-100 cursor-pointer border-b border-gray-100" 
+        <div class="px-3 py-2 hover:bg-gray-100 cursor-pointer border-b border-gray-100 dropdown-item" 
              data-action="click->tags#selectExistingTag" 
-             data-tag-name="${tag.name}">
+             data-tag-name="${tag.name}"
+             data-index="${index}">
           ${this.escapeHtml(tag.name)}
         </div>
       `
@@ -68,16 +75,20 @@ export default class extends Controller {
     // Show option to create new tag if it doesn't exist
     const exactMatch = availableTags.some(tag => tag.name.toLowerCase() === query.toLowerCase())
     if (!exactMatch && query.trim()) {
+      const createIndex = availableTags.length
+      this.dropdownItems.push({ type: 'create', name: query })
       html += `
-        <div class="px-3 py-2 hover:bg-gray-100 cursor-pointer border-b border-gray-100 text-blue-600" 
+        <div class="px-3 py-2 hover:bg-gray-100 cursor-pointer border-b border-gray-100 text-blue-600 dropdown-item" 
              data-action="click->tags#createNewTag" 
-             data-tag-name="${query}">
+             data-tag-name="${query}"
+             data-index="${createIndex}">
           <span class="font-medium">Create:</span> ${this.escapeHtml(query)}
         </div>
       `
     }
 
     this.dropdownTarget.innerHTML = html
+    this.highlightedIndex = -1 // Reset highlight
     this.showDropdown()
   }
 
@@ -116,14 +127,47 @@ export default class extends Controller {
   }
 
   handleKeydown(event) {
-    if (event.key === 'Enter') {
+    const dropdownVisible = !this.dropdownTarget.classList.contains('hidden')
+    const hasItems = this.dropdownItems && this.dropdownItems.length > 0
+    
+    if (event.key === 'ArrowDown') {
       event.preventDefault()
-      const query = this.inputTarget.value.trim()
-      if (query) {
-        this.addTag(query)
+      if (dropdownVisible && hasItems) {
+        this.highlightedIndex = Math.min(this.highlightedIndex + 1, this.dropdownItems.length - 1)
+        this.updateHighlight()
+      }
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault()
+      if (dropdownVisible && hasItems) {
+        this.highlightedIndex = Math.max(this.highlightedIndex - 1, -1)
+        this.updateHighlight()
+      }
+    } else if (event.key === 'Tab') {
+      if (dropdownVisible && hasItems) {
+        // Only prevent default if dropdown is visible with items
+        event.preventDefault()
+        // Tab moves to next item in dropdown
+        this.highlightedIndex = Math.min(this.highlightedIndex + 1, this.dropdownItems.length - 1)
+        this.updateHighlight()
+      }
+      // If dropdown is not visible or empty, let Tab do its default behavior (move to next field)
+    } else if (event.key === 'Enter') {
+      event.preventDefault()
+      
+      if (dropdownVisible && hasItems && this.highlightedIndex >= 0) {
+        // Select highlighted item
+        const selectedItem = this.dropdownItems[this.highlightedIndex]
+        this.addTag(selectedItem.name)
+      } else {
+        // Add current input as new tag if no item is highlighted
+        const query = this.inputTarget.value.trim()
+        if (query) {
+          this.addTag(query)
+        }
       }
     } else if (event.key === 'Escape') {
       this.hideDropdown()
+      this.highlightedIndex = -1
     }
   }
 
@@ -159,6 +203,27 @@ export default class extends Controller {
 
   hideDropdown() {
     this.dropdownTarget.classList.add('hidden')
+    this.highlightedIndex = -1
+  }
+
+  updateHighlight() {
+    const dropdownItems = this.dropdownTarget.querySelectorAll('.dropdown-item')
+    
+    // Remove previous highlights
+    dropdownItems.forEach(item => {
+      item.classList.remove('bg-blue-100')
+    })
+    
+    // Highlight current item
+    if (this.highlightedIndex >= 0 && dropdownItems[this.highlightedIndex]) {
+      dropdownItems[this.highlightedIndex].classList.add('bg-blue-100')
+      
+      // Scroll into view if needed
+      dropdownItems[this.highlightedIndex].scrollIntoView({
+        block: 'nearest',
+        behavior: 'smooth'
+      })
+    }
   }
 
   // Hide dropdown when clicking outside
