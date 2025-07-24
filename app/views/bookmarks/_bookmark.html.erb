@@ -1,0 +1,22 @@
+<div id="<%= dom_id bookmark %>" class="w-full sm:w-auto my-5 space-y-5">
+  <div>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Url:</strong>
+    <a href="<%= bookmark.url %>" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">
+      <%= bookmark.url %>
+    </a>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Title:</strong>
+    <%= bookmark.title %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Description:</strong>
+    <%= bookmark.description %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Tags:</strong>
+    <%= bookmark.tag_list %>
+  </div>
+</div>

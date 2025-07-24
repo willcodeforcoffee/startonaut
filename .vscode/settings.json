@@ -19,5 +19,16 @@
     "titleBar.inactiveForeground": "#e7e7e799"
   },
   "peacock.color": "#154b8e",
-  "peacock.remoteColor": "#154b8e"
+  "peacock.remoteColor": "#154b8e",
+  "editor.formatOnSave": true,
+  "files.associations": {
+    "*.html.erb": "erb"
+  },
+  "[ruby]": {
+    "editor.defaultFormatter": "rubocop.vscode-rubocop"
+  },
+  "[erb]": {
+    "editor.defaultFormatter": "aliariff.vscode-erb-beautify",
+    "editor.formatOnSave": true
+  }
 }
