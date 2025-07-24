@@ -10,7 +10,7 @@ class TagsController < ApplicationController
   def search
     query = params[:q].to_s.strip.downcase
     @tags = Current.user.tags.where("LOWER(name) LIKE ?", "%#{query}%").limit(10)
-    
+
     respond_to do |format|
       format.json { render json: @tags.select(:id, :name) }
     end
