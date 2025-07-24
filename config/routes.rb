@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :tags
+  resources :tags do
+    collection do
+      get :search
+    end
+  end
   resources :bookmarks
   resource :session
   resources :passwords, param: :token

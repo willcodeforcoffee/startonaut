@@ -3,11 +3,22 @@ class TagsController < ApplicationController
 
   # GET /tags or /tags.json
   def index
-    @tags = Tag.all
+    @tags = Current.user.tags.includes(:bookmarks)
+  end
+
+  # GET /tags/search
+  def search
+    query = params[:q].to_s.strip.downcase
+    @tags = Current.user.tags.where("LOWER(name) LIKE ?", "%#{query}%").limit(10)
+    
+    respond_to do |format|
+      format.json { render json: @tags.select(:id, :name) }
+    end
   end
 
   # GET /tags/1 or /tags/1.json
   def show
+    @bookmarks = @tag.bookmarks
   end
 
   # GET /tags/new
@@ -61,7 +72,7 @@ class TagsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_tag
-      @tag = Tag.find(params.expect(:id))
+      @tag = Current.user.tags.find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.

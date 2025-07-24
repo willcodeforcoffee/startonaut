@@ -10,6 +10,9 @@ class Bookmark < ApplicationRecord
 
   normalizes :url, with: ->(e) { e.strip.downcase }
 
+  # Virtual attributes for tag handling
+  attr_accessor :tag_search
+
   def tag_list
     tags.pluck(:name).join(", ")
   end
