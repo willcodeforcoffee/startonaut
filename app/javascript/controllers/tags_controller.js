@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["input", "dropdown", "hiddenInput", "tagContainer"]
-  static values = { 
+  static values = {
     url: String,
     selectedTags: Array
   }
@@ -16,7 +16,7 @@ export default class extends Controller {
 
   search() {
     const query = this.inputTarget.value.trim()
-    
+
     if (query.length < 1) {
       this.hideDropdown()
       return
@@ -40,7 +40,7 @@ export default class extends Controller {
           'X-Requested-With': 'XMLHttpRequest'
         }
       })
-      
+
       if (response.ok) {
         const tags = await response.json()
         this.renderDropdown(tags, query)
@@ -52,19 +52,19 @@ export default class extends Controller {
 
   renderDropdown(tags, query) {
     // Filter out already selected tags
-    const availableTags = tags.filter(tag => 
+    const availableTags = tags.filter(tag =>
       !this.selectedTags.some(selected => selected.toLowerCase() === tag.name.toLowerCase())
     )
 
     this.dropdownItems = [] // Store items for keyboard navigation
     let html = ''
-    
+
     // Show existing tags that match
     availableTags.forEach((tag, index) => {
       this.dropdownItems.push({ type: 'existing', name: tag.name })
       html += `
-        <div class="px-3 py-2 hover:bg-gray-100 cursor-pointer border-b border-gray-100 dropdown-item" 
-             data-action="click->tags#selectExistingTag" 
+        <div class="px-3 py-2 hover:bg-gray-100 cursor-pointer border-b border-gray-100 dropdown-item"
+             data-action="click->tags#selectExistingTag"
              data-tag-name="${tag.name}"
              data-index="${index}">
           ${this.escapeHtml(tag.name)}
@@ -78,8 +78,8 @@ export default class extends Controller {
       const createIndex = availableTags.length
       this.dropdownItems.push({ type: 'create', name: query })
       html += `
-        <div class="px-3 py-2 hover:bg-gray-100 cursor-pointer border-b border-gray-100 text-blue-600 dropdown-item" 
-             data-action="click->tags#createNewTag" 
+        <div class="px-3 py-2 hover:bg-gray-100 cursor-pointer border-b border-gray-100 text-blue-600 dropdown-item"
+             data-action="click->tags#createNewTag"
              data-tag-name="${query}"
              data-index="${createIndex}">
           <span class="font-medium">Create:</span> ${this.escapeHtml(query)}
@@ -104,9 +104,9 @@ export default class extends Controller {
 
   addTag(tagName) {
     const normalizedName = tagName.trim()
-    
+
     if (!normalizedName) return
-    
+
     // Check if tag is already selected
     if (this.selectedTags.some(tag => tag.toLowerCase() === normalizedName.toLowerCase())) {
       return
@@ -129,7 +129,7 @@ export default class extends Controller {
   handleKeydown(event) {
     const dropdownVisible = !this.dropdownTarget.classList.contains('hidden')
     const hasItems = this.dropdownItems && this.dropdownItems.length > 0
-    
+
     if (event.key === 'ArrowDown') {
       event.preventDefault()
       if (dropdownVisible && hasItems) {
@@ -153,7 +153,7 @@ export default class extends Controller {
       // If dropdown is not visible or empty, let Tab do its default behavior (move to next field)
     } else if (event.key === 'Enter') {
       event.preventDefault()
-      
+
       if (dropdownVisible && hasItems && this.highlightedIndex >= 0) {
         // Select highlighted item
         const selectedItem = this.dropdownItems[this.highlightedIndex]
@@ -175,9 +175,9 @@ export default class extends Controller {
     const html = this.selectedTags.map(tag => `
       <span class="inline-flex items-center gap-1 px-2 py-1 text-sm bg-blue-100 text-blue-800 rounded-md mr-2 mb-2">
         ${this.escapeHtml(tag)}
-        <button type="button" 
-                class="ml-1 text-blue-600 hover:text-blue-800" 
-                data-action="click->tags#removeTag" 
+        <button type="button"
+                class="ml-1 text-blue-600 hover:text-blue-800"
+                data-action="click->tags#removeTag"
                 data-tags-tag-param="${tag}">
           <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -185,7 +185,7 @@ export default class extends Controller {
         </button>
       </span>
     `).join('')
-    
+
     this.tagContainerTarget.innerHTML = html
   }
 
@@ -208,16 +208,16 @@ export default class extends Controller {
 
   updateHighlight() {
     const dropdownItems = this.dropdownTarget.querySelectorAll('.dropdown-item')
-    
+
     // Remove previous highlights
     dropdownItems.forEach(item => {
       item.classList.remove('bg-blue-100')
     })
-    
+
     // Highlight current item
     if (this.highlightedIndex >= 0 && dropdownItems[this.highlightedIndex]) {
       dropdownItems[this.highlightedIndex].classList.add('bg-blue-100')
-      
+
       // Scroll into view if needed
       dropdownItems[this.highlightedIndex].scrollIntoView({
         block: 'nearest',
