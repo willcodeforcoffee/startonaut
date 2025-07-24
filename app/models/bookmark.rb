@@ -10,7 +10,7 @@ class Bookmark < ApplicationRecord
 
   normalizes :url, with: ->(e) { e.strip.downcase }
 
-    def tag_list
+  def tag_list
     tags.pluck(:name).join(", ")
   end
 

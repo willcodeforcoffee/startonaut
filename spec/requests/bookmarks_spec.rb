@@ -35,6 +35,16 @@ RSpec.describe "/bookmarks", type: :request do
       get bookmark_url(bookmark)
       expect(response).to be_successful
     end
+
+    context "when the bookmark belongs to another user" do
+      it "raises an error" do
+        other_user = create(:user, :with_faker_email)
+        bookmark = create(:bookmark, user: other_user)
+
+        get bookmark_url(bookmark)
+        expect(response).to have_http_status(:not_found)
+      end
+    end
   end
 
   describe "GET /new" do
