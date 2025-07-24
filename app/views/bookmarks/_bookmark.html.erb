@@ -4,7 +4,9 @@
   </div>
   <div>
     <strong class="block font-medium mb-1">Url:</strong>
-    <%= link_to bookmark.url, bookmark.url, class: "text-blue-500 hover:underline" %>
+    <a href="<%= bookmark.url %>" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">
+      <%= bookmark.url %>
+    </a>
   </div>
   <div>
     <strong class="block font-medium mb-1">Title:</strong>
