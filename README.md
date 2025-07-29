@@ -23,6 +23,6 @@ a file in `config/deploy.yml`. Because this is open source and to make self-host
 easier there is a [rake](https://ruby.github.io/rake/) task to generate the deploy
 file for your environment.
 You will need to set all the values in `.env` first.
-`rails deploy:generate_config` will generate the config file.
+`bin/rails deploy:generate_config` will generate the config file.
 
 You can use `rails deploy:show_env_vars` to check which values will be used.
