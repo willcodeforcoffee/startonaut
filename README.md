@@ -25,4 +25,4 @@ file for your environment.
 You will need to set all the values in `.env` first.
 `bin/rails deploy:generate_config` will generate the config file.
 
-You can use `rails deploy:show_env_vars` to check which values will be used.
+You can use `bin/rails deploy:show_env_vars` to check which values will be used.
