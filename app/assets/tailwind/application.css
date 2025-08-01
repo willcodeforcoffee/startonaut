@@ -1,1 +1,86 @@
 @import "tailwindcss";
+
+/* https://typespiration.com/design/the-salt-lake/ */
+@font-face {
+  font-family: "PT Sans";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/assets/fonts/ptsans/PTSans-Italic.ttf) format("ttf");
+}
+@font-face {
+  font-family: "PT Sans";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/assets/fonts/ptsans/PTSans-BoldItalic.ttf) format("ttf");
+}
+@font-face {
+  font-family: "PT Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/assets/fonts/ptsans/PTSans-Regular.ttf) format("ttf");
+}
+@font-face {
+  font-family: "PT Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/assets/fonts/ptsans/PTSans-Bold.ttf) format("ttf");
+}
+@font-face {
+  font-family: "PT Sans Narrow";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/assets/fonts/ptsansnarrow/PTSansNarrow-Regular.ttf) format("ttf");
+}
+@font-face {
+  font-family: "PT Sans Narrow";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/assets/fonts/ptsansnarrow/PTSansNarrow-Bold.ttf) format("ttf");
+}
+
+@theme {
+  --font-pt-sans: "PT Sans", "sans-serif";
+  --font-pt-sans-narrow: "PT Sans Narrow", "sans-serif";
+
+  --color-saffron-mango-50: #fcf6ea;
+  --color-saffron-mango-100: #f8ebc9;
+  --color-saffron-mango-200: #f2d596;
+  --color-saffron-mango-300: #eab75c; /**/
+  --color-saffron-mango-400: #e29a2d;
+  --color-saffron-mango-500: #d28320;
+  --color-saffron-mango-600: #b56419;
+  --color-saffron-mango-700: #914717;
+  --color-saffron-mango-800: #78391b;
+  --color-saffron-mango-900: #67311c;
+  --color-saffron-mango-950: #3c170c;
+
+  --color-shark-50: #f6f6f6;
+  --color-shark-100: #e7e7e7;
+  --color-shark-200: #d1d1d1;
+  --color-shark-300: #b0b0b0;
+  --color-shark-400: #888888;
+  --color-shark-500: #6d6d6d;
+  --color-shark-600: #5d5d5d;
+  --color-shark-700: #4f4f4f;
+  --color-shark-800: #454545;
+  --color-shark-900: #3d3d3d;
+  --color-shark-950: #262626; /**/
+
+  --color-bunker-50: #f3f7f8;
+  --color-bunker-100: #e1eaec;
+  --color-bunker-200: #c7d6da;
+  --color-bunker-300: #a0b9c0;
+  --color-bunker-400: #72959e;
+  --color-bunker-500: #567984;
+  --color-bunker-600: #4a6570;
+  --color-bunker-700: #41545d;
+  --color-bunker-800: #3a4950;
+  --color-bunker-900: #343e45;
+  --color-bunker-950: #13181b; /**/
+}
