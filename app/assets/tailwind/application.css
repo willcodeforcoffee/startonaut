@@ -1,48 +1,9 @@
 @import "tailwindcss";
+@import "./ptsans.css";
+@import "./ptsansnarrow.css";
 
 /* https://typespiration.com/design/the-salt-lake/ */
-@font-face {
-  font-family: "PT Sans";
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url(/assets/fonts/ptsans/PTSans-Italic.ttf) format("ttf");
-}
-@font-face {
-  font-family: "PT Sans";
-  font-style: italic;
-  font-weight: 700;
-  font-display: swap;
-  src: url(/assets/fonts/ptsans/PTSans-BoldItalic.ttf) format("ttf");
-}
-@font-face {
-  font-family: "PT Sans";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(/assets/fonts/ptsans/PTSans-Regular.ttf) format("ttf");
-}
-@font-face {
-  font-family: "PT Sans";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url(/assets/fonts/ptsans/PTSans-Bold.ttf) format("ttf");
-}
-@font-face {
-  font-family: "PT Sans Narrow";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(/assets/fonts/ptsansnarrow/PTSansNarrow-Regular.ttf) format("ttf");
-}
-@font-face {
-  font-family: "PT Sans Narrow";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url(/assets/fonts/ptsansnarrow/PTSansNarrow-Bold.ttf) format("ttf");
-}
+/* https://coolors.co/e9d758-297373-ff8552-e6e6e6-39393a */
 
 @theme {
   --font-pt-sans: "PT Sans", "sans-serif";

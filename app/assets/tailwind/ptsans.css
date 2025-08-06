@@ -1,0 +1,28 @@
+@font-face {
+  font-family: "PT Sans";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/assets/fonts/ptsans/PTSans-Italic.ttf) format("ttf");
+}
+@font-face {
+  font-family: "PT Sans";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/assets/fonts/ptsans/PTSans-BoldItalic.ttf) format("ttf");
+}
+@font-face {
+  font-family: "PT Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/assets/fonts/ptsans/PTSans-Regular.ttf) format("ttf");
+}
+@font-face {
+  font-family: "PT Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/assets/fonts/ptsans/PTSans-Bold.ttf) format("ttf");
+}
