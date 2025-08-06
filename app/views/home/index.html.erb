@@ -1,11 +1,5 @@
 <div>
   <h1 class="font-extrabold text-4xl font-pt-sans">Startonaut</h1>
   <p class="font-pt-sans-narrow">Welcome to the new start page for Internauts.</p>
-  <% if authenticated? %>
-    <p class="font-pt-sans-narrow">You are logged in!</p>
-    <%= link_to "Go to the Bookmarks", bookmarks_path, class: "text-blue-500 font-pt-sans-narrow hover:underline" %>
-  <% else %>
-    <p class="font-pt-sans-narrow">You are not logged in.</p>
-    <%= link_to "Login", new_session_path, class: "text-blue-500 font-pt-sans-narrow hover:underline" %>
-  <% end %>
+  <%= link_to "Login", new_session_path, class: "text-blue-500 font-pt-sans-narrow hover:underline" %>
 </div>
