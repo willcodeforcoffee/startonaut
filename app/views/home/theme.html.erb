@@ -1,0 +1,15 @@
+<div class="flex flex-col justify-start items-start flex-nowrap gap-1">
+  <div>
+    <h1 class="text-2xl font-bold text-baby-powder-50">Themeing</h1>
+  </div>
+  <div class="divide-y divide-gray-200 w-full overflow-hidden rounded-lg shadow-sm">
+    <div class="px-4 py-5 sm:px-6">
+      <h2 class="text-base font-semibold text-baby-powder-50">theme_link_to</h2>
+    </div>
+    <div class="flex flex-row justify-start items-start flex-nowrap px-4 py-5 sm:p-6">
+      <%= theme_link_to "Default", theme_path %>
+      <%= theme_link_to "Primary", theme_path, style: :primary %>
+      <%= theme_link_to "Danger", theme_path, style: :danger %>
+    </div>
+  </div>
+</div>

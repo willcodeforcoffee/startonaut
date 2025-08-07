@@ -1,1 +1,78 @@
 @import "tailwindcss";
+@import "./ptsans.css";
+@import "./ptsansnarrow.css";
+
+/* https://typespiration.com/design/the-salt-lake/ */
+/* https://coolors.co/e9d758-297373-ff8552-e6e6e6-39393a */
+
+@theme {
+  --font-pt-sans: "PT Sans", "sans-serif";
+  --font-pt-sans-narrow: "PT Sans Narrow", "sans-serif";
+
+  /* https://coolors.co/011627-ff0022-41ead4-fdfffc-b91372 */
+  --rich-black: #011627;
+  --red-cmyk: #ff0022;
+  --bright-turquoise: #41ead4;
+  --baby-powder: #fdfffc;
+  --red-violet: #b91372;
+
+  --color-rich-black-50: #eff8ff;
+  --color-rich-black-100: #ddf1ff;
+  --color-rich-black-200: #b4e4ff;
+  --color-rich-black-300: #71d0ff;
+  --color-rich-black-400: #26baff;
+  --color-rich-black-500: #00a1fd;
+  --color-rich-black-600: #0080d9;
+  --color-rich-black-700: #0065b0;
+  --color-rich-black-800: #005591;
+  --color-rich-black-900: #034777;
+  --color-rich-black-950: #011627; /* rich-black */
+
+  --color-red-cmyk-50: #fff0f2;
+  --color-red-cmyk-100: #ffdde2;
+  --color-red-cmyk-200: #ffc0c8;
+  --color-red-cmyk-300: #ff94a2;
+  --color-red-cmyk-400: #ff576d;
+  --color-red-cmyk-500: #ff2340;
+  --color-red-cmyk-600: #ff0022; /* red-cmyk */
+  --color-red-cmyk-700: #d7001d;
+  --color-red-cmyk-800: #b1031a;
+  --color-red-cmyk-900: #920a1c;
+  --color-red-cmyk-950: #50000b;
+
+  --color-bright-turquoise-50: #f0fdfa;
+  --color-bright-turquoise-100: #cbfcf3;
+  --color-bright-turquoise-200: #97f8e8;
+  --color-bright-turquoise-300: #41ead4; /* bright-turquoise */
+  --color-bright-turquoise-400: #2ad7c7;
+  --color-bright-turquoise-500: #11bbae;
+  --color-bright-turquoise-600: #0a978e;
+  --color-bright-turquoise-700: #0d7873;
+  --color-bright-turquoise-800: #0f605c;
+  --color-bright-turquoise-900: #124f4d;
+  --color-bright-turquoise-950: #033030;
+
+  --color-baby-powder-50: #fdfffc; /* baby-powder */
+  --color-baby-powder-100: #d5ffc5;
+  --color-baby-powder-200: #a9ff8b;
+  --color-baby-powder-300: #77ff48;
+  --color-baby-powder-400: #45ee13;
+  --color-baby-powder-500: #2cd100;
+  --color-baby-powder-600: #21a900;
+  --color-baby-powder-700: #198600;
+  --color-baby-powder-800: #166a05;
+  --color-baby-powder-900: #17570a;
+  --color-baby-powder-950: #083600;
+
+  --color-red-violet-50: #fdf2fa;
+  --color-red-violet-100: #fde6f7;
+  --color-red-violet-200: #fcceef;
+  --color-red-violet-300: #fba6e1;
+  --color-red-violet-400: #f76fcb;
+  --color-red-violet-500: #f044b4;
+  --color-red-violet-600: #df2394;
+  --color-red-violet-700: #b91372; /* red-violet */
+  --color-red-violet-800: #a01462;
+  --color-red-violet-900: #861554;
+  --color-red-violet-950: #520530;
+}
