@@ -40,8 +40,8 @@ class TagsController < ApplicationController
         format.html { redirect_to @tag, notice: "Tag was successfully created." }
         format.json { render :show, status: :created, location: @tag }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @tag.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @tag.errors, status: :unprocessable_content }
       end
     end
   end
@@ -53,8 +53,8 @@ class TagsController < ApplicationController
         format.html { redirect_to @tag, notice: "Tag was successfully updated." }
         format.json { render :show, status: :ok, location: @tag }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @tag.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @tag.errors, status: :unprocessable_content }
       end
     end
   end
