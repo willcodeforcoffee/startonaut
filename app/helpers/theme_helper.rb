@@ -13,4 +13,11 @@ module ThemeHelper
 
     link_to(name, path, options)
   end
+
+  # Dynamically generate methods for each theme style
+  THEME_LINK_STYLES.each_key do |style_key|
+    define_method "#{style_key}_link_to" do |name, path, options = {}|
+      theme_link_to(name, path, options.merge(style: style_key))
+    end
+  end
 end
