@@ -14,10 +14,10 @@
       </div>
       <!-- Desktop navigation -->
       <div class="hidden md:flex items-center space-x-8">
-        <%= link_to bookmarks_path, class: "text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors #{'text-bright-turquoise-300' if current_page?(bookmarks_path)}" do %>
+        <%= link_to bookmarks_path, class: "text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors #{'text-bright-turquoise-300' if controller_name == 'bookmarks'}" do %>
           Bookmarks
         <% end %>
-        <%= link_to tags_path, class: "text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors #{'text-bright-turquoise-300' if current_page?(tags_path)}" do %>
+        <%= link_to tags_path, class: "text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors #{'text-bright-turquoise-300' if controller_name == 'tags'}" do %>
           Tags
         <% end %>
       </div>
@@ -42,10 +42,10 @@
     <!-- Mobile menu -->
     <div class="md:hidden hidden" data-navbar-target="mobileMenu">
       <div class="px-2 pt-2 pb-3 space-y-1 border-t border-bright-turquoise-600">
-        <%= link_to bookmarks_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if current_page?(bookmarks_path)}" do %>
+        <%= link_to bookmarks_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'bookmarks'}" do %>
           Bookmarks
         <% end %>
-        <%= link_to tags_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if current_page?(tags_path)}" do %>
+        <%= link_to tags_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'tags'}" do %>
           Tags
         <% end %>
       </div>
