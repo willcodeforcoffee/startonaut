@@ -1,0 +1,54 @@
+<nav class="bg-rich-black-950 border-b border-bright-turquoise-600 fixed top-0 left-0 right-0 z-50" data-controller="navbar">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo and title -->
+      <div class="flex items-center space-x-3">
+        <div class="text-bright-turquoise-300">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+          </svg>
+        </div>
+        <%= link_to root_path, class: "text-bright-turquoise-300 text-xl font-pt-sans-narrow font-bold hover:text-bright-turquoise-300 transition-colors" do %>
+          Startonaut
+        <% end %>
+      </div>
+      <!-- Desktop navigation -->
+      <div class="hidden md:flex items-center space-x-8">
+        <%= link_to bookmarks_path, class: "text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors #{'text-bright-turquoise-300' if controller_name == 'bookmarks'}" do %>
+          Bookmarks
+        <% end %>
+        <%= link_to tags_path, class: "text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors #{'text-bright-turquoise-300' if controller_name == 'tags'}" do %>
+          Tags
+        <% end %>
+      </div>
+      <!-- Mobile menu button -->
+      <div class="md:hidden">
+        <button 
+          type="button" 
+          class="text-baby-powder-50 hover:text-bright-turquoise-300 focus:outline-none focus:text-bright-turquoise-300 transition-colors"
+          data-navbar-target="menuButton"
+          data-action="click->navbar#toggleMenu"
+          aria-label="Toggle menu"
+          >
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-navbar-target="menuIcon">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-navbar-target="closeIcon">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div class="md:hidden hidden" data-navbar-target="mobileMenu">
+      <div class="px-2 pt-2 pb-3 space-y-1 border-t border-bright-turquoise-600">
+        <%= link_to bookmarks_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'bookmarks'}" do %>
+          Bookmarks
+        <% end %>
+        <%= link_to tags_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'tags'}" do %>
+          Tags
+        <% end %>
+      </div>
+    </div>
+  </div>
+</nav>
