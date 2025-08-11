@@ -109,7 +109,7 @@ class ThemedFormBuilder < ActionView::Helpers::FormBuilder
     return if label_text == false
 
     label_text ||= method.to_s.humanize
-    label_classes = "block text-sm font-medium text-baby-powder-50 mb-2"
+    label_classes = "block text-lg font-medium text-baby-powder-50 mb-2"
 
     label(method, label_text, class: label_classes)
   end
