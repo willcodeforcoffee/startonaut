@@ -5,7 +5,7 @@
   <% end %>
   <div class="flex justify-between items-center">
     <h1 class="font-pt-sans font-bold text-4xl">Bookmarks</h1>
-    <%= theme_link_to "New bookmark", new_bookmark_path, style: :primary %>
+    <%= primary_link_to "New bookmark", new_bookmark_path %>
   </div>
   <div id="bookmarks" class="min-w-full divide-y divide-gray-200 space-y-5">
     <% if @bookmarks.any? %>
@@ -14,7 +14,7 @@
           <%= render bookmark %>
           <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
             <%= primary_link_to "Show", bookmark %>
-            <%= secondary_link_to "Edit", edit_bookmark_path(bookmark) %>
+            <%= default_link_to "Edit", edit_bookmark_path(bookmark) %>
             <%= danger_button_to "Destroy", bookmark, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
           </div>
         </div>
