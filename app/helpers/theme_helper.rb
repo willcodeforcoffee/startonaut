@@ -3,7 +3,7 @@ module ThemeHelper
   THEME_LINK_STYLES = {
     default: [ "bg-slate-500", "hover:bg-slate-600", "text-baby-powder-50" ].freeze,
     primary: [ "bg-red-violet-700", "hover:bg-red-violet-600", "text-baby-powder-50" ].freeze,
-    secondary: [ "bg-bright-turquoise-800", "hover:bg-bg-bright-turquoise-700", "text-baby-powder-50" ].freeze,
+    secondary: [ "bg-bright-turquoise-800", "hover:bg-bright-turquoise-700", "text-baby-powder-50" ].freeze,
     danger:  [ "bg-red-cmyk-600", "hover:bg-red-cmyk-500", "text-baby-powder-50" ].freeze
 }.freeze
 
