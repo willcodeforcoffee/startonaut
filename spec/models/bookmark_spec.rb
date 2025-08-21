@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Bookmark, type: :model do
   describe 'validations' do
-    it "should be valid for default factorybot" do
+    it "should be valid for default from FactoryBot" do
       bookmark = FactoryBot.build(:bookmark)
       expect(bookmark).to be_valid
     end
