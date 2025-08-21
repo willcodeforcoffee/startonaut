@@ -68,4 +68,6 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  # Add support for assigns() and assert_template in controller tests
+  gem "rails-controller-testing"
 end

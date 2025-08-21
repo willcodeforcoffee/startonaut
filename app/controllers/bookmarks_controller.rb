@@ -13,6 +13,7 @@ class BookmarksController < ApplicationController
   # GET /bookmarks/new
   def new
     @bookmark = Current.user.bookmarks.build
+    @bookmark.url = params[:url] if params[:url].present?
   end
 
   # GET /bookmarks/1/edit
