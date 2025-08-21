@@ -103,7 +103,7 @@ RSpec.describe "/bookmarks", type: :request do
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
         post bookmarks_url, params: { bookmark: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -134,7 +134,7 @@ RSpec.describe "/bookmarks", type: :request do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
         bookmark = create(:bookmark, user: authentication_user)
         patch bookmark_url(bookmark), params: { bookmark: { url: nil, title: nil } }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
