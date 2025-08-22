@@ -4,7 +4,7 @@
       <%= bookmark.title %>
     </a>
   </div>
-  <div class="flex font-medium">
+  <div class="flex-col font-medium">
     <% bookmark&.tags&.each do |tag| %>
       <span>
         <%= link_to "##{tag.name}", tag, class: "text-bright-turquoise-300 hover:underline" %>
@@ -19,6 +19,5 @@
     <span class="text-slate-500"><%= format_date_short(bookmark.created_at) %></span>
     <span><%= link_to "Show", bookmark %></span>
     <span><%= link_to "Edit", edit_bookmark_path(bookmark) %></span>
-    <span><%= link_to "Destroy", bookmark, method: :delete, data: { turbo_confirm: "Are you sure?" } %></span>
   </div>
 </div>
