@@ -57,14 +57,14 @@ RSpec.describe "/bookmarks", type: :request do
       it "prepopulates the bookmark url field" do
         test_url = "https://example.com/test-page"
         get new_bookmark_url, params: { url: test_url }
-        
+
         expect(response).to be_successful
         expect(assigns(:bookmark).url).to eq(test_url)
       end
 
       it "does not prepopulate when url parameter is blank" do
         get new_bookmark_url, params: { url: "" }
-        
+
         expect(response).to be_successful
         expect(assigns(:bookmark).url).to be_nil
       end
