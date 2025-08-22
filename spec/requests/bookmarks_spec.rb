@@ -52,6 +52,23 @@ RSpec.describe "/bookmarks", type: :request do
       get new_bookmark_url
       expect(response).to be_successful
     end
+
+    context "with url parameter" do
+      it "prepopulates the bookmark url field" do
+        test_url = "https://example.com/test-page"
+        get new_bookmark_url, params: { url: test_url }
+
+        expect(response).to be_successful
+        expect(assigns(:bookmark).url).to eq(test_url)
+      end
+
+      it "does not prepopulate when url parameter is blank" do
+        get new_bookmark_url, params: { url: "" }
+
+        expect(response).to be_successful
+        expect(assigns(:bookmark).url).to be_nil
+      end
+    end
   end
 
   describe "GET /edit" do
@@ -86,7 +103,7 @@ RSpec.describe "/bookmarks", type: :request do
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
         post bookmarks_url, params: { bookmark: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -117,7 +134,7 @@ RSpec.describe "/bookmarks", type: :request do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
         bookmark = create(:bookmark, user: authentication_user)
         patch bookmark_url(bookmark), params: { bookmark: { url: nil, title: nil } }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end

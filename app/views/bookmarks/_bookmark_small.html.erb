@@ -1,0 +1,23 @@
+<div id="<%= dom_id bookmark %>" class="w-full sm:w-auto my-5 text-sm">
+  <div class="block overflow-ellipsis text-base">
+    <a href="<%= bookmark.url %>" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">
+      <%= bookmark.title %>
+    </a>
+  </div>
+  <div class="flex-col font-medium">
+    <% bookmark&.tags&.each do |tag| %>
+      <span>
+        <%= link_to "##{tag.name}", tag, class: "text-bright-turquoise-300 hover:underline" %>
+      </span>
+    <% end %>
+    <span class="ml-1">|</span>
+    <span class="ml-1 text-slate-500">
+      <%= bookmark.description %>
+    </span>
+  </div>
+  <div class="flex-col space-x-1 text-slate-600">
+    <span class="text-slate-500"><%= format_date_short(bookmark.created_at) %></span>
+    <span><%= link_to "Show", bookmark %></span>
+    <span><%= link_to "Edit", edit_bookmark_path(bookmark) %></span>
+  </div>
+</div>
