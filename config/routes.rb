@@ -4,7 +4,11 @@ Rails.application.routes.draw do
       get :search
     end
   end
-  resources :bookmarks
+  resources :bookmarks do
+    collection do
+      get :fetch_remote_bookmark
+    end
+  end
   resource :session
   resources :passwords, param: :token
   get "home/index"

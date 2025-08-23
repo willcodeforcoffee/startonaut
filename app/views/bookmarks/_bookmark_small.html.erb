@@ -10,10 +10,12 @@
         <%= link_to "##{tag.name}", tag, class: "text-bright-turquoise-300 hover:underline" %>
       </span>
     <% end %>
-    <span class="ml-1">|</span>
-    <span class="ml-1 text-slate-500">
-      <%= bookmark.description %>
-    </span>
+    <% if bookmark.description.present? %>
+      <span class="ml-1">|</span>
+      <span class="ml-1 text-slate-500">
+        <%= bookmark.description %>
+      </span>
+    <% end %>
   </div>
   <div class="flex-col space-x-1 text-slate-600">
     <span class="text-slate-500"><%= format_date_short(bookmark.created_at) %></span>
