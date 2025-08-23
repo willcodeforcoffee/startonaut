@@ -61,8 +61,8 @@ class BookmarksController < ApplicationController
     end
   end
 
-  # GET /bookmarks/fetch_title
-  def fetch_title
+  # GET /bookmarks/fetch_remote_bookmark
+  def fetch_remote_bookmark
     url = params[:url]
     Rails.logger.debug("Fetching title for URL: #{url}")
 

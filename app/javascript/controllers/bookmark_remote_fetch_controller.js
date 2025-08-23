@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
 
-// Connects to data-controller="url-title-fetcher"
+// Connects to data-controller="bookmark-remote-fetch"
 export default class extends Controller {
   static targets = ["url", "title"];
   static debounceTimeouts = new Map();
@@ -20,6 +20,11 @@ export default class extends Controller {
   }
 
   handleUrlInput(event) {
+    // Stop immediately if title already has content
+    if (this.titleTarget.value.trim()) {
+      return;
+    }
+
     const url = event.target.value.trim();
 
     // Clear any existing timeout for this controller
@@ -28,8 +33,8 @@ export default class extends Controller {
       clearTimeout(existingTimeout);
     }
 
-    // Don't fetch if URL is empty or title already has content
-    if (!url || this.titleTarget.value.trim()) {
+    // Don't fetch if URL is empty
+    if (!url) {
       return;
     }
 
@@ -54,7 +59,7 @@ export default class extends Controller {
 
       // Fetch the URL content
       const response = await fetch(
-        `/bookmarks/fetch_title?url=${encodeURIComponent(url)}`,
+        `/bookmarks/fetch_remote_bookmark?url=${encodeURIComponent(url)}`,
         {
           method: "GET",
           headers: {

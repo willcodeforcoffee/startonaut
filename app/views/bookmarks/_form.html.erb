@@ -1,4 +1,4 @@
-<%= form_with(model: bookmark, class: "contents", data: { controller: "url-title-fetcher" }) do |form| %>
+<%= form_with(model: bookmark, class: "contents", data: { controller: "bookmark-remote-fetch" }) do |form| %>
   <% if bookmark.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
       <h2><%= pluralize(bookmark.errors.count, "error") %> prohibited this bookmark from being saved:</h2>
@@ -10,10 +10,10 @@
     </div>
   <% end %>
   <div class="my-5">
-    <%= form.text_field :url, data: { "url-title-fetcher-target": "url" } %>
+    <%= form.text_field :url, data: { "bookmark-remote-fetch-target": "url" } %>
   </div>
   <div class="my-5">
-    <%= form.text_field :title, data: { "url-title-fetcher-target": "title" } %>
+    <%= form.text_field :title, data: { "bookmark-remote-fetch-target": "title" } %>
   </div>
   <div class="my-5">
     <%= form.text_area :description, rows: 4 %>

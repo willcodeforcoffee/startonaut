@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   end
   resources :bookmarks do
     collection do
-      get :fetch_title
+      get :fetch_remote_bookmark
     end
   end
   resource :session
