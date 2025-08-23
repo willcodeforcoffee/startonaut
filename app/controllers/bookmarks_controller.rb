@@ -1,3 +1,5 @@
+require "net/http"
+
 class BookmarksController < ApplicationController
   before_action :set_bookmark, only: %i[ show edit update destroy ]
 
@@ -59,7 +61,59 @@ class BookmarksController < ApplicationController
     end
   end
 
+  # GET /bookmarks/fetch_title
+  def fetch_title
+    url = params[:url]
+    Rails.logger.debug("Fetching title for URL: #{url}")
+
+    if url.blank?
+      render json: { error: "URL is required" }, status: :bad_request
+      return
+    end
+
+    begin
+      response = request_page(url)
+      title = extract_title_from_url(response)
+      Rails.logger.debug("Fetched title: #{title || 'nil'}")
+
+      if title.present?
+        render json: { title: title }
+        return
+      end
+
+      render json: { error: "Title not found", url: url }, status: :not_found
+    rescue StandardError => e
+      Rails.logger.error("Error fetching title for URL #{url}: #{e.message}")
+      render json: { error: "Error fetching title", url: url }, status: :unprocessable_content
+    end
+  end
+
   private
+
+    def extract_title_from_url(response)
+      if response.code == "200" && response.content_type&.include?("text/html")
+        doc = Nokogiri::HTML(response.body)
+        title_element = doc.at_css("title")
+        return title_element&.text&.strip
+      end
+
+      nil
+    end
+
+    def request_page(url)
+      uri = URI.parse(url)
+      return nil unless %w[http https].include?(uri.scheme)
+
+      # Set timeout and user agent
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = uri.scheme == "https"
+      http.open_timeout = 5
+      http.read_timeout = 10
+      req = Net::HTTP::Get.new(uri.request_uri)
+
+      http.request(req)
+    end
+
     def set_bookmark
       @bookmark = Current.user.bookmarks.find(params.expect(:id))
     end
