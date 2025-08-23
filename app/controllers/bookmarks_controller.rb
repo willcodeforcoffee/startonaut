@@ -109,7 +109,9 @@ class BookmarksController < ApplicationController
       http.use_ssl = uri.scheme == "https"
       http.open_timeout = 5
       http.read_timeout = 10
+
       req = Net::HTTP::Get.new(uri.request_uri)
+      req["User-Agent"] = "Mozilla/5.0 (Startonaut.com Page information preload)"
 
       http.request(req)
     end
