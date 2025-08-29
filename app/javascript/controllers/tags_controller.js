@@ -63,7 +63,7 @@ export default class extends Controller {
     availableTags.forEach((tag, index) => {
       this.dropdownItems.push({ type: 'existing', name: tag.name })
       html += `
-        <div class="px-3 py-2 hover:bg-gray-100 cursor-pointer border-b border-gray-100 dropdown-item"
+        <div class="px-3 py-2 hover:bg-gray-100 cursor-pointer border-b border-gray-100 text-blue-600 dropdown-item"
              data-action="click->tags#selectExistingTag"
              data-tag-name="${tag.name}"
              data-index="${index}">
@@ -173,7 +173,7 @@ export default class extends Controller {
 
   renderSelectedTags() {
     const html = this.selectedTags.map(tag => `
-      <span class="inline-flex items-center gap-1 px-2 py-1 text-sm bg-blue-100 text-blue-800 rounded-md mr-2 mb-2">
+      <span class="inline-flex items-center gap-1 px-2 py-1 text-sm bg-rich-black-800 text-baby-powder-50 rounded-md mr-2 mb-2">
         ${this.escapeHtml(tag)}
         <button type="button"
                 class="ml-1 text-blue-600 hover:text-blue-800"
