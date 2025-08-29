@@ -3,12 +3,12 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(/assets/fonts/ptsansnarrow/PTSansNarrow-Regular.ttf) format("ttf");
+  src: url("pt-sans-narrow/PTSansNarrow-Regular.ttf");
 }
 @font-face {
   font-family: "PT Sans Narrow";
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(/assets/fonts/ptsansnarrow/PTSansNarrow-Bold.ttf) format("ttf");
+  src: url("pt-sans-narrow/PTSansNarrow-Bold.ttf");
 }
