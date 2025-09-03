@@ -1,6 +1,10 @@
 class Bookmark < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :tags
+  has_one_attached :icon
+  has_one_attached :apple_touch_icon
+
+  after_create :download_favicons
 
   validates :url, presence: true, format: {
     with: URI::DEFAULT_PARSER.make_regexp(%w[http https]),
@@ -21,5 +25,9 @@ class Bookmark < ApplicationRecord
     self.tags = names.split(",").map(&:strip).reject(&:blank?).map do |name|
       user.tags.find_or_create_by(name: name.downcase)
     end
+  end
+
+  def download_favicons
+    DownloadFaviconsJob.perform_later(id)
   end
 end
