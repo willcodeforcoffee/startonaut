@@ -25,4 +25,8 @@ class Bookmark < ApplicationRecord
       user.tags.find_or_create_by(name: name.downcase)
     end
   end
+
+  def download_favicons
+    DownloadFaviconsJob.perform_later(id)
+  end
 end

@@ -1,5 +1,6 @@
 <div id="<%= dom_id bookmark %>" class="w-full sm:w-auto my-5 text-sm">
   <div class="block overflow-ellipsis text-base">
+    <%= favicon_image_tag(bookmark) %>
     <a href="<%= bookmark.url %>" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">
       <%= bookmark.title %>
     </a>
