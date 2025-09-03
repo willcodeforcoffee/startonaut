@@ -16,10 +16,6 @@
     <%= bookmark.tag_list %>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Favicon:</strong>
-    <%= image_tag rails_storage_proxy_path(bookmark.favicon) if bookmark.favicon.attached? %>
-  </div>
-  <div>
     <strong class="block font-medium mb-1">Icon:</strong>
     <%= image_tag rails_storage_proxy_path(bookmark.icon) if bookmark.icon.attached? %>
   </div>

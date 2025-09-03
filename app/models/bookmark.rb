@@ -1,7 +1,6 @@
 class Bookmark < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :tags
-  has_one_attached :favicon
   has_one_attached :icon
   has_one_attached :apple_touch_icon
 

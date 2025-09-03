@@ -43,8 +43,6 @@ class DownloadFaviconsJob < ApplicationJob
   private
 
   def download_icon_from_links(bookmark, doc, base_uri)
-    return if bookmark.icon.attached?
-
     # Look for <link rel="icon"> elements
     icon_links = doc.css('link[rel*="icon"]').reject do |link|
       rel = link["rel"]&.downcase
@@ -69,8 +67,6 @@ class DownloadFaviconsJob < ApplicationJob
   end
 
   def download_apple_touch_icon_from_links(bookmark, doc, base_uri)
-    return if bookmark.apple_touch_icon.attached?
-
     # Look for <link rel="apple-touch-icon"> elements
     apple_icon_links = doc.css('link[rel*="apple-touch-icon"]')
 

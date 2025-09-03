@@ -6,9 +6,8 @@ module BookmarksHelper
   end
 
   def favicon_image_tag(bookmark)
-    return image_tag rails_storage_proxy_path(bookmark.favicon), class: "inline object-contain w-[1rem]" if bookmark.favicon.attached?
-    return image_tag rails_storage_proxy_path(bookmark.icon), class: "inline object-contain w-[1rem]" if bookmark.icon.attached?
-    return image_tag rails_storage_proxy_path(bookmark.apple_touch_icon), class: "inline object-contain w-[1rem]" if bookmark.apple_touch_icon.attached?
+    return image_tag rails_storage_proxy_path(bookmark.icon), class: "inline object-contain w-[1rem]", alt: "Icon image for #{bookmark.title}" if bookmark.icon.attached?
+    return image_tag rails_storage_proxy_path(bookmark.apple_touch_icon), class: "inline object-contain w-[1rem]", alt: "Apple Touch Icon image for #{bookmark.title}" if bookmark.apple_touch_icon.attached?
 
     ""
   end
