@@ -96,10 +96,11 @@ class DownloadFaviconsJob < ApplicationJob
 
       # Calculate priority score (lower is better)
       format_score = case
-      when type&.include?("png") || href.include?(".png") then 1
-      when type&.include?("svg") || href.include?(".svg") then 2
-      when type&.include?("ico") || href.include?(".ico") then 3
-      else 4
+      when type&.include?("svg") || href.include?(".svg") then 1
+      when type&.include?("png") || href.include?(".png") then 2
+      when type&.include?("jpg") || href.include?(".jpg") then 3
+      when type&.include?("ico") || href.include?(".ico") then 4
+      else 5
       end
 
       # Extract size (prefer larger icons)
