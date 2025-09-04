@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get :fetch_remote_bookmark
     end
   end
+  resources :pages, only: [ :index ]
   resource :session
   resources :passwords, param: :token
   get "home/index"

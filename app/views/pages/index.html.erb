@@ -1,0 +1,15 @@
+<div class="w-full font-pt-sans">
+  <div class="flex justify-between items-center">
+    <h1 class="font-pt-sans font-bold text-4xl">Bookmarks Page</h1>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-5 min-w-full font-pt-sans-narrow">
+    <% @bookmarks.each do |bookmark| %>
+      <div>
+        <a href="<%= bookmark.url %>" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">
+          <%= favicon_image_tag(bookmark) %>
+          <%= bookmark.title %>
+        </a>
+      </div>
+    <% end %>
+  </div>
+</div>
