@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     end
   end
   resources :pages, only: [ :index ]
+  resources :site_avatar, only: [ :show ]
   resource :session
   resources :passwords, param: :token
   get "home/index"
