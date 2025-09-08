@@ -5,10 +5,10 @@ module BookmarksHelper
     date.strftime("%Y-%m-%d")
   end
 
-  def favicon_image_tag(bookmark)
-    return image_tag rails_storage_proxy_path(bookmark.icon), class: "inline object-contain w-[1rem]", alt: "Icon image for #{bookmark.title}" if bookmark.icon.attached?
-    return image_tag rails_storage_proxy_path(bookmark.apple_touch_icon), class: "inline object-contain w-[1rem]", alt: "Apple Touch Icon image for #{bookmark.title}" if bookmark.apple_touch_icon.attached?
+  def favicon_image_tag(bookmark, options = {})
+    return image_tag rails_storage_proxy_path(bookmark.icon), options.merge(alt: "Icon image for #{bookmark.title}") if bookmark.icon.attached?
+    return image_tag rails_storage_proxy_path(bookmark.apple_touch_icon), options.merge(alt: "Apple Touch Icon image for #{bookmark.title}") if bookmark.apple_touch_icon.attached?
 
-    ""
+    image_tag site_avatar_path(id: bookmark.id, format: :svg), options.merge(alt: "Site Avatar image for #{bookmark.title}")
   end
 end

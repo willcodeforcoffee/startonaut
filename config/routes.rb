@@ -9,6 +9,8 @@ Rails.application.routes.draw do
       get :fetch_remote_bookmark
     end
   end
+  resources :pages, only: [ :index ]
+  resources :site_avatar, only: [ :show ]
   resource :session
   resources :passwords, param: :token
   get "home/index"
@@ -24,5 +26,6 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
+  # Make changes in the HomeController redirect for authentication situations
   root "home#index"
 end
