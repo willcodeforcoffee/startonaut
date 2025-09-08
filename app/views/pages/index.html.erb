@@ -6,7 +6,7 @@
     <% @bookmarks.each do |bookmark| %>
       <li>
         <a href="<%= bookmark.url %>" target="_blank" rel="noopener noreferrer" class="text-baby-powder-50 hover:underline">
-          <%= favicon_image_tag(bookmark, class: "mx-auto size-12 md:size-24 rounded-full outline-1 -outline-offset-1 outline-black/5 dark:outline-bright-turquoise-300/10") %>
+          <%= favicon_image_tag(bookmark, class: "mx-auto size-12 md:size-24 rounded-[1vw] outline-1 -outline-offset-1 outline-black/5 dark:outline-bright-turquoise-300/10") %>
           <p class="mt-3 text-base/7 font-pt-sans-narrow font-semibold tracking-tight"><%= bookmark.title %></p>
         </a>
       </li>
