@@ -2,7 +2,7 @@ class HomeController < ApplicationController
   allow_unauthenticated_access
 
   def index
-    return redirect_to bookmarks_path if authenticated?
+    return redirect_to pages_path if authenticated?
 
     render :index
   end
