@@ -145,7 +145,7 @@ class DownloadFaviconsJob < ApplicationJob
       "#{base_url}#{path}/#{href}"
     end
   rescue StandardError => e
-    Rails.logger.debug("Failed to resolve URL #{href}: #{e.message}")
+    Rails.logger.error("Failed to resolve URL #{href}: #{e.message}")
     nil
   end
 
@@ -185,7 +185,7 @@ class DownloadFaviconsJob < ApplicationJob
     true
 
   rescue StandardError => e
-    Rails.logger.debug("Failed to download icon from #{icon_url}: #{e.message}")
+    Rails.logger.error("Failed to download icon from #{icon_url}: #{e.message}")
     temp_file&.close
     temp_file&.unlink
     false
@@ -207,7 +207,7 @@ class DownloadFaviconsJob < ApplicationJob
     http.request(request)
 
   rescue StandardError => e
-    Rails.logger.debug("HTTP request failed for #{url}: #{e.message}")
+    Rails.logger.error("HTTP request failed for #{url}: #{e.message}")
     nil
   end
 
