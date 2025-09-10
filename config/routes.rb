@@ -5,12 +5,12 @@ Rails.application.routes.draw do
     end
   end
   resources :bookmarks do
+    resources :favicon, only: [ :index ], controller: "bookmarks_favicon_proxy"
     collection do
       get :fetch_remote_bookmark
     end
   end
   resources :pages, only: [ :index ]
-  resources :site_avatar, only: [ :show ]
   resource :session
   resources :passwords, param: :token
   get "home/index"
