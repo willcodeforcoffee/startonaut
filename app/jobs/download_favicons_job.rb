@@ -19,6 +19,7 @@ class DownloadFaviconsJob < ApplicationJob
 
     # Fetch the webpage HTML
     html_response = request_page(bookmark.url)
+    Rails.logger.debug("Fetched HTML for #{bookmark.url} with response code #{html_response&.code}")
     return unless html_response&.code == "200"
 
     # Parse the HTML to find icon links
@@ -38,6 +39,8 @@ class DownloadFaviconsJob < ApplicationJob
   rescue StandardError => e
     Rails.logger.error("Error downloading favicons for bookmark #{bookmark_id}: #{e.message}")
     raise e # This will trigger retries for retryable errors
+  rescue e
+    Rails.logger.error("Unexpected error: #{e}")
   end
 
   private
@@ -55,6 +58,7 @@ class DownloadFaviconsJob < ApplicationJob
     icon_links.each do |link|
       href = link["href"]
       next if href.blank?
+      Rails.logger.debug("Found icon link: #{href}")
 
       icon_url = resolve_url(href, base_uri)
       next unless icon_url
@@ -76,6 +80,7 @@ class DownloadFaviconsJob < ApplicationJob
     apple_icon_links.each do |link|
       href = link["href"]
       next if href.blank?
+      Rails.logger.debug("Found apple-touch-icon link: #{href}")
 
       icon_url = resolve_url(href, base_uri)
       next unless icon_url

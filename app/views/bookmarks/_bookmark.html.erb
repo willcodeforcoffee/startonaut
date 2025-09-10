@@ -2,9 +2,15 @@
   <div>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Url:</strong>
+    <strong class="block font-medium mb-1">Title:</strong>
     <a href="<%= bookmark.url %>" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">
       <%= bookmark.title %>
+    </a>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Url:</strong>
+    <a href="<%= bookmark.url %>" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">
+      <%= bookmark.url %>
     </a>
   </div>
   <div>
@@ -14,6 +20,9 @@
   <div>
     <strong class="block font-medium mb-1">Tags:</strong>
     <%= bookmark.tag_list %>
+  </div>
+  <div>
+    <%= favicon_image_tag(bookmark, class: "mx-auto size-12 md:size-24 rounded-[1vw] outline-1 -outline-offset-1 outline-black/5 dark:outline-bright-turquoise-300/10") %>
   </div>
   <div>
     <strong class="block font-medium mb-1">Icon:</strong>
