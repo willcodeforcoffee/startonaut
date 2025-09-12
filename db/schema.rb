@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_29_043043) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_10_192434) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -52,6 +52,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_29_043043) do
   create_table "bookmarks_tags", id: false, force: :cascade do |t|
     t.integer "bookmark_id", null: false
     t.integer "tag_id", null: false
+  end
+
+  create_table "logs", force: :cascade do |t|
+    t.string "loggable_type", null: false
+    t.bigint "loggable_id", null: false
+    t.string "severity"
+    t.string "source"
+    t.string "user"
+    t.text "message", null: false
+    t.json "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["loggable_type", "loggable_id"], name: "index_logs_on_loggable_type_and_loggable_id"
   end
 
   create_table "sessions", force: :cascade do |t|

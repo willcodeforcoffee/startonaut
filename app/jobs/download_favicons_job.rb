@@ -1,6 +1,9 @@
 require "net/http"
 
 class DownloadFaviconsJob < ApplicationJob
+  class DownloadFaviconError < StandardError; end
+  class FetchBookmarkUrlFailedError < DownloadFaviconError; end
+
   queue_as :default
 
   # Retry logic for network failures
@@ -10,17 +13,23 @@ class DownloadFaviconsJob < ApplicationJob
 
   # Don't retry for these errors
   discard_on ActiveRecord::RecordNotFound
+  discard_on DownloadFaviconsJob
 
   def perform(bookmark_id)
     # Load the bookmark and abort if not found
     bookmark = Bookmark.find(bookmark_id)
 
     Rails.logger.info("Starting favicon download for bookmark #{bookmark.id}: #{bookmark.url}")
+    bookmark.logs.create(severity: "info", source: "DownloadFaviconsJob", message: "Starting favicon download for #{bookmark.url}")
 
     # Fetch the webpage HTML
     html_response = request_page(bookmark.url)
-    Rails.logger.debug("Fetched HTML for #{bookmark.url} with response code #{html_response&.code}")
-    return unless html_response&.code == "200"
+    if html_response.nil? || html_response.code != "200"
+      Rails.logger.debug("Fetched HTML for #{bookmark.url} with response code #{html_response&.code}")
+      Rails.logger.debug("HTML content:\n#{html_response&.body}") unless html_response&.code == "200"
+
+      raise FetchBookmarkUrlFailedError, "Failed to fetch page HTML for #{bookmark.url}, response code: #{html_response&.code}"
+    end
 
     # Parse the HTML to find icon links
     doc = Nokogiri::HTML(html_response.body)
@@ -31,16 +40,21 @@ class DownloadFaviconsJob < ApplicationJob
     download_apple_touch_icon_from_links(bookmark, doc, base_uri)
 
     Rails.logger.info("Completed favicon download for bookmark #{bookmark.id}")
+    bookmark.logs.create(severity: :info, source: "DownloadFaviconsJob", message: "Successfully downloaded favicons")
 
   rescue ActiveRecord::RecordNotFound => e
     Rails.logger.warn("Bookmark with ID #{bookmark_id} not found, aborting favicon download")
     raise e # This will be discarded due to discard_on
 
+  rescue DownloadFaviconError => e
+    bookmark&.logs&.create(severity: "error", source: "DownloadFaviconsJob", message: e.message, metadata: { id: bookmark_id, url: bookmark&.url })
+    raise e # This will trigger retries for retryable errors
   rescue StandardError => e
     Rails.logger.error("Error downloading favicons for bookmark #{bookmark_id}: #{e.message}")
     raise e # This will trigger retries for retryable errors
   rescue e
     Rails.logger.error("Unexpected error: #{e}")
+    bookmark&.logs&.create(severity: :error, source: "DownloadFaviconsJob", message: "Unexpected error: #{e.message}", metadata: { backtrace: e.backtrace })
   end
 
   private
@@ -206,7 +220,7 @@ class DownloadFaviconsJob < ApplicationJob
     http.read_timeout = 10
 
     request = Net::HTTP::Get.new(uri.request_uri)
-    request["User-Agent"] = "Mozilla/5.0 (Startonaut.com Favicon Fetcher)"
+    request["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
     request["Accept"] = "text/html,application/xhtml+xml,image/*"
 
     http.request(request)
