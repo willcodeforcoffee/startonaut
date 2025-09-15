@@ -18,7 +18,7 @@ class DownloadFaviconsJob < ApplicationJob
     Rails.logger.info("Starting favicon download for bookmark #{bookmark.id}: #{bookmark.url}")
 
     # Fetch the webpage HTML
-    html_response = request_page(bookmark.url)
+    html_response = DownloadWebpageService.new.request_page(bookmark.url)
     Rails.logger.debug("Fetched HTML for #{bookmark.url} with response code #{html_response&.code}")
     return unless html_response&.code == "200"
 
@@ -33,13 +33,14 @@ class DownloadFaviconsJob < ApplicationJob
     Rails.logger.info("Completed favicon download for bookmark #{bookmark.id}")
 
   rescue ActiveRecord::RecordNotFound => e
+    binding.irb
     Rails.logger.warn("Bookmark with ID #{bookmark_id} not found, aborting favicon download")
     raise e # This will be discarded due to discard_on
 
   rescue StandardError => e
     Rails.logger.error("Error downloading favicons for bookmark #{bookmark_id}: #{e.message}")
     raise e # This will trigger retries for retryable errors
-  rescue e
+  rescue => e
     Rails.logger.error("Unexpected error: #{e}")
   end
 
@@ -155,7 +156,7 @@ class DownloadFaviconsJob < ApplicationJob
   end
 
   def download_and_attach_icon(bookmark, icon_url, attachment_name)
-    response = request_page(icon_url)
+    response = DownloadWebpageService.new.request_page(icon_url)
     return false unless response && response.code == "200"
 
     # Validate content type
@@ -194,26 +195,6 @@ class DownloadFaviconsJob < ApplicationJob
     temp_file&.close
     temp_file&.unlink
     false
-  end
-
-  def request_page(url)
-    uri = URI.parse(url)
-    return nil unless %w[http https].include?(uri.scheme)
-
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = uri.scheme == "https"
-    http.open_timeout = 5
-    http.read_timeout = 10
-
-    request = Net::HTTP::Get.new(uri.request_uri)
-    request["User-Agent"] = "Mozilla/5.0 (Startonaut.com Favicon Fetcher)"
-    request["Accept"] = "text/html,application/xhtml+xml,image/*"
-
-    http.request(request)
-
-  rescue StandardError => e
-    Rails.logger.error("HTTP request failed for #{url}: #{e.message}")
-    nil
   end
 
   def valid_image_content_type?(content_type)
