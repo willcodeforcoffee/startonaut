@@ -76,7 +76,18 @@ RSpec.describe DownloadFaviconsJob, type: :job do
 
         described_class.perform_now(bookmark.id)
       end
-    end
+
+      it 'handles non-success (200) HTTP responses' do
+        download_service = instance_double(DownloadWebpageService)
+        allow(DownloadWebpageService).to receive(:new).and_return(download_service)
+        allow(download_service).to receive(:request_page).with(bookmark.url)
+          .and_return(instance_double(Net::HTTPResponse, body: html_without_icons, code: "301"))
+
+        # Should not attempt any downloads
+        expect_any_instance_of(DownloadFaviconsJob).not_to receive(:download_and_attach_icon)
+
+        described_class.perform_now(bookmark.id)
+      end    end
   end
 
   describe '#prioritize_icon_links' do
