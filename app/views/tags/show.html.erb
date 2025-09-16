@@ -1,11 +1,22 @@
-<% content_for :title, "Showing tag" %>
+<% content_for :title, "##{@tag.name}" %>
 <div class="md:w-2/3 w-full">
   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
   <% end %>
-  <h1 class="font-bold text-4xl">Showing tag</h1>
+  <h1 class="font-bold text-4xl">#<%= @tag.name %></h1>
   <%= render @tag %>
-  <%= primary_link_to "Edit this tag", edit_tag_path(@tag), class: "inline-block" %>
-  <%= default_link_to "Back to tags", tags_path, class: "inline-block" %>
-  <%= theme_button_to "Destroy this tag", @tag, style: :danger, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+  <div id="bookmarks" class="min-w-full divide-y divide-gray-200 space-y-5">
+    <% if @tag.bookmarks.any? %>
+      <% @tag.bookmarks.each do |bookmark| %>
+        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
+          <%= render "bookmarks/bookmark_small", bookmark: bookmark %>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-center my-10">No bookmarks found.</p>
+    <% end %>
+  </div>
+  <%= primary_link_to "Edit this tag", edit_tag_path(@tag), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+  <%= default_link_to "Back to tags", tags_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+  <%= theme_button_to "Destroy this tag", @tag, style: :danger, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
 </div>
