@@ -6,4 +6,6 @@ class Tag < ApplicationRecord
   validates :user, presence: true
 
   normalizes :name, with: ->(e) { e.strip.downcase }
+
+  scope :favorite?, -> { where(favorite: true) }
 end
