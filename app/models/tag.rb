@@ -7,5 +7,5 @@ class Tag < ApplicationRecord
 
   normalizes :name, with: ->(e) { e.strip.downcase }
 
-  scope :favorite?, -> { where(favorite: true) }
+  scope :favorites, -> { where(favorite: true) }
 end

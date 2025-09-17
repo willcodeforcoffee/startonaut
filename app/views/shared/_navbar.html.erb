@@ -14,9 +14,9 @@
       </div>
       <!-- Desktop navigation -->
       <div class="hidden md:flex items-center space-x-8">
-        <% Current&.user&.tags&.favorite?.each do |tag| %>
+        <% Current&.user&.tags&.favorites&.each do |tag| %>
           <%= link_to tag_path(tag), class: "text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors #{'text-bright-turquoise-300' if controller_name == 'tags'}" do %>
-            <%= tag.name %>
+            #<%= tag.name %>
           <% end %>
         <% end %>
         <%= link_to pages_path, class: "text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors #{'text-bright-turquoise-300' if controller_name == 'pages'}" do %>
@@ -31,8 +31,8 @@
       </div>
       <!-- Mobile menu button -->
       <div class="md:hidden">
-        <button 
-          type="button" 
+        <button
+          type="button"
           class="text-baby-powder-50 hover:text-bright-turquoise-300 focus:outline-none focus:text-bright-turquoise-300 transition-colors"
           data-navbar-target="menuButton"
           data-action="click->navbar#toggleMenu"
@@ -50,9 +50,9 @@
     <!-- Mobile menu -->
     <div class="md:hidden hidden" data-navbar-target="mobileMenu">
       <div class="px-2 pt-2 pb-3 space-y-1 border-t border-bright-turquoise-600">
-        <% Current&.user&.tags&.favorite?.each do |tag| %>
+        <% Current&.user&.tags&.favorites&.each do |tag| %>
           <%= link_to tag_path(tag), class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'tags'}" do %>
-            <%= tag.name %>
+            #<%= tag.name %>
           <% end %>
         <% end %>
         <%= link_to pages_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'pages'}" do %>
