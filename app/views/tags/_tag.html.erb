@@ -1,6 +1,17 @@
 <div id="<%= dom_id tag %>" class="w-full sm:w-auto my-5 space-y-5">
   <div>
     <strong class="block font-medium mb-1">Name:</strong>
-    <span class="tag_name"><%= tag.name %></span>
+    <span class="tag_name">
+      <% if tag.favorite? %>
+        <span class="inline-block align-middle mr-1 text-yellow-400" title="Favorite">
+          <%= favorite_icon %>
+        </span>
+      <% end %>
+      <%= tag.name %>
+    </span>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Bookmarks:</strong>
+    <span class="bookmark_count"><%= tag.bookmarks.count %></span>
   </div>
 </div>
