@@ -8,20 +8,19 @@ RSpec.describe "tags/index", type: :view do
 
     assign(:tags, [
       Tag.create!(
-        name: "Name1",
+        name: "name1",
         user: authentication_user
       ),
       Tag.create!(
-        name: "Name2",
+        name: "name2",
         user: authentication_user
       )
     ])
   end
 
-  it "renders a list of tags" do
+  it "renders a list with both tags" do
     render
-    cell_selector = 'div>strong'
-    assert_select cell_selector, text: Regexp.new("Name".to_s), count: 2
-    assert_select cell_selector, text: Regexp.new(nil.to_s), count: 2
+    assert_select '.tag_name', text: Regexp.new("name1".to_s), count: 1
+    assert_select '.tag_name', text: Regexp.new("name2".to_s), count: 1
   end
 end
