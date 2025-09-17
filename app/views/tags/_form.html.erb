@@ -12,6 +12,10 @@
   <div class="my-5">
     <%= form.text_field :name %>
   </div>
+  <div class="my-5">
+    <%= form.check_box :favorite, class: "mr-2" %>
+    <%= form.label :favorite, "Mark as favorite", class: "text-sm font-medium" %>
+  </div>
   <div class="inline">
     <%= form.submit %>
   </div>
