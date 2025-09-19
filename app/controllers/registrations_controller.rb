@@ -1,4 +1,6 @@
 class RegistrationsController < ApplicationController
+  allow_unauthenticated_access
+
   # Show registration form
   def new
     @user = User.new
