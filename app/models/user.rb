@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :tags, dependent: :destroy
 
   validates :email_address, presence: true, uniqueness: true
+  validates :password, length: { minimum: 6 }, if: -> { new_record? || !password.blank? }
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 end

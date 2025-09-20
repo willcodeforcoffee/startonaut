@@ -13,6 +13,11 @@ Rails.application.routes.draw do
   resources :pages, only: [ :index ]
   resource :session
   resources :passwords, param: :token
+
+  # User registration routes
+  resources :registrations, only: [ :new, :create ]
+  get "registration/success", to: "registrations#success", as: :registration_success
+
   get "home/index"
   get "theme", to: "home#theme", as: :theme if Rails.env.development?
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

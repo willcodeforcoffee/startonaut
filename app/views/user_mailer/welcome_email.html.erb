@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+      /* Email-safe CSS styles */
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+      }
+      .header {
+        background-color: #0d7377;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+      .content {
+        padding: 30px 20px;
+        background-color: #ffffff;
+      }
+      .button {
+        display: inline-block;
+        background-color: #0d7377;
+        color: white;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin: 20px 0;
+      }
+      .footer {
+        background-color: #f8f9fa;
+        padding: 20px;
+        text-align: center;
+        font-size: 14px;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Welcome to Startonaut!</h1>
+      </div>
+      <div class="content">
+        <h2>Hello <%= @user.email_address %>!</h2>
+        <p>Thank you for joining <strong>Startonaut</strong>! We're excited to have you on board.</p>
+        <p>With Startonaut, you can:</p>
+        <ul>
+          <li>Organize your bookmarks with tags</li>
+          <li>Automatically fetch page titles and favicons</li>
+          <li>Create a personalized bookmark collection</li>
+          <li>Access your bookmarks from anywhere</li>
+        </ul>
+        <p>Ready to get started?</p>
+        <a href="<%= @url %>" class="button">Start Bookmarking</a>
+        <p>If you have any questions or need help, feel free to reach out to us.</p>
+        <p>Happy bookmarking!</p>
+        <p>The Startonaut Team</p>
+      </div>
+      <div class="footer">
+        <p>This email was sent to <%= @user.email_address %> because you signed up for a Startonaut account.</p>
+        <p>© <%= Date.current.year %> Startonaut. All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>ser#welcome_email</h1>
+<p>
+  <%= @greeting %>, find me in app/views/user_mailer/welcome_email.html.erb
+</p>

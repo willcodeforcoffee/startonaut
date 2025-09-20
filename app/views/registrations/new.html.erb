@@ -1,0 +1,28 @@
+<% content_for :title, "Sign Up" %>
+<div class="mx-auto md:w-2/3 w-full">
+  <% if @user.errors.any? %>
+    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" id="alert">
+      <%= pluralize(@user.errors.count, "error") %> prohibited this account from being created
+    </p>
+  <% end %>
+  <h1 class="font-bold text-4xl">Create Account</h1>
+  <%= form_with model: @user, url: registrations_path, builder: ThemedFormBuilder, class: "contents" do |form| %>
+    <div class="my-5">
+      <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address" %>
+    </div>
+    <div class="my-5">
+      <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "Enter your password", maxlength: 72 %>
+    </div>
+    <div class="my-5">
+      <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "Confirm your password", maxlength: 72 %>
+    </div>
+    <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
+      <div class="inline">
+        <%= form.submit "Create Account" %>
+      </div>
+      <div class="mt-4 text-sm text-gray-500 sm:mt-0">
+        <%= link_to "Already have an account? Sign in", new_session_path, class: "text-gray-700 underline hover:no-underline" %>
+      </div>
+    </div>
+  <% end %>
+</div>
