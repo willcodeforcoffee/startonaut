@@ -23,7 +23,5 @@ module Startonaut
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-    #
-    config.x.feature_flags.enable_new_user_registration = ENV.fetch("FEATURE_FLAG_ENABLE_NEW_USER_REGISTRATION", "false").downcase == "true"
   end
 end
