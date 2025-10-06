@@ -19,13 +19,13 @@ class DownloadWebpageService
 
     response = http.request(request)
 
-    Rails.logger.debug("Fetched HTML for #{bookmark.url} with response code #{html_response&.code}")
+    Rails.logger.debug("Fetched HTML for #{url} with response code #{response&.code}")
 
     response
 
   rescue StandardError => e
     Rails.logger.error("HTTP request failed for #{url}: #{e.message}")
 
-    raise DownloadWebpageServiceError, "HTTP request failed for #{url}: #{e.message}", e
+    raise DownloadWebpageServiceError, "HTTP request failed for #{url}: #{e.message}"
   end
 end

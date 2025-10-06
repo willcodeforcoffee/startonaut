@@ -12,33 +12,32 @@ class DownloadFaviconsJob < ApplicationJob
   discard_on ActiveRecord::RecordNotFound
 
   def perform(bookmark_id)
-    # Load the bookmark and abort if not found
-    bookmark = Bookmark.find(bookmark_id)
+    # Load the @bookmark and abort if not found
+    @bookmark = Bookmark.find(bookmark_id)
 
-    Rails.logger.info("Starting favicon download for bookmark #{bookmark.id}: #{bookmark.url}")
+    Rails.logger.info("Starting favicon download for @bookmark #{@bookmark.id}: #{@bookmark.url}")
 
     # Fetch the webpage HTML
-    html_response = DownloadWebpageService.new.request_page(bookmark.url)
-    Rails.logger.debug("Fetched HTML for #{bookmark.url} with response code #{html_response&.code}")
+    html_response = DownloadWebpageService.new.request_page(@bookmark.url)
+    Rails.logger.debug("Fetched HTML for #{@bookmark.url} with response code #{html_response&.code}")
     return unless html_response&.code == "200"
 
     # Parse the HTML to find icon links
     doc = Nokogiri::HTML(html_response.body)
-    base_uri = URI.parse(bookmark.url)
+    base_uri = URI.parse(@bookmark.url)
 
     # Download icons based on <link> elements
-    download_icon_from_links(bookmark, doc, base_uri)
-    download_apple_touch_icon_from_links(bookmark, doc, base_uri)
+    download_icon_from_links(@bookmark, doc, base_uri)
+    download_apple_touch_icon_from_links(@bookmark, doc, base_uri)
 
-    Rails.logger.info("Completed favicon download for bookmark #{bookmark.id}")
+    Rails.logger.info("Completed favicon download for @bookmark #{@bookmark.id}")
 
   rescue ActiveRecord::RecordNotFound => e
-    binding.irb
-    Rails.logger.warn("Bookmark with ID #{bookmark_id} not found, aborting favicon download")
+    Rails.logger.warn("@bookmark with ID #{bookmark_id} not found, aborting favicon download")
     raise e # This will be discarded due to discard_on
 
   rescue StandardError => e
-    Rails.logger.error("Error downloading favicons for bookmark #{bookmark_id}: #{e.message}")
+    Rails.logger.error("Error downloading favicons for @bookmark #{bookmark_id}: #{e.message}")
     raise e # This will trigger retries for retryable errors
   rescue => e
     Rails.logger.error("Unexpected error: #{e}")

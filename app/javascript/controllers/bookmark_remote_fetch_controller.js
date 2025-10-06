@@ -2,12 +2,12 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to data-controller="bookmark-remote-fetch"
 export default class extends Controller {
-  static targets = ["url", "title"];
+  static targets = ["url", "title", "description", "status"];
   static debounceTimeouts = new Map();
 
   connect() {
-    // Add event listener to URL field
     this.urlTarget.addEventListener("input", this.handleUrlInput.bind(this));
+    this.hideStatusMessage();
   }
 
   disconnect() {
@@ -20,6 +20,8 @@ export default class extends Controller {
   }
 
   handleUrlInput(event) {
+    this.hideStatusMessage();
+
     // Stop immediately if title already has content
     if (this.titleTarget.value.trim()) {
       return;
@@ -40,14 +42,14 @@ export default class extends Controller {
 
     // Debounce the fetch request
     const timeoutId = setTimeout(() => {
-      this.fetchUrlTitle(url);
+      this.fetchPageInfo(url);
       this.constructor.debounceTimeouts.delete(this.element);
     }, 1000); // Wait 1 second after user stops typing
 
     this.constructor.debounceTimeouts.set(this.element, timeoutId);
   }
 
-  async fetchUrlTitle(url) {
+  async fetchPageInfo(url) {
     // Basic URL validation
     if (!this.isValidUrl(url)) {
       return;
@@ -66,7 +68,7 @@ export default class extends Controller {
             Accept: "application/json",
             "X-Requested-With": "XMLHttpRequest",
           },
-        }
+        },
       );
 
       console.log("Fetch response:", response);
@@ -76,10 +78,20 @@ export default class extends Controller {
         if (data.title && !this.titleTarget.value.trim()) {
           this.titleTarget.value = data.title;
           this.titleTarget.dispatchEvent(new Event("input", { bubbles: true }));
+
+          this.descriptionTarget.value = data.description || "";
+          this.descriptionTarget.dispatchEvent(
+            new Event("input", { bubbles: true }),
+          );
         }
+      } else if (response.status === 404) {
+        this.showStatusMessage("Error fetching page: It does not exist.");
+      } else if (response.status === 422) {
+        const data = await response.json();
+        this.showStatusMessage(data.error || "Error fetching page.");
       }
     } catch (error) {
-      console.log("Failed to fetch URL title:", error);
+      this.showStatusMessage(`Error fetching page: ${error.message}`);
     } finally {
       this.setLoadingState(false);
     }
@@ -102,5 +114,15 @@ export default class extends Controller {
       this.titleTarget.placeholder = "";
       this.titleTarget.style.opacity = "1";
     }
+  }
+
+  showStatusMessage(message) {
+    this.statusTarget.textContent = message;
+    this.statusTarget.classList.remove("hidden");
+  }
+
+  hideStatusMessage() {
+    this.statusTarget.classList.add("hidden");
+    this.statusTarget.textContent = "";
   }
 }

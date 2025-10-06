@@ -47,4 +47,7 @@
 # run rails deploy:generate_config to create it.
 config/deploy.yml
 
+# This should be okay but we don't want to include them in open source 🤐
+credentials.yml.enc
+
 .overmind*

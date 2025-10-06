@@ -72,16 +72,27 @@ class BookmarksController < ApplicationController
     end
 
     begin
-      response = request_page(url)
-      title = extract_title_from_url(response)
-      Rails.logger.debug("Fetched title: #{title || 'nil'}")
+      response = DownloadWebpageService.new.request_page(url)
 
-      if title.present?
-        render json: { title: title }
-        return
+      Rails.logger.debug("Response: #{response.code}, Content-Type: #{response.content_type}")
+
+      if response.code != "200"
+        render json: { error: "There was a #{response.code} server error fetching page. ", url: url }, status: :unprocessable_content
+      elsif !response.content_type&.include?("text/html")
+        render json: { error: "This is not an html page.  #{response.content_type}", url: url }, status: :unprocessable_content
+      else
+        html_document = Nokogiri::HTML(response.body)
+        title = extract_og_site_name_from(html_document) || extract_title_from(html_document)
+        description = extract_og_description_from(html_document)
+        Rails.logger.debug("Fetched title: #{title || 'nil'}")
+
+        if title.present?
+          render json: { title: title, description: description }
+        end
       end
-
-      render json: { error: "Title not found", url: url }, status: :not_found
+    rescue DownloadWebpageService::DownloadWebpageServiceError => e
+      Rails.logger.debug("Error fetching title for URL #{url}: #{e.message}")
+      render json: { error: "Error fetching page. Does it exist?", url: url }, status: :not_found
     rescue StandardError => e
       Rails.logger.error("Error fetching title for URL #{url}: #{e.message}")
       render json: { error: "Error fetching title", url: url }, status: :unprocessable_content
@@ -89,15 +100,19 @@ class BookmarksController < ApplicationController
   end
 
   private
+    def extract_og_site_name_from(html_document)
+      og_site_name = html_document.at('meta[property="og:site_name"]')&.[]("content")
+      og_site_name&.strip
+    end
 
-    def extract_title_from_url(response)
-      if response.code == "200" && response.content_type&.include?("text/html")
-        doc = Nokogiri::HTML(response.body)
-        title_element = doc.at_css("title")
-        return title_element&.text&.strip
-      end
+    def extract_og_description_from(html_document)
+      og_description = html_document.at('meta[property="og:description"]')&.[]("content")
+      og_description&.strip
+    end
 
-      nil
+    def extract_title_from(html_document)
+      title_element = html_document.at_css("title")
+      title_element&.text&.strip
     end
 
     def request_page(url)

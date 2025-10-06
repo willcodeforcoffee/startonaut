@@ -1,6 +1,13 @@
 <div>
   <h1 class="font-extrabold text-4xl font-pt-sans">Startonaut</h1>
-  <p class="font-pt-sans-narrow">Welcome to the new start page for Internauts.</p>
-  <%= link_to "Login", new_session_path, class: "text-blue-500 font-pt-sans-narrow hover:underline" %>
-  <%= link_to "Sign Up", new_registration_path, class: "text-blue-500 font-pt-sans-narrow hover:underline" %>
+  <p class="font-pt-sans my-1 mt-2">Welcome to the <em>new</em> start page for Internauts.</p>
+  <p class="font-pt-sans my-1">
+    Startonaut is the personal bookmark manager for people who love reading on the internet. Startonaut organizes and
+    improves your online reading experience by managing bookmarks in a fun and easy way, across your different devices.
+  </p>
+  <% if !FeatureFlag.enable_new_user_registration? %>
+    <p class="font-pt-sans my-1">Thank you for your interest! Registration is only open to beta users. Please check back soon!</p>
+  <% end %>
+  <%= link_to "Login", new_session_path, class: "text-blue-500 font-pt-sans hover:underline" %>
+  <%= link_to "Sign Up", new_registration_path, class: "text-blue-500 font-pt-sans hover:underline" if FeatureFlag.enable_new_user_registration? %>
 </div>

@@ -11,12 +11,13 @@
   <% end %>
   <div class="my-5">
     <%= form.text_field :url, data: { "bookmark-remote-fetch-target": "url" } %>
+    <div id="url-fetch-status" data-bookmark-remote-fetch-target="status" class="hidden text-sm text-red-cmyk-400 mt-1"></div>
   </div>
   <div class="my-5">
     <%= form.text_field :title, data: { "bookmark-remote-fetch-target": "title" } %>
   </div>
   <div class="my-5">
-    <%= form.text_area :description, rows: 4 %>
+    <%= form.text_area :description, rows: 4, data: { "bookmark-remote-fetch-target": "description" } %>
   </div>
   <div class="my-5">
     <%= render 'shared/tag_selector', form: form %>
