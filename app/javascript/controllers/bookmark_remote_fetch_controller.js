@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to data-controller="bookmark-remote-fetch"
 export default class extends Controller {
-  static targets = ["url", "title", "description", "status"];
+  static targets = ["url", "title", "description", "status", "feed_url"];
   static debounceTimeouts = new Map();
 
   connect() {
@@ -68,10 +68,8 @@ export default class extends Controller {
             Accept: "application/json",
             "X-Requested-With": "XMLHttpRequest",
           },
-        },
+        }
       );
-
-      console.log("Fetch response:", response);
 
       if (response.ok) {
         const data = await response.json();
@@ -81,7 +79,12 @@ export default class extends Controller {
 
           this.descriptionTarget.value = data.description || "";
           this.descriptionTarget.dispatchEvent(
-            new Event("input", { bubbles: true }),
+            new Event("input", { bubbles: true })
+          );
+
+          this.feed_urlTarget.value = data.feed_url || "";
+          this.feed_urlTarget.dispatchEvent(
+            new Event("input", { bubbles: true })
           );
         }
       } else if (response.status === 404) {

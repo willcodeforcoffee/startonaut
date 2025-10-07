@@ -82,12 +82,13 @@ class BookmarksController < ApplicationController
         render json: { error: "This is not an html page.  #{response.content_type}", url: url }, status: :unprocessable_content
       else
         html_document = Nokogiri::HTML(response.body)
-        title = extract_og_site_name_from(html_document) || extract_title_from(html_document)
-        description = extract_og_description_from(html_document)
-        Rails.logger.debug("Fetched title: #{title || 'nil'}")
+        parser = BookmarkHtmlParser.new
+        title = parser.extract_og_site_name_from(html_document) || extract_title_from(html_document)
+        description = parser.extract_og_description_from(html_document)
+        feed_url = parser.extract_rss_feed_from(html_document, url)
 
         if title.present?
-          render json: { title: title, description: description }
+          render json: { title: title, description: description, feed_url: feed_url }
         end
       end
     rescue DownloadWebpageService::DownloadWebpageServiceError => e
@@ -100,36 +101,6 @@ class BookmarksController < ApplicationController
   end
 
   private
-    def extract_og_site_name_from(html_document)
-      og_site_name = html_document.at('meta[property="og:site_name"]')&.[]("content")
-      og_site_name&.strip
-    end
-
-    def extract_og_description_from(html_document)
-      og_description = html_document.at('meta[property="og:description"]')&.[]("content")
-      og_description&.strip
-    end
-
-    def extract_title_from(html_document)
-      title_element = html_document.at_css("title")
-      title_element&.text&.strip
-    end
-
-    def request_page(url)
-      uri = URI.parse(url)
-      return nil unless %w[http https].include?(uri.scheme)
-
-      # Set timeout and user agent
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = uri.scheme == "https"
-      http.open_timeout = 5
-      http.read_timeout = 10
-
-      req = Net::HTTP::Get.new(uri.request_uri)
-      req["User-Agent"] = "Mozilla/5.0 (Startonaut.com Page information preload)"
-
-      http.request(req)
-    end
 
     def set_bookmark
       @bookmark = Current.user.bookmarks.find(params.expect(:id))

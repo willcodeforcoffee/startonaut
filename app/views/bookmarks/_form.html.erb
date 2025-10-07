@@ -20,6 +20,9 @@
     <%= form.text_area :description, rows: 4, data: { "bookmark-remote-fetch-target": "description" } %>
   </div>
   <div class="my-5">
+    <%= form.text_field :feed_url, data: { "bookmark-remote-fetch-target": "feed_url" } %>
+  </div>
+  <div class="my-5">
     <%= render 'shared/tag_selector', form: form %>
   </div>
   <div class="inline">

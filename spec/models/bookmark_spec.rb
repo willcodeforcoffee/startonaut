@@ -39,6 +39,47 @@ RSpec.describe Bookmark, type: :model do
       end
     end
 
+    context 'feed_url validation' do
+      it "should allow nil feed_url" do
+        bookmark = FactoryBot.build(:bookmark, feed_url: nil)
+        expect(bookmark).to be_valid
+      end
+
+      it "should allow valid HTTP feed URLs" do
+        bookmark = FactoryBot.build(:bookmark, feed_url: "http://example.com/rss.xml")
+        expect(bookmark).to be_valid
+      end
+
+      it "should allow valid HTTPS feed URLs" do
+        bookmark = FactoryBot.build(:bookmark, feed_url: "https://example.com/feed.xml")
+        expect(bookmark).to be_valid
+      end
+
+      it "should not allow invalid feed URLs" do
+        bookmark = FactoryBot.build(:bookmark, feed_url: "invalid_feed_url")
+        expect(bookmark).not_to be_valid
+        expect(bookmark.errors[:feed_url]).to include("must be a valid HTTP or HTTPS URL")
+      end
+
+      it "should not allow FTP feed URLs" do
+        bookmark = FactoryBot.build(:bookmark, feed_url: "ftp://example.com/feed.xml")
+        expect(bookmark).not_to be_valid
+        expect(bookmark.errors[:feed_url]).to include("must be a valid HTTP or HTTPS URL")
+      end
+
+      it "should not allow feed URLs without protocol" do
+        bookmark = FactoryBot.build(:bookmark, feed_url: "example.com/rss.xml")
+        expect(bookmark).not_to be_valid
+        expect(bookmark.errors[:feed_url]).to include("must be a valid HTTP or HTTPS URL")
+      end
+
+      it "should not allow javascript URLs in feed_url" do
+        bookmark = FactoryBot.build(:bookmark, feed_url: "javascript:alert('XSS')")
+        expect(bookmark).not_to be_valid
+        expect(bookmark.errors[:feed_url]).to include("must be a valid HTTP or HTTPS URL")
+      end
+    end
+
     it "should validate presence of user" do
       bookmark = FactoryBot.build(:bookmark, user: nil)
       expect(bookmark).not_to be_valid
