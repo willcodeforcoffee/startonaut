@@ -83,7 +83,7 @@ class BookmarksController < ApplicationController
       else
         html_document = Nokogiri::HTML(response.body)
         parser = BookmarkHtmlParser.new
-        title = parser.extract_og_site_name_from(html_document) || extract_title_from(html_document)
+        title = parser.extract_og_site_name_from(html_document) || parser.extract_title_from(html_document)
         description = parser.extract_og_description_from(html_document)
         feed_url = parser.extract_rss_feed_from(html_document, url)
 
