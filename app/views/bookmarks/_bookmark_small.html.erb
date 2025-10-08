@@ -6,6 +6,9 @@
     </a>
   </div>
   <div class="flex-col font-medium">
+    <% if bookmark.feed_url.present? %>
+      <span title="Feed Available" class="text-bright-turquoise-300 inline-flex size-2.5"><%= feed_icon %></span>
+    <% end %>
     <% bookmark&.tags&.each do |tag| %>
       <span>
         <%= link_to "##{tag.name}", tag, class: "text-bright-turquoise-300 hover:underline" %>
