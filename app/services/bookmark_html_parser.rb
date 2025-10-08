@@ -91,7 +91,7 @@ class BookmarkHtmlParser
 
   def feed_exists?(feed_url)
     begin
-      response = request_page(feed_url)
+      response = DownloadWebpageService.new.request_page(feed_url)
       return false unless response&.code == "200"
 
       # Check if the content type indicates it's a feed
@@ -101,6 +101,8 @@ class BookmarkHtmlParser
       # Check if the content contains feed-like XML
       body = response.body
       body.include?("<rss") || body.include?("<feed") || body.include?("<atom")
+    rescue DownloadWebpageServiceError => e
+      false
     rescue StandardError => e
       Rails.logger.debug("Error checking feed existence for #{feed_url}: #{e.message}")
       false
