@@ -2,10 +2,8 @@ class BookmarksFaviconProxyController < ApplicationController
   include ActionController::Live
 
   def index
-    @bookmark = Current.user.bookmarks.find(params[:bookmark_id])
+    @bookmark = Current.user.bookmarks.find_by(id: params[:bookmark_id])
     head :not_found unless @bookmark.present?
-
-    logger.debug("Serving favicon for bookmark #{@bookmark.id}:#{@bookmark.title}")
 
     if @bookmark.icon.attached?
       logger.debug("Serving icon for bookmark #{@bookmark.id}:#{@bookmark.title}")
@@ -66,9 +64,6 @@ class BookmarksFaviconProxyController < ApplicationController
     end
 
     def send_svg(content)
-      logger.debug("Serving SVG content for bookmark #{@bookmark.id}:\n\t#{content}")
-      # http_cache_forever public: true do
       render xml: content, content_type: "image/svg+xml", disposition: "inline"
-      # end
     end
 end
