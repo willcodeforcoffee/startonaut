@@ -29,15 +29,35 @@
           <%= link_to pages_path, class: "text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors #{'text-bright-turquoise-300' if controller_name == 'pages'}" do %>
             Start Page
           <% end %>
-          <%= link_to bookmarks_path, class: "text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors #{'text-bright-turquoise-300' if controller_name == 'bookmarks'}" do %>
-            Bookmarks
-          <% end %>
-          <%= link_to tags_path, class: "text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors #{'text-bright-turquoise-300' if controller_name == 'tags'}" do %>
-            Tags
-          <% end %>
-          <%= link_to session_path, method: :delete, data: { turbo_method: :delete }, class: "text-baby-powder-50 hover:text-red-400 transition-colors" do %>
-            Logout
-          <% end %>
+          <!-- Settings Dropdown -->
+          <div class="relative" data-controller="dropdown">
+            <button 
+              type="button"
+              class="text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors flex items-center space-x-1"
+              data-action="click->dropdown#toggle"
+              >
+              <span>Settings</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <!-- Dropdown Menu -->
+            <div 
+              class="absolute right-0 mt-2 w-48 bg-rich-black-900 rounded-md shadow-lg py-1 z-10 hidden"
+              data-dropdown-target="menu"
+            >
+              <%= link_to bookmarks_path, class: "block px-4 py-2 text-sm text-bright-turquoise-300 hover:bg-rich-black-800 transition-colors #{'bg-rich-black-800' if controller_name == 'bookmarks'}" do %>
+                Bookmarks
+              <% end %>
+              <%= link_to tags_path, class: "block px-4 py-2 text-sm text-bright-turquoise-300 hover:bg-rich-black-800 transition-colors #{'bg-rich-black-800' if controller_name == 'tags'}" do %>
+                Tags
+              <% end %>
+              <hr class="my-1 border-gray-600">
+              <%= link_to session_path, method: :delete, data: { turbo_method: :delete }, class: "block px-4 py-2 text-sm text-bright-turquoise-300 hover:bg-rich-black-800 transition-colors" do %>
+                Logout
+              <% end %>
+            </div>
+          </div>
         <% else %>
           <%= link_to new_session_path, class: "text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors" do %>
             Login
@@ -77,15 +97,34 @@
           <%= link_to pages_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'pages'}" do %>
             Start Page
           <% end %>
-          <%= link_to bookmarks_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'bookmarks'}" do %>
-            Bookmarks
-          <% end %>
-          <%= link_to tags_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'tags'}" do %>
-            Tags
-          <% end %>
-          <%= link_to session_path, method: :delete, data: { turbo_method: :delete }, class: "block px-3 py-2 text-baby-powder-50 hover:text-red-400 hover:bg-rich-black-900 rounded transition-colors" do %>
-            Logout
-          <% end %>
+          <!-- Mobile Settings Dropdown -->
+          <div data-controller="dropdown">
+            <button 
+              type="button"
+              class="w-full text-left px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors flex items-center justify-between"
+              data-action="click->dropdown#toggle"
+              >
+              <span>Settings</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <!-- Mobile Dropdown Menu -->
+            <div 
+              class="ml-4 mt-1 hidden"
+              data-dropdown-target="menu"
+            >
+              <%= link_to bookmarks_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'bookmarks'}" do %>
+                Bookmarks
+              <% end %>
+              <%= link_to tags_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'tags'}" do %>
+                Tags
+              <% end %>
+              <%= link_to session_path, method: :delete, data: { turbo_method: :delete }, class: "block px-3 py-2 text-baby-powder-50 hover:text-red-400 hover:bg-rich-black-900 rounded transition-colors" do %>
+                Logout
+              <% end %>
+            </div>
+          </div>
         <% else %>
           <%= link_to new_session_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors" do %>
             Login
