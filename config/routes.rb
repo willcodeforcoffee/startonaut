@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :account, only: [ :index ]
   resources :tags do
     collection do
       get :search
