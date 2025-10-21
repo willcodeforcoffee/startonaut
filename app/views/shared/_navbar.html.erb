@@ -120,15 +120,6 @@
               <%= link_to account_index_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'account'}" do %>
                 Account
               <% end %>
-            </button>
-            <!-- Mobile Dropdown Menu -->
-            <div 
-              class="ml-4 mt-1 hidden"
-              data-dropdown-target="menu"
-            >
-              <%= link_to account_index_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'account'}" do %>
-                Account
-              <% end %>
               <%= link_to bookmarks_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'bookmarks'}" do %>
                 Bookmarks
               <% end %>
