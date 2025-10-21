@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :account, only: [ :index ]
   resources :tags do
     collection do
       get :search
@@ -10,6 +11,9 @@ Rails.application.routes.draw do
       get :fetch_remote_bookmark
     end
   end
+
+  # Bookmark import routes
+  resources :import_bookmarks, only: [ :new, :create ]
   resources :pages, only: [ :index ]
   resource :session
   resources :passwords, param: :token
