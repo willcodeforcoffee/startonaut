@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "export_bookmarks/index"
+  get "export_bookmarks/show"
   resources :account, only: [ :index ]
   resources :tags do
     collection do
