@@ -1,0 +1,16 @@
+<!DOCTYPE NETSCAPE-Bookmark-file-1>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<TITLE>Bookmarks</TITLE>
+<H1>Bookmarks</H1>
+<DL>
+  <p>
+    <% @bookmarks.each do |bookmark| %>
+      <DT>
+        <A HREF="<%= bookmark.url %>" ADD_DATE="<%= bookmark.created_at.to_i %>" TOREAD="0" PRIVATE="1" TAGS="<%= bookmark.tag_list_no_spaces %>"><%= bookmark.title %></A>
+      </DT>
+      <% if bookmark.tags.any? %>
+        <DD><%= bookmark.description %></DD>
+      <% end %>
+    <% end %>
+  </p>
+</DL>

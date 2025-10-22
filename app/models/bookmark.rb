@@ -27,6 +27,10 @@ class Bookmark < ApplicationRecord
     tags.pluck(:name).join(", ")
   end
 
+  def tag_list_no_spaces
+    tags.pluck(:name).join(",")
+  end
+
   def tag_list=(names)
     self.tags = names.split(",").map(&:strip).reject(&:blank?).map do |name|
       user.tags.find_or_create_by(name: name.downcase)
