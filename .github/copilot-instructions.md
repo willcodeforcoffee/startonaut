@@ -85,7 +85,7 @@ normalizes :feed_url, with: ->(e) { e&.strip&.downcase }
 
 ### Controller Patterns
 - Favicon proxy: `BookmarksFaviconProxyController` serves cached icons
-- Remote bookmark fetching: `bookmarks#fetch_remote_bookmark` for URL previews  
+- Remote bookmark fetching: `bookmarks#fetch_remote_bookmark` for URL previews
 - Tag search: `tags#search` for autocomplete functionality
 
 ## File Organization
