@@ -1,10 +1,10 @@
 module ThemeHelper
   THEME_LINK_CLASSES = [ "rounded-md", "px-4", "py-2", "block", "w-fit", "font-medium" ].freeze
   THEME_LINK_STYLES = {
-    default: [ "bg-slate-500", "hover:bg-slate-600", "text-baby-powder-50" ].freeze,
-    primary: [ "bg-red-violet-700", "hover:bg-red-violet-600", "text-baby-powder-50" ].freeze,
+    default: [ "bg-white", "hover:bg-neutral-600", "text-black", "border-gray-900" ].freeze,
+    primary: [ "bg-blue-400", "hover:bg-blue-400", "text-black" ].freeze,
     secondary: [ "bg-bright-turquoise-800", "hover:bg-bright-turquoise-700", "text-baby-powder-50" ].freeze,
-    danger:  [ "bg-red-cmyk-600", "hover:bg-red-cmyk-500", "text-baby-powder-50" ].freeze
+    danger:  [ "bg-red-600", "hover:bg-red-500", "text-baby-powder-50" ].freeze
 }.freeze
 
   def theme_link_to(name, path, options = {})
