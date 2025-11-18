@@ -109,7 +109,7 @@ class ThemedFormBuilder < ActionView::Helpers::FormBuilder
     return if label_text == false
 
     label_text ||= method.to_s.humanize
-    label_classes = "block text-lg font-medium text-baby-powder-50 mb-2"
+    label_classes = "block text-lg font-medium text-black mb-2"
 
     label(method, label_text, class: label_classes)
   end
@@ -130,7 +130,7 @@ class ThemedFormBuilder < ActionView::Helpers::FormBuilder
 
     content_tag :div, class: "mt-1" do
       safe_join(errors.map do |error|
-        content_tag :p, error, class: "text-sm text-red-cmyk-400"
+        content_tag :p, error, class: "text-sm text-red-500"
       end)
     end
   end
@@ -139,17 +139,17 @@ class ThemedFormBuilder < ActionView::Helpers::FormBuilder
   def input_classes(options = {})
     base_classes = [
       "block", "w-full", "rounded-md", "px-3", "py-2",
-      "text-baby-powder-50", "bg-rich-black-800",
-      "border", "border-bright-turquoise-600",
-      "focus:border-bright-turquoise-400", "focus:ring-1", "focus:ring-bright-turquoise-400",
+      "text-black", "bg-white",
+      "border", "border-stone-900",
+      "focus:border-stone-950", "focus:ring-1", "focus:ring-stone-100",
       "focus:outline-none", "transition-colors",
-      "placeholder-baby-powder-400"
+      "placeholder-stone-600"
     ]
 
     # Add error classes if field has errors
     method_name = options[:method]
     if method_name && object&.errors&.key?(method_name)
-      base_classes += [ "border-red-cmyk-500", "focus:border-red-cmyk-400", "focus:ring-red-cmyk-400" ]
+      base_classes += [ "border-red-500", "focus:border-red-400", "focus:ring-red-400" ]
     end
 
     existing_classes = options[:class]

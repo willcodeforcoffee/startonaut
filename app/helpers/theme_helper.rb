@@ -1,5 +1,5 @@
 module ThemeHelper
-  THEME_LINK_CLASSES = [ "rounded-md", "px-4", "py-2", "block", "w-fit", "font-medium" ].freeze
+  THEME_LINK_BASE_STYLES = [ "rounded-md", "px-4", "py-2", "block", "w-fit", "font-medium" ].freeze
   THEME_LINK_STYLES = {
     default: [ "bg-white", "hover:bg-neutral-600", "text-black", "border-gray-900" ].freeze,
     primary: [ "bg-blue-400", "hover:bg-blue-400", "text-black" ].freeze,
@@ -8,7 +8,7 @@ module ThemeHelper
 }.freeze
 
   def theme_link_to(name, path, options = {})
-    css_classes = THEME_LINK_CLASSES + THEME_LINK_STYLES[options[:style] || :default]
+    css_classes = THEME_LINK_BASE_STYLES + THEME_LINK_STYLES[options[:style] || :default]
     options[:class] = [ css_classes, options[:class] ].compact.join(" ")
     options.delete(:style)
 
@@ -23,7 +23,7 @@ module ThemeHelper
   end
 
   def theme_button_to(name, path, options = {})
-    css_classes = THEME_LINK_CLASSES + THEME_LINK_STYLES[options[:style] || :default]
+    css_classes = THEME_LINK_BASE_STYLES + THEME_LINK_STYLES[options[:style] || :default]
     options[:class] = [ css_classes, options[:class] ].compact.join(" ")
     options.delete(:style)
 
