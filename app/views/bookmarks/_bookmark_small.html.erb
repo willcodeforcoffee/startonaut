@@ -7,11 +7,11 @@
   </div>
   <div class="flex-col font-medium">
     <% if bookmark.feed_url.present? %>
-      <span title="Feed Available" class="text-bright-turquoise-300 inline-flex size-2.5"><%= feed_icon %></span>
+      <span title="Feed Available" class="text-black inline-flex size-2.5"><%= feed_icon %></span>
     <% end %>
     <% bookmark&.tags&.each do |tag| %>
       <span>
-        <%= link_to "##{tag.name}", tag, class: "text-bright-turquoise-300 hover:underline" %>
+        <%= link_to "##{tag.name}", tag, class: "text-black hover:underline" %>
       </span>
     <% end %>
     <% if bookmark.description.present? %>
@@ -21,8 +21,8 @@
       </span>
     <% end %>
   </div>
-  <div class="flex-col space-x-1 text-slate-600">
-    <span class="text-slate-500"><%= format_date_short(bookmark.created_at) %></span>
+  <div class="flex-col space-x-1 text-slate-900">
+    <span class="text-slate-800"><%= format_date_short(bookmark.created_at) %></span>
     <span><%= link_to "Show", bookmark %></span>
     <span><%= link_to "Edit", edit_bookmark_path(bookmark) %></span>
   </div>

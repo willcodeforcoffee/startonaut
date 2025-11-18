@@ -1,19 +1,19 @@
-<nav class="bg-rich-black-950 border-b border-bright-turquoise-600 fixed top-0 left-0 right-0 z-50" data-controller="navbar">
+<nav class="bg-stone-300 border-b border-stone-700 fixed top-0 left-0 right-0 z-50" data-controller="navbar">
   <div class="container mx-auto px-4">
     <div class="flex items-center justify-between h-16">
       <!-- Logo and title -->
       <div class="flex items-center space-x-3">
-        <div class="text-bright-turquoise-300">
+        <div class="text-black">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
           </svg>
         </div>
         <% if Rails.env.production? %>
-          <%= link_to root_path, class: "text-bright-turquoise-300 text-xl font-pt-sans-narrow font-bold hover:text-bright-turquoise-300 transition-colors" do %>
+          <%= link_to root_path, class: "text-black text-xl font-pt-sans-narrow font-bold hover:text-stone-800 transition-colors" do %>
             Startonaut
           <% end %>
         <% else %>
-          <%= link_to root_path, class: "text-red-cmyk-600 text-xl font-pt-sans-narrow font-bold hover:text-bright-turquoise-300 transition-colors" do %>
+          <%= link_to root_path, class: "text-red-600 text-xl font-pt-sans-narrow font-bold hover:text-red-800 transition-colors" do %>
             Startonaut (Dev)
           <% end %>
         <% end %>
@@ -22,18 +22,18 @@
       <div class="hidden md:flex items-center space-x-8">
         <% if authenticated? %>
           <% Current&.user&.tags&.favorites&.each do |tag| %>
-            <%= link_to tag_path(tag), class: "text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors #{'text-bright-turquoise-300' if controller_name == 'tags'}" do %>
+            <%= link_to tag_path(tag), class: "text-black hover:text-stone-800 transition-colors #{'text-black' if controller_name == 'tags'}" do %>
               #<%= tag.name %>
             <% end %>
           <% end %>
-          <%= link_to pages_path, class: "text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors #{'text-bright-turquoise-300' if controller_name == 'pages'}" do %>
+          <%= link_to pages_path, class: "text-black hover:text-stone-800 transition-colors #{'text-black' if controller_name == 'pages'}" do %>
             Start Page
           <% end %>
           <!-- Settings Dropdown -->
           <div class="relative" data-controller="dropdown">
             <button 
               type="button"
-              class="text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors flex items-center space-x-1"
+              class="text-black hover:text-stone-800 transition-colors flex items-center space-x-1"
               data-action="click->dropdown#toggle"
               >
               <span>Settings</span>
@@ -43,29 +43,29 @@
             </button>
             <!-- Dropdown Menu -->
             <div 
-              class="absolute right-0 mt-2 w-48 bg-rich-black-900 rounded-md shadow-lg py-1 z-10 hidden"
+              class="absolute right-0 mt-2 w-48 bg-stone-100 rounded-md shadow-lg py-1 z-10 hidden"
               data-dropdown-target="menu"
             >
-              <%= link_to account_index_path, class: "block px-4 py-2 text-sm text-bright-turquoise-300 hover:bg-rich-black-800 transition-colors #{'bg-rich-black-800' if controller_name == 'account'}" do %>
+              <%= link_to account_index_path, class: "block px-4 py-2 text-sm text-black hover:bg-stone-200 transition-colors #{'bg-stone-200' if controller_name == 'account'}" do %>
                 Account
               <% end %>
-              <%= link_to bookmarks_path, class: "block px-4 py-2 text-sm text-bright-turquoise-300 hover:bg-rich-black-800 transition-colors #{'bg-rich-black-800' if controller_name == 'bookmarks'}" do %>
+              <%= link_to bookmarks_path, class: "block px-4 py-2 text-sm text-black hover:bg-stone-200 transition-colors #{'bg-stone-200' if controller_name == 'bookmarks'}" do %>
                 Bookmarks
               <% end %>
-              <%= link_to tags_path, class: "block px-4 py-2 text-sm text-bright-turquoise-300 hover:bg-rich-black-800 transition-colors #{'bg-rich-black-800' if controller_name == 'tags'}" do %>
+              <%= link_to tags_path, class: "block px-4 py-2 text-sm text-black hover:bg-stone-200 transition-colors #{'bg-stone-200' if controller_name == 'tags'}" do %>
                 Tags
               <% end %>
               <hr class="my-1 border-gray-600">
-              <%= link_to session_path, method: :delete, data: { turbo_method: :delete }, class: "block px-4 py-2 text-sm text-bright-turquoise-300 hover:bg-rich-black-800 transition-colors" do %>
+              <%= link_to session_path, method: :delete, data: { turbo_method: :delete }, class: "block px-4 py-2 text-sm text-black hover:bg-stone-200 transition-colors" do %>
                 Logout
               <% end %>
             </div>
           </div>
         <% else %>
-          <%= link_to new_session_path, class: "text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors" do %>
+          <%= link_to new_session_path, class: "text-black hover:text-stone-800 transition-colors" do %>
             Login
           <% end %>
-          <%= link_to new_registration_path, class: "text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors" do %>
+          <%= link_to new_registration_path, class: "text-black hover:text-stone-800 transition-colors" do %>
             Register
           <% end %>
         <% end %>
@@ -74,7 +74,7 @@
       <div class="md:hidden">
         <button
           type="button"
-          class="text-baby-powder-50 hover:text-bright-turquoise-300 focus:outline-none focus:text-bright-turquoise-300 transition-colors"
+          class="text-black hover:text-stone-800 focus:outline-none focus:text-stone-800 transition-colors"
           data-navbar-target="menuButton"
           data-action="click->navbar#toggleMenu"
           aria-label="Toggle menu"
@@ -90,21 +90,21 @@
     </div>
     <!-- Mobile menu -->
     <div class="md:hidden hidden" data-navbar-target="mobileMenu">
-      <div class="px-2 pt-2 pb-3 space-y-1 border-t border-bright-turquoise-600">
+      <div class="px-2 pt-2 pb-3 space-y-1 border-t border-stone-400">
         <% if authenticated? %>
           <% Current&.user&.tags&.favorites&.each do |tag| %>
-            <%= link_to tag_path(tag), class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'tags'}" do %>
+            <%= link_to tag_path(tag), class: "block px-3 py-2 text-black hover:text-stone-800 hover:bg-stone-100 rounded transition-colors #{'text-stone-800' if controller_name == 'tags'}" do %>
               #<%= tag.name %>
             <% end %>
           <% end %>
-          <%= link_to pages_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'pages'}" do %>
+          <%= link_to pages_path, class: "block px-3 py-2 text-black hover:text-stone-800 hover:bg-stone-100 rounded transition-colors #{'text-stone-800' if controller_name == 'pages'}" do %>
             Start Page
           <% end %>
           <!-- Mobile Settings Dropdown -->
           <div data-controller="dropdown">
             <button 
               type="button"
-              class="w-full text-left px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors flex items-center justify-between"
+              class="w-full text-left px-3 py-2 text-black hover:text-stone-800 hover:bg-stone-100 rounded transition-colors flex items-center justify-between"
               data-action="click->dropdown#toggle"
               >
               <span>Settings</span>
@@ -117,25 +117,25 @@
               class="ml-4 mt-1 hidden"
               data-dropdown-target="menu"
             >
-              <%= link_to account_index_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'account'}" do %>
+              <%= link_to account_index_path, class: "block px-3 py-2 text-black hover:text-stone-800 hover:bg-stone-100 rounded transition-colors #{'text-black bg-stone-100' if controller_name == 'account'}" do %>
                 Account
               <% end %>
-              <%= link_to bookmarks_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'bookmarks'}" do %>
+              <%= link_to bookmarks_path, class: "block px-3 py-2 text-black hover:text-stone-800 hover:bg-stone-100 rounded transition-colors #{'text-black bg-stone-100' if controller_name == 'bookmarks'}" do %>
                 Bookmarks
               <% end %>
-              <%= link_to tags_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'tags'}" do %>
+              <%= link_to tags_path, class: "block px-3 py-2 text-black hover:text-stone-800 hover:bg-stone-100 rounded transition-colors #{'text-black bg-stone-100' if controller_name == 'tags'}" do %>
                 Tags
               <% end %>
-              <%= link_to session_path, method: :delete, data: { turbo_method: :delete }, class: "block px-3 py-2 text-baby-powder-50 hover:text-red-400 hover:bg-rich-black-900 rounded transition-colors" do %>
+              <%= link_to session_path, method: :delete, data: { turbo_method: :delete }, class: "block px-3 py-2 text-black hover:text-red-600 hover:bg-stone-100 rounded transition-colors" do %>
                 Logout
               <% end %>
             </div>
           </div>
         <% else %>
-          <%= link_to new_session_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors" do %>
+          <%= link_to new_session_path, class: "block px-3 py-2 text-black hover:text-stone-800 hover:bg-stone-100 rounded transition-colors" do %>
             Login
           <% end %>
-          <%= link_to new_registration_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors" do %>
+          <%= link_to new_registration_path, class: "block px-3 py-2 text-black hover:text-stone-800 hover:bg-stone-100 rounded transition-colors" do %>
             Register
           <% end %>
         <% end %>
