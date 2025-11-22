@@ -61,11 +61,18 @@ class TagsController < ApplicationController
 
   # DELETE /tags/1 or /tags/1.json
   def destroy
-    @tag.destroy!
+    unless @tag.can_delete?
+      respond_to do |format|
+        format.html { redirect_to tags_path, alert: "This tag cannot be deleted.", status: :unprocessable_content }
+        format.json { render json: { error: "This tag cannot be deleted." }, status: :unprocessable_content }
+      end
+    else
+      @tag.destroy!
 
-    respond_to do |format|
-      format.html { redirect_to tags_path, status: :see_other, notice: "Tag was successfully destroyed." }
-      format.json { head :no_content }
+      respond_to do |format|
+        format.html { redirect_to tags_path, status: :see_other, notice: "Tag was successfully destroyed." }
+        format.json { head :no_content }
+      end
     end
   end
 
