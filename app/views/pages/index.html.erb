@@ -37,7 +37,7 @@
   <% end %>
   <% if @today_bookmarks.any? %>
     <div class="w-full mb-6">
-      <h2 class="font-semibold text-2xl mb-4 mr-6">Today's Bookmarks</h2>
+      <h2 class="font-semibold text-2xl mb-4 mr-6">#<%= Tag.todays_name %></h2>
       <div class="flex flex-row flex-wrap gap-2 items-center">
         <div role="list" class="mx-auto mt-5 gap-x-8 gap-y-16 text-center max-w-2xl grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:mx-0 lg:max-w-none lg:grid-cols-5 xl:grid-cols-6">
           <% @today_bookmarks.each do |bookmark| %>
