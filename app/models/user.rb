@@ -8,4 +8,12 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 6 }, if: -> { new_record? || !password.blank? }
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
+
+  after_create :create_default_tags
+
+  private
+
+  def create_default_tags
+    CreateDefaultUserTagsJob.perform_later(id)
+  end
 end

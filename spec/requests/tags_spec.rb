@@ -25,14 +25,16 @@ RSpec.describe "/tags", type: :request do
   let(:valid_attributes) {
     {
       name: "Example Tag",
-      user: authentication_user
+      user: authentication_user,
+      can_delete: true
     }
   }
 
   let(:invalid_attributes) {
     {
       name: "",
-      user: authentication_user
+      user: authentication_user,
+      can_delete: true
     }
   }
 
@@ -137,6 +139,34 @@ RSpec.describe "/tags", type: :request do
       tag = Tag.create! valid_attributes
       delete tag_url(tag)
       expect(response).to redirect_to(tags_url)
+    end
+
+    context "when tag cannot be deleted" do
+      it "does not destroy the tag" do
+        tag = Tag.create! valid_attributes
+        tag.update(can_delete: false)
+
+        expect {
+          delete tag_url(tag)
+        }.to change(Tag, :count).by(0)
+      end
+
+      it "returns unprocessable content status" do
+        tag = Tag.create! valid_attributes
+        tag.update(can_delete: false)
+
+        delete tag_url(tag)
+        expect(response).to have_http_status(:unprocessable_content)
+      end
+
+      it "redirects to tags list with alert message" do
+        tag = Tag.create! valid_attributes
+        tag.update(can_delete: false)
+
+        delete tag_url(tag)
+        expect(response).to have_http_status(:unprocessable_content)
+        expect(flash[:alert]).to eq("This tag cannot be deleted.")
+      end
     end
   end
 end
