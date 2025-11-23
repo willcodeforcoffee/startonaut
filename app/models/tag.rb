@@ -22,4 +22,11 @@ class Tag < ApplicationRecord
 
   scope :favorites, -> { where(favorite: true) }
   scope :read_later, -> { where(name: READ_LATER) }
+  scope :today_tag, -> { where(name: todays_name) }
+
+  private
+
+  def self.todays_name
+    Date::DAYNAMES[Date.today.wday].downcase
+  end
 end
