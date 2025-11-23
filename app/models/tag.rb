@@ -1,7 +1,8 @@
 class Tag < ApplicationRecord
   # Default tags that are created for each new user
+  READ_LATER = "read later".freeze
   USER_DEFAULT_TAGS = [
-    "read later",
+    READ_LATER,
     "sunday",
     "monday",
     "tuesday",
@@ -20,4 +21,5 @@ class Tag < ApplicationRecord
   normalizes :name, with: ->(e) { e.strip.downcase }
 
   scope :favorites, -> { where(favorite: true) }
+  scope :read_later, -> { where(name: READ_LATER) }
 end

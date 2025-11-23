@@ -8,5 +8,7 @@ FactoryBot.define do
     trait :with_faker_email do
       email_address { Faker::Internet.email }
     end
+
+    after(:create) { |user, context| CreateDefaultUserTagsJob.new.perform(user.id) }
   end
 end
