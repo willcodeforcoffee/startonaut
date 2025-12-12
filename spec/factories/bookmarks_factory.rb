@@ -15,5 +15,9 @@ FactoryBot.define do
     trait :with_feed_url do
       feed_url { "#{url}/feed" }
     end
+
+    trait :with_faker_url do
+      url { Faker::Internet.url }
+    end
   end
 end
