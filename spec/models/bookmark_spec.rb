@@ -27,6 +27,7 @@ RSpec.describe Bookmark, type: :model do
         user2 = FactoryBot.create(:user, email_address: "user2@example.com")
         bookmark1 = FactoryBot.create(:bookmark, user: user1, url: "http://example.com")
         bookmark2 = FactoryBot.build(:bookmark, user: user2, url: "http://example.com")
+
         expect(bookmark1).to be_valid
         expect(bookmark2).to be_valid
         expect(bookmark2.save).to be_truthy
