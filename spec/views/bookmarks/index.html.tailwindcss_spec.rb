@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe "bookmarks/index", type: :view do
   let(:user) { create(:user) }
-  let(:bookmarks) { create_list(:bookmark, 2, user: user) }
+  let(:bookmarks) { create_list(:bookmark, 2, :with_faker_url, user: user) }
   before(:each) do
-    bookmarks.each do |b| b.save end
+    bookmarks.each { |b| b.save }
 
     assign(:bookmarks, Bookmark.all)
   end

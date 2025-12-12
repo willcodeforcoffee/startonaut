@@ -13,6 +13,25 @@ RSpec.describe Bookmark, type: :model do
       expect(bookmark.errors[:url]).to include("can't be blank")
     end
 
+    context 'duplicate url validation' do
+      it "should validate for duplicate url per user" do
+        user = FactoryBot.create(:user)
+        FactoryBot.create(:bookmark, user: user, url: "http://example.com")
+        duplicate_bookmark = FactoryBot.build(:bookmark, user: user, url: "http://example.com")
+        expect(duplicate_bookmark).not_to be_valid
+        expect(duplicate_bookmark.errors[:url]).to include("has already been bookmarked")
+      end
+
+      it "should allow the same url for different users" do
+        user1 = FactoryBot.create(:user, email_address: "user1@example.com")
+        user2 = FactoryBot.create(:user, email_address: "user2@example.com")
+        bookmark1 = FactoryBot.create(:bookmark, user: user1, url: "http://example.com")
+        bookmark2 = FactoryBot.build(:bookmark, user: user2, url: "http://example.com")
+        expect(bookmark1).to be_valid
+        expect(bookmark2).to be_valid
+        expect(bookmark2.save).to be_truthy
+      end
+    end
 
     context 'unsafe urls' do
       it "should not allow invalid URLs" do

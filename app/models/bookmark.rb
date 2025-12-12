@@ -7,14 +7,23 @@ class Bookmark < ApplicationRecord
   after_create :download_favicons
 
   validates :title, presence: true
-  validates :url, presence: true, format: {
-    with: URI::DEFAULT_PARSER.make_regexp(%w[http https]),
-    message: "must be a valid HTTP or HTTPS URL"
-  }
-  validates :feed_url, format: {
-    with: URI::DEFAULT_PARSER.make_regexp(%w[http https]),
-    message: "must be a valid HTTP or HTTPS URL"
-  }, allow_nil: true, allow_blank: true
+  validates :url,
+    presence: true,
+    format: {
+      with: URI::DEFAULT_PARSER.make_regexp(%w[http https]),
+      message: "must be a valid HTTP or HTTPS URL"
+    },
+    uniqueness: {
+      scope: :user_id,
+      message: "has already been bookmarked"
+    }
+  validates :feed_url,
+    allow_nil: true,
+    allow_blank: true,
+    format: {
+      with: URI::DEFAULT_PARSER.make_regexp(%w[http https]),
+      message: "must be a valid HTTP or HTTPS URL"
+    }
   validates :user, presence: true
 
   normalizes :url, with: ->(e) { e.strip.downcase }
