@@ -22,7 +22,6 @@ RSpec.describe Bookmark, type: :model do
         expect(duplicate_bookmark.errors[:url]).to include("has already been bookmarked")
       end
 
-<<<<<<< HEAD
       it "should validate for duplicate normalized url per user" do
         user = FactoryBot.create(:user)
         FactoryBot.create(:bookmark, user: user, url: "http://example.com")
@@ -31,17 +30,12 @@ RSpec.describe Bookmark, type: :model do
         expect(duplicate_bookmark.errors[:url]).to include("has already been bookmarked")
       end
 
-=======
->>>>>>> 3c8d6be (Add duplicate checking for bookmarks)
       it "should allow the same url for different users" do
         user1 = FactoryBot.create(:user, email_address: "user1@example.com")
         user2 = FactoryBot.create(:user, email_address: "user2@example.com")
         bookmark1 = FactoryBot.create(:bookmark, user: user1, url: "http://example.com")
         bookmark2 = FactoryBot.build(:bookmark, user: user2, url: "http://example.com")
-<<<<<<< HEAD
 
-=======
->>>>>>> 3c8d6be (Add duplicate checking for bookmarks)
         expect(bookmark1).to be_valid
         expect(bookmark2).to be_valid
         expect(bookmark2.save).to be_truthy
