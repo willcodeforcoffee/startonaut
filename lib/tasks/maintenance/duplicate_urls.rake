@@ -68,7 +68,7 @@ namespace :maintenance do
             # Delete the duplicate
             duplicate.destroy
             total_deleted += 1
-            puts "  ✅ Deleted duplicate ID=#{duplicate.id}"
+            puts "  ✅ Deleted duplicate ID=#{duplicate.id} kept ID=#{keeper.id}"
           else
             puts "  ❌ Failed to save merged bookmark: #{keeper.errors.full_messages.join(', ')}"
           end
