@@ -53,8 +53,8 @@ env:
 
     # Log everything from Rails
     # RAILS_LOG_LEVEL: debug
-    FEATURE_FLAG_ENABLE_NEW_USER_REGISTRATION: <%= ENV.fetch['KAMAL_FEATURE_FLAG_ENABLE_NEW_USER_REGISTRATION'] || 'false' %>
-    FEATURE_FLAG_ENABLE_USER_MAILER: <%= ENV.fetch['KAMAL_FEATURE_FLAG_ENABLE_USER_MAILER'] || 'false' %>
+    FEATURE_FLAG_ENABLE_NEW_USER_REGISTRATION: <%= ENV.fetch('KAMAL_FEATURE_FLAG_ENABLE_NEW_USER_REGISTRATION', 'false') %>
+    FEATURE_FLAG_ENABLE_USER_MAILER: <%= ENV.fetch('KAMAL_FEATURE_FLAG_ENABLE_USER_MAILER', 'false') %>
 
 # Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
 # "bin/kamal logs -r job" will tail logs from the first server in the job section.
