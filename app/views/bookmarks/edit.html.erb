@@ -2,6 +2,7 @@
 <div class="md:w-2/3 w-full">
   <h1 class="font-bold text-4xl">Editing bookmark</h1>
   <%= render "form", bookmark: @bookmark %>
-  <%= default_link_to "Show this bookmark", @bookmark, class: "inline-block" %>
-  <%= default_link_to "Back to bookmarks", bookmarks_path, class: "inline-block" %>
+  <%= default_link_to "Show this bookmark", @bookmark, class: "inline-block mb-2" %>
+  <%= danger_button_to "Destroy", @bookmark, method: :delete, form_class: "inline-block mb-2", data: { turbo_confirm: "Are you sure?" } %>
+  <%= default_link_to "Back to bookmarks", bookmarks_path, class: "inline-block mb-2" %>
 </div>
