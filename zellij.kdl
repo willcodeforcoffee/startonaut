@@ -1,0 +1,6 @@
+layout {
+  pane name="main" split_direction="vertical" {
+    pane name="git"
+    pane name="dev" command="bin/dev"
+  }
+}
