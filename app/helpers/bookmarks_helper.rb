@@ -6,6 +6,6 @@ module BookmarksHelper
   end
 
   def favicon_image_tag(bookmark, options = {})
-    image_tag bookmark_favicon_index_path(bookmark_id: bookmark.id), options.merge(alt: "Site Favicon image for #{bookmark.title}")
+    image_tag site_bookmark_favicon_index_path(site_bookmark_id: bookmark.id), options.merge(alt: "Site Favicon image for #{bookmark.title}")
   end
 end

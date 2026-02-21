@@ -4,5 +4,5 @@
   <%= render "form", bookmark: @bookmark %>
   <%= default_link_to "Show this bookmark", @bookmark, class: "inline-block mb-2" %>
   <%= danger_button_to "Destroy", @bookmark, method: :delete, form_class: "inline-block mb-2", data: { turbo_confirm: "Are you sure?" } %>
-  <%= default_link_to "Back to bookmarks", bookmarks_path, class: "inline-block mb-2" %>
+  <%= default_link_to "Back to bookmarks", site_bookmarks_path, class: "inline-block mb-2" %>
 </div>

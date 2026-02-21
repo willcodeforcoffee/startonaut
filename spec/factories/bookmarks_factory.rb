@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :bookmark do
+  factory :site_bookmark do
     url { "https://example.com" }
     title { "Example dot com" }
     description { "Test Description" }
