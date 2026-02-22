@@ -4,7 +4,7 @@ class PagesController < ApplicationController
     @tags_by_letter = Current.user.tags.order(:name).group_by { |tag| tag.name.first.upcase }
     @favorite_tags = Current.user.tags.favorites.order(:name)
 
-    @read_later_bookmarks = Current.user.tags.read_later.first.site_bookmarks.order(created_at: :desc)
+    @read_later_bookmarks = Current.user.tags.read_later.first&.site_bookmarks&.order(created_at: :desc) || []
     @today_bookmarks = Current.user.tags.today_tag.first&.site_bookmarks&.order(created_at: :desc) || []
 
     # Exclude "Read Later" and "Today" bookmarks from the main list

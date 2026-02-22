@@ -33,6 +33,8 @@ namespace :site_bookmarks do
     puts "Copied #{copied_tag_links} tag links"
   end
 
+  private
+
   def copy_tag_links
     connection = ActiveRecord::Base.connection
     return 0 unless connection.data_source_exists?("bookmarks_tags")
