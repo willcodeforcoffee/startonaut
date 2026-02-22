@@ -1,6 +1,6 @@
 class ExportBookmarksController < ApplicationController
   def show
-    @bookmarks = Current.user.bookmarks.includes(:tags).order(created_at: :desc)
+    @bookmarks = Current.user.site_bookmarks.includes(:tags).order(created_at: :desc)
 
     html_content = generate_netscape_html(@bookmarks)
 
