@@ -1,16 +1,16 @@
-namespace :bookmarks do
+namespace :site_bookmarks do
   desc "Update all bookmark metadata (title, description, feed_url) from their URLs"
   task update_bookmarks: :environment do
     puts "Starting bookmark metadata update..."
 
-    total_bookmarks = Bookmark.count
+    total_bookmarks = SiteBookmark.count
     updated_count = 0
     error_count = 0
     skipped_count = 0
 
     puts "Found #{total_bookmarks} bookmarks to process"
 
-    Bookmark.find_each.with_index do |bookmark, index|
+    SiteBookmark.find_each.with_index do |bookmark, index|
       puts "[#{index + 1}/#{total_bookmarks}] Processing: #{bookmark.url}"
 
       begin

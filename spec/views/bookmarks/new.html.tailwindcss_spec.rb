@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "bookmarks/new", type: :view do
   before(:each) do
-    assign(:bookmark, Bookmark.new(
+    assign(:bookmark, SiteBookmark.new(
       url: "MyString",
       title: "MyString",
       description: "MyText",
@@ -13,10 +13,10 @@ RSpec.describe "bookmarks/new", type: :view do
   it "renders new bookmark form" do
     render
 
-    assert_select "form[action=?][method=?]", bookmarks_path, "post" do
-      assert_select "input[name=?]", "bookmark[url]"
-      assert_select "input[name=?]", "bookmark[title]"
-      assert_select "textarea[name=?]", "bookmark[description]"
+    assert_select "form[action=?][method=?]", site_bookmarks_path, "post" do
+      assert_select "input[name=?]", "site_bookmark[url]"
+      assert_select "input[name=?]", "site_bookmark[title]"
+      assert_select "textarea[name=?]", "site_bookmark[description]"
     end
   end
 end

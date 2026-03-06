@@ -31,7 +31,7 @@
           <% end %>
           <!-- Settings Dropdown -->
           <div class="relative" data-controller="dropdown">
-            <button 
+            <button
               type="button"
               class="text-baby-powder-50 hover:text-bright-turquoise-300 transition-colors flex items-center space-x-1"
               data-action="click->dropdown#toggle"
@@ -42,14 +42,14 @@
               </svg>
             </button>
             <!-- Dropdown Menu -->
-            <div 
+            <div
               class="absolute right-0 mt-2 w-48 bg-rich-black-900 rounded-md shadow-lg py-1 z-10 hidden"
               data-dropdown-target="menu"
             >
               <%= link_to account_index_path, class: "block px-4 py-2 text-sm text-bright-turquoise-300 hover:bg-rich-black-800 transition-colors #{'bg-rich-black-800' if controller_name == 'account'}" do %>
                 Account
               <% end %>
-              <%= link_to bookmarks_path, class: "block px-4 py-2 text-sm text-bright-turquoise-300 hover:bg-rich-black-800 transition-colors #{'bg-rich-black-800' if controller_name == 'bookmarks'}" do %>
+              <%= link_to site_bookmarks_path, class: "block px-4 py-2 text-sm text-bright-turquoise-300 hover:bg-rich-black-800 transition-colors #{'bg-rich-black-800' if controller_name == 'bookmarks'}" do %>
                 Bookmarks
               <% end %>
               <%= link_to tags_path, class: "block px-4 py-2 text-sm text-bright-turquoise-300 hover:bg-rich-black-800 transition-colors #{'bg-rich-black-800' if controller_name == 'tags'}" do %>
@@ -102,7 +102,7 @@
           <% end %>
           <!-- Mobile Settings Dropdown -->
           <div data-controller="dropdown">
-            <button 
+            <button
               type="button"
               class="w-full text-left px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors flex items-center justify-between"
               data-action="click->dropdown#toggle"
@@ -113,14 +113,14 @@
               </svg>
             </button>
             <!-- Mobile Dropdown Menu -->
-            <div 
+            <div
               class="ml-4 mt-1 hidden"
               data-dropdown-target="menu"
             >
               <%= link_to account_index_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'account'}" do %>
                 Account
               <% end %>
-              <%= link_to bookmarks_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'bookmarks'}" do %>
+              <%= link_to site_bookmarks_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'bookmarks'}" do %>
                 Bookmarks
               <% end %>
               <%= link_to tags_path, class: "block px-3 py-2 text-baby-powder-50 hover:text-bright-turquoise-300 hover:bg-rich-black-900 rounded transition-colors #{'text-bright-turquoise-300 bg-rich-black-900' if controller_name == 'tags'}" do %>

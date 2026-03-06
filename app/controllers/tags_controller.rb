@@ -3,7 +3,7 @@ class TagsController < ApplicationController
 
   # GET /tags or /tags.json
   def index
-    @tags = Current.user.tags.includes(:bookmarks)
+    @tags = Current.user.tags.includes(:site_bookmarks)
   end
 
   # GET /tags/search
@@ -18,7 +18,7 @@ class TagsController < ApplicationController
 
   # GET /tags/1 or /tags/1.json
   def show
-    @bookmarks = @tag.bookmarks
+    @bookmarks = @tag.site_bookmarks
   end
 
   # GET /tags/new
