@@ -5,7 +5,7 @@ class BookmarksController < ApplicationController
 
   # GET /bookmarks or /bookmarks.json
   def index
-    @bookmarks = Current.user.bookmarks.all.order(created_at: :desc)
+    @bookmarks = Current.user.site_bookmarks.all.order(created_at: :desc)
   end
 
   # GET /bookmarks/1 or /bookmarks/1.json
@@ -14,7 +14,7 @@ class BookmarksController < ApplicationController
 
   # GET /bookmarks/new
   def new
-    @bookmark = Current.user.bookmarks.build
+    @bookmark = Current.user.site_bookmarks.build
     @bookmark.url = params[:url] if params[:url].present?
   end
 
@@ -24,7 +24,7 @@ class BookmarksController < ApplicationController
 
   # POST /bookmarks or /bookmarks.json
   def create
-    @bookmark = Bookmark.build(user: Current.user)
+    @bookmark = SiteBookmark.build(user: Current.user)
     @bookmark.attributes = bookmark_params
 
     respond_to do |format|
@@ -56,7 +56,7 @@ class BookmarksController < ApplicationController
     @bookmark.destroy!
 
     respond_to do |format|
-      format.html { redirect_to bookmarks_path, status: :see_other, notice: "Bookmark was successfully destroyed." }
+      format.html { redirect_to site_bookmarks_path, status: :see_other, notice: "Bookmark was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -103,10 +103,10 @@ class BookmarksController < ApplicationController
   private
 
     def set_bookmark
-      @bookmark = Current.user.bookmarks.find(params.expect(:id))
+      @bookmark = Current.user.site_bookmarks.find(params.expect(:id))
     end
 
     def bookmark_params
-      params.expect(bookmark: [ :url, :title, :description, :tag_list, :tag_search, tag_ids: [] ])
+      params.expect(site_bookmark: [ :url, :title, :description, :feed_url, :tag_list, :tag_search, tag_ids: [] ])
     end
 end
