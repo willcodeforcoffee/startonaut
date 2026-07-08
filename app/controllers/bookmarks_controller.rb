@@ -1,6 +1,7 @@
 require "net/http"
 
 class BookmarksController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: :ping
   before_action :set_bookmark, only: %i[ show edit update destroy ]
 
   # GET /bookmarks or /bookmarks.json
@@ -98,6 +99,11 @@ class BookmarksController < ApplicationController
       Rails.logger.error("Error fetching title for URL #{url}: #{e.message}")
       render json: { error: "Error fetching title", url: url }, status: :unprocessable_content
     end
+  end
+
+  def ping
+    Rails.logger.debug("Received ping request for User##{Current.user.id} with params: #{params.inspect}")
+    render plain: "OK", status: :ok
   end
 
   private
