@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DownloadFaviconsJob, type: :job do
   let(:user) { create(:user) }
-  let(:bookmark) { create(:bookmark, user: user, url: "https://example.com") }
+  let(:bookmark) { create(:site_bookmark, user: user, url: "https://example.com") }
 
   # Sample HTML responses
   let(:html_with_icons) do

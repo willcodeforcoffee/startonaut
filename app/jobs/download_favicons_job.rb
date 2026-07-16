@@ -13,7 +13,7 @@ class DownloadFaviconsJob < ApplicationJob
 
   def perform(bookmark_id)
     # Load the @bookmark and abort if not found
-    @bookmark = Bookmark.find(bookmark_id)
+    @bookmark = SiteBookmark.find(bookmark_id)
 
     Rails.logger.info("Starting favicon download for @bookmark #{@bookmark.id}: #{@bookmark.url}")
 

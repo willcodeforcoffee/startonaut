@@ -2,7 +2,7 @@ class BookmarksFaviconProxyController < ApplicationController
   include ActionController::Live
 
   def index
-    @bookmark = Current.user.bookmarks.find_by(id: params[:bookmark_id])
+    @bookmark = Current.user.site_bookmarks.find_by(id: params[:site_bookmark_id])
     head :not_found unless @bookmark.present?
 
     if @bookmark.icon.attached?

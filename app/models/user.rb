@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
-  has_many :bookmarks, dependent: :destroy
+  has_many :site_bookmarks, dependent: :destroy
   has_many :tags, dependent: :destroy
 
   validates :email_address, presence: true, uniqueness: true

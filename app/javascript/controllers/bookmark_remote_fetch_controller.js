@@ -61,7 +61,7 @@ export default class extends Controller {
 
       // Fetch the URL content
       const response = await fetch(
-        `/bookmarks/fetch_remote_bookmark?url=${encodeURIComponent(url)}`,
+        `/site_bookmarks/fetch_remote_bookmark?url=${encodeURIComponent(url)}`,
         {
           method: "GET",
           headers: {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_18_214529) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_20_120100) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -78,6 +78,25 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_18_214529) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "site_bookmarks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "feed_url"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.string "url", null: false
+    t.integer "user_id", null: false
+    t.index ["url", "user_id"], name: "index_site_bookmarks_on_url_and_user_id", unique: true
+    t.index ["user_id"], name: "index_site_bookmarks_on_user_id"
+  end
+
+  create_table "site_bookmarks_tags", id: false, force: :cascade do |t|
+    t.integer "site_bookmark_id", null: false
+    t.integer "tag_id", null: false
+    t.index ["site_bookmark_id", "tag_id"], name: "index_site_bookmarks_tags_on_site_bookmark_id_and_tag_id"
+    t.index ["tag_id", "site_bookmark_id"], name: "index_site_bookmarks_tags_on_tag_id_and_site_bookmark_id"
+  end
+
   create_table "tags", force: :cascade do |t|
     t.boolean "can_delete", default: false
     t.datetime "created_at", null: false
@@ -100,5 +119,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_18_214529) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bookmarks", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "site_bookmarks", "users"
   add_foreign_key "tags", "users"
 end

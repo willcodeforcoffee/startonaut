@@ -24,14 +24,14 @@ class NetscapeBookmarksImport
       end
 
       # Skip if URL already exists for this user
-      if @user.bookmarks.exists?(url: url.strip.downcase)
+      if @user.site_bookmarks.exists?(url: url.strip.downcase)
         duplicates << url
         next
       end
 
       begin
         # Create the bookmark
-        bookmark = @user.bookmarks.build(
+        bookmark = @user.site_bookmarks.build(
           url: url,
           title: title.present? ? title : nil,
           description: description.present? ? description : nil

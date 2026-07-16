@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "bookmarks/show", type: :view do
-  let(:bookmark) { create(:bookmark) }
+  let(:bookmark) { create(:site_bookmark) }
   before(:each) do
     assign(:bookmark, bookmark)
   end

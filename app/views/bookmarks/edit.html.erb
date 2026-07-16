@@ -1,8 +1,8 @@
-<% content_for :title, "Editing bookmark" %>
+<% content_for :title, "Editing Site Bookmark" %>
 <div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Editing bookmark</h1>
+  <h1 class="font-bold text-4xl">Editing Site Bookmark</h1>
   <%= render "form", bookmark: @bookmark %>
-  <%= default_link_to "Show this bookmark", @bookmark, class: "inline-block mb-2" %>
-  <%= danger_button_to "Destroy", @bookmark, method: :delete, form_class: "inline-block mb-2", data: { turbo_confirm: "Are you sure?" } %>
-  <%= default_link_to "Back to bookmarks", bookmarks_path, class: "inline-block mb-2" %>
+  <%= default_link_to "Show this Site Bookmark", @bookmark, class: "inline-block mb-2" %>
+  <%= danger_button_to "Destroy this Site Bookmark", @bookmark, method: :delete, form_class: "inline-block mb-2", data: { turbo_confirm: "Are you sure?" } %>
+  <%= default_link_to "Back to Site Bookmarks", site_bookmarks_path, class: "inline-block mb-2" %>
 </div>

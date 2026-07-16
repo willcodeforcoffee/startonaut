@@ -32,7 +32,7 @@ class ImportBookmarksController < ApplicationController
       messages << "#{errors.size} errors occurred." if errors.any?
 
       flash[:notice] = messages.join(" ")
-      redirect_to bookmarks_path
+      redirect_to site_bookmarks_path
     rescue StandardError => e
       flash[:alert] = "Error importing bookmarks: #{e.message}"
       render :new
