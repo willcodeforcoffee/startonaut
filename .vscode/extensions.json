@@ -7,6 +7,7 @@
     "johnpapa.vscode-peacock",
     "rubocop.vscode-rubocop",
     "bradlc.vscode-tailwindcss",
-    "qwtel.sqlite-viewer"
+    "qwtel.sqlite-viewer",
+    "aliariff.vscode-erb-beautify"
   ]
 }

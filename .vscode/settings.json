@@ -35,5 +35,9 @@
   "[erb]": {
     "editor.defaultFormatter": "aliariff.vscode-erb-beautify",
     "editor.formatOnSave": true
+  },
+  "rubyLsp.rubyVersionManager": {
+    "identifier": "mise",
+    "miseExecutablePath": "/usr/bin/mise"
   }
 }
