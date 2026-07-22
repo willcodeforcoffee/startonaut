@@ -119,4 +119,47 @@ RSpec.describe Bookmark, type: :model do
       expect(bookmark.url).to eq("http://example.com")
     end
   end
+
+  describe '.search_by_title' do
+    let(:user) { FactoryBot.create(:user) }
+
+    it "finds bookmarks with a matching title" do
+      bookmark = FactoryBot.create(:bookmark, user: user, title: "Ruby on Rails Guides")
+      FactoryBot.create(:bookmark, user: user, url: "https://example.com/other", title: "Something else")
+      # Misleading examples
+      FactoryBot.create(:bookmark, user: user, url: "https://train.com/", title: "Railway Adventures")
+      FactoryBot.create(:bookmark, user: user, url: "https://railjourney.com/", title: "Rail Journey")
+
+      expect(Bookmark.search_by_title("rails")).to eq([ bookmark ])
+    end
+
+    it "is case-insensitive" do
+      bookmark = FactoryBot.create(:bookmark, user: user, title: "Ruby on Rails Guides")
+      FactoryBot.create(:bookmark, user: user, url: "https://example.com/other", title: "Something else")
+      # Misleading examples
+      FactoryBot.create(:bookmark, user: user, url: "https://train.com/", title: "Railway Adventures")
+      FactoryBot.create(:bookmark, user: user, url: "https://railjourney.com/", title: "Rail Journey")
+
+      expect(Bookmark.search_by_title("RAILS")).to eq([ bookmark ])
+    end
+
+    it "matches a partial substring anywhere in the title" do
+      bookmark = FactoryBot.create(:bookmark, user: user, title: "Ruby on Rails Guides")
+
+      expect(Bookmark.search_by_title("on rai")).to eq([ bookmark ])
+    end
+
+    it "returns no results when nothing matches" do
+      FactoryBot.create(:bookmark, user: user, title: "Ruby on Rails Guides")
+
+      expect(Bookmark.search_by_title("nonexistent")).to be_empty
+    end
+
+    it "returns all bookmarks for a blank query" do
+      bookmark1 = FactoryBot.create(:bookmark, user: user, title: "Ruby on Rails Guides")
+      bookmark2 = FactoryBot.create(:bookmark, user: user, url: "https://example.com/other", title: "Something else")
+
+      expect(Bookmark.search_by_title("")).to contain_exactly(bookmark1, bookmark2)
+    end
+  end
 end
