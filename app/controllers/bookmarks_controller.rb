@@ -5,7 +5,16 @@ class BookmarksController < ApplicationController
 
   # GET /bookmarks or /bookmarks.json
   def index
-    @bookmarks = Current.user.bookmarks.all.order(created_at: :desc)
+    @bookmarks = if params[:q].present?
+      Current.user.bookmarks.search_by_title(params[:q]).order(created_at: :desc)
+    else
+      Current.user.bookmarks.all.order(created_at: :desc)
+    end
+  end
+
+  # POST /bookmarks/search
+  def search
+    redirect_to bookmarks_path(q: params[:q])
   end
 
   # GET /bookmarks/1 or /bookmarks/1.json
