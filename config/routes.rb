@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :favicon, only: [ :index ], controller: "bookmarks_favicon_proxy"
     collection do
       get :fetch_remote_bookmark
+      post :search
     end
   end
 

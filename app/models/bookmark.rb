@@ -32,6 +32,8 @@ class Bookmark < ApplicationRecord
   # Virtual attributes for tag handling
   attr_accessor :tag_search
 
+  scope :search_by_title, ->(query) { where("LOWER(title) LIKE ?", "%#{query.downcase}%") }
+
   def tag_list
     tags.pluck(:name).join(", ")
   end
