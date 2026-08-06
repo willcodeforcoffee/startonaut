@@ -17,7 +17,11 @@ Rails.application.routes.draw do
 
   # Bookmark import routes
   resources :import_bookmarks, only: [ :new, :create ]
-  resources :pages, only: [ :index ]
+  resources :pages, only: [ :index ] do
+    collection do
+      post :search
+    end
+  end
   resource :session
   resources :passwords, param: :token
 

@@ -5,7 +5,13 @@ module ThemeHelper
     primary: [ "bg-red-violet-700", "hover:bg-red-violet-600", "text-baby-powder-50" ].freeze,
     secondary: [ "bg-bright-turquoise-800", "hover:bg-bright-turquoise-700", "text-baby-powder-50" ].freeze,
     danger:  [ "bg-red-cmyk-600", "hover:bg-red-cmyk-500", "text-baby-powder-50" ].freeze
-}.freeze
+  }.freeze
+  THEME_INPUT_CLASSES = [ "w-full", "rounded-md", "px-3", "py-2",
+    "text-baby-powder-50", "bg-rich-black-800", "placeholder-baby-powder-400",
+    "border", "border-bright-turquoise-600", "focus:border-bright-turquoise-400",
+    "focus:ring-1", "focus:ring-bright-turquoise-400", "focus:outline-none",
+    "transition-colors"
+  ].freeze
 
   def theme_link_to(name, path, options = {})
     css_classes = THEME_LINK_CLASSES + THEME_LINK_STYLES[options[:style] || :default]

@@ -10,5 +10,14 @@ class PagesController < ApplicationController
     # Exclude "Read Later" and "Today" bookmarks from the main list
     @bookmarks = @bookmarks - @read_later_bookmarks if @read_later_bookmarks.any?
     @bookmarks = @bookmarks - @today_bookmarks if @today_bookmarks.any?
+
+    if params[:q].present?
+      @bookmarks = @bookmarks.search_by_title(params[:q]).order(created_at: :desc)
+    end
+  end
+
+  # POST /pages/search
+  def search
+    redirect_to pages_path(q: params[:q])
   end
 end
