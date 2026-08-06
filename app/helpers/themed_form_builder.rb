@@ -137,14 +137,7 @@ class ThemedFormBuilder < ActionView::Helpers::FormBuilder
 
   # Standard input field CSS classes
   def input_classes(options = {})
-    base_classes = [
-      "block", "w-full", "rounded-md", "px-3", "py-2",
-      "text-baby-powder-50", "bg-rich-black-800",
-      "border", "border-bright-turquoise-600",
-      "focus:border-bright-turquoise-400", "focus:ring-1", "focus:ring-bright-turquoise-400",
-      "focus:outline-none", "transition-colors",
-      "placeholder-baby-powder-400"
-    ]
+    base_classes = ThemeHelper::THEME_INPUT_CLASSES.dup
 
     # Add error classes if field has errors
     method_name = options[:method]

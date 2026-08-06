@@ -69,6 +69,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
+      # Run this step BEFORE setup-ruby or bundle install
+      # libvips is required for image processing
+      - name: Install libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libvips-dev
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
