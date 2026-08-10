@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       get :fetch_remote_bookmark
       post :search
     end
+    post :ping
   end
 
   # Bookmark import routes
