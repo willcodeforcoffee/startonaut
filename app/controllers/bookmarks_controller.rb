@@ -1,7 +1,7 @@
 require "net/http"
 
 class BookmarksController < ApplicationController
-  before_action :set_bookmark, only: %i[ show edit update destroy ]
+  before_action :set_bookmark, only: %i[ show edit update destroy retry_feed ]
 
   # GET /bookmarks or /bookmarks.json
   def index
@@ -68,6 +68,14 @@ class BookmarksController < ApplicationController
       format.html { redirect_to bookmarks_path, status: :see_other, notice: "Bookmark was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  # POST /bookmarks/1/retry_feed
+  def retry_feed
+    @bookmark.retry_feed!
+    FetchFeedArticlesJob.perform_later(@bookmark.id)
+
+    redirect_to @bookmark, notice: "Feed check re-enabled; will retry shortly."
   end
 
   # GET /bookmarks/fetch_remote_bookmark

@@ -45,6 +45,10 @@ gem "ruby-vips", "~> 2.3", require: false
 
 gem "nokogiri"
 
+# RSS/Atom feed parsing for the feed reader (bundled with Ruby, but must be declared
+# explicitly as of Ruby 4.0's default-gems-become-bundled-gems change)
+gem "rss"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

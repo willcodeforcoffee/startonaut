@@ -9,11 +9,16 @@ Rails.application.routes.draw do
   end
   resources :bookmarks do
     resources :favicon, only: [ :index ], controller: "bookmarks_favicon_proxy"
+    resources :feed_articles, only: [ :index ], controller: "bookmarks_feed_articles"
+    member do
+      post :retry_feed
+    end
     collection do
       get :fetch_remote_bookmark
       post :search
     end
   end
+  resources :feed_articles, only: [ :index ]
 
   # Bookmark import routes
   resources :import_bookmarks, only: [ :new, :create ]
