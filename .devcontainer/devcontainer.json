@@ -37,7 +37,8 @@
         "bradlc.vscode-tailwindcss",
         "johnpapa.vscode-peacock",
         "mechatroner.rainbow-csv",
-        "qwtel.sqlite-viewer"
+        "qwtel.sqlite-viewer",
+        "hverlin.mise-vscode"
       ]
     }
   },

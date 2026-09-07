@@ -45,6 +45,5 @@
   },
   "rubyLsp.rubyVersionManager": {
     "identifier": "mise",
-    "miseExecutablePath": "/usr/bin/mise"
   }
 }

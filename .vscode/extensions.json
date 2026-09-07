@@ -8,6 +8,7 @@
     "rubocop.vscode-rubocop",
     "bradlc.vscode-tailwindcss",
     "qwtel.sqlite-viewer",
-    "aliariff.vscode-erb-beautify"
+    "aliariff.vscode-erb-beautify",
+    "hverlin.mise-vscode"
   ]
 }
