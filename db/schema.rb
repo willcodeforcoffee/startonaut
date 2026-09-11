@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_18_214529) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_08_212849) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -42,11 +42,17 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_18_214529) do
   create_table "bookmarks", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
+    t.datetime "feed_checked_at"
+    t.string "feed_error_message"
+    t.integer "feed_failure_count", default: 0, null: false
+    t.datetime "feed_last_success_at"
+    t.string "feed_status", default: "ok", null: false
     t.string "feed_url"
     t.string "title"
     t.datetime "updated_at", null: false
     t.string "url", null: false
     t.integer "user_id", null: false
+    t.index ["feed_status"], name: "index_bookmarks_on_feed_status"
     t.index ["url", "user_id"], name: "index_bookmarks_on_url_and_user_id", unique: true
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
@@ -54,6 +60,20 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_18_214529) do
   create_table "bookmarks_tags", id: false, force: :cascade do |t|
     t.integer "bookmark_id", null: false
     t.integer "tag_id", null: false
+  end
+
+  create_table "feed_articles", force: :cascade do |t|
+    t.integer "bookmark_id", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "guid"
+    t.datetime "published_at"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.string "url"
+    t.index ["bookmark_id", "guid"], name: "index_feed_articles_on_bookmark_id_and_guid", unique: true
+    t.index ["bookmark_id", "published_at"], name: "index_feed_articles_on_bookmark_id_and_published_at"
+    t.index ["bookmark_id"], name: "index_feed_articles_on_bookmark_id"
   end
 
   create_table "logs", force: :cascade do |t|
@@ -99,6 +119,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_18_214529) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bookmarks", "users"
+  add_foreign_key "feed_articles", "bookmarks"
   add_foreign_key "sessions", "users"
   add_foreign_key "tags", "users"
 end

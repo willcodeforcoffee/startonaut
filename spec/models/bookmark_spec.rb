@@ -162,4 +162,100 @@ RSpec.describe Bookmark, type: :model do
       expect(Bookmark.search_by_title("")).to contain_exactly(bookmark1, bookmark2)
     end
   end
+
+  describe "feed tracking" do
+    let(:user) { FactoryBot.create(:user) }
+
+    describe "#record_feed_check_success!" do
+      it "resets status/count/error and stamps checked_at and last_success_at" do
+        bookmark = FactoryBot.create(:bookmark, :feed_failing_once, user: user)
+
+        bookmark.record_feed_check_success!
+
+        expect(bookmark.feed_status).to eq("ok")
+        expect(bookmark.feed_failure_count).to eq(0)
+        expect(bookmark.feed_error_message).to be_nil
+        expect(bookmark.feed_checked_at).to be_present
+        expect(bookmark.feed_last_success_at).to be_present
+      end
+    end
+
+    describe "#record_feed_check_failure!" do
+      it "increments the failure count and stamps checked_at, but not last_success_at" do
+        bookmark = FactoryBot.create(:bookmark, :with_feed_url, user: user)
+
+        bookmark.record_feed_check_failure!("boom")
+
+        expect(bookmark.feed_failure_count).to eq(1)
+        expect(bookmark.feed_status).to eq("ok")
+        expect(bookmark.feed_error_message).to eq("boom")
+        expect(bookmark.feed_checked_at).to be_present
+        expect(bookmark.feed_last_success_at).to be_nil
+      end
+
+      it "flips status to error exactly on the 3rd consecutive failure, not before" do
+        bookmark = FactoryBot.create(:bookmark, :with_feed_url, user: user)
+
+        bookmark.record_feed_check_failure!("1")
+        expect(bookmark.feed_status).to eq("ok")
+
+        bookmark.record_feed_check_failure!("2")
+        expect(bookmark.feed_status).to eq("ok")
+
+        bookmark.record_feed_check_failure!("3")
+        expect(bookmark.feed_status).to eq("error")
+      end
+    end
+
+    describe "#retry_feed!" do
+      it "resets status, count, and error message regardless of current state" do
+        bookmark = FactoryBot.create(:bookmark, :with_feed_error, user: user)
+
+        bookmark.retry_feed!
+
+        expect(bookmark.feed_status).to eq("ok")
+        expect(bookmark.feed_failure_count).to eq(0)
+        expect(bookmark.feed_error_message).to be_nil
+      end
+    end
+
+    describe ".with_active_feed" do
+      it "excludes bookmarks with a blank feed_url" do
+        FactoryBot.create(:bookmark, user: user, feed_url: nil)
+
+        expect(Bookmark.with_active_feed).to be_empty
+      end
+
+      it "excludes bookmarks with an errored feed status" do
+        FactoryBot.create(:bookmark, :with_feed_error, user: user)
+
+        expect(Bookmark.with_active_feed).to be_empty
+      end
+
+      it "includes bookmarks with a feed_url and ok status" do
+        bookmark = FactoryBot.create(:bookmark, :with_feed_url, user: user)
+
+        expect(Bookmark.with_active_feed).to contain_exactly(bookmark)
+      end
+    end
+
+    describe "resetting feed status when feed_url changes" do
+      it "resets an errored feed_status when feed_url is edited" do
+        bookmark = FactoryBot.create(:bookmark, :with_feed_error, user: user)
+
+        bookmark.update!(feed_url: "https://example.com/new-feed")
+
+        expect(bookmark.feed_status).to eq("ok")
+        expect(bookmark.feed_failure_count).to eq(0)
+      end
+
+      it "does not reset an errored feed_status on an unrelated attribute change" do
+        bookmark = FactoryBot.create(:bookmark, :with_feed_error, user: user)
+
+        bookmark.update!(title: "New Title")
+
+        expect(bookmark.feed_status).to eq("error")
+      end
+    end
+  end
 end

@@ -127,6 +127,19 @@ RSpec.describe "/bookmarks", type: :request do
     end
   end
 
+  describe "POST /retry_feed" do
+    it "resets the bookmark's feed status and redirects with a notice" do
+      bookmark = create(:bookmark, :with_feed_error, user: authentication_user)
+
+      post retry_feed_bookmark_url(bookmark)
+      bookmark.reload
+
+      expect(bookmark.feed_status).to eq("ok")
+      expect(bookmark.feed_failure_count).to eq(0)
+      expect(response).to redirect_to(bookmark_url(bookmark))
+    end
+  end
+
   describe "DELETE /destroy" do
     it "destroys the requested bookmark" do
       bookmark = create(:bookmark, user: authentication_user)

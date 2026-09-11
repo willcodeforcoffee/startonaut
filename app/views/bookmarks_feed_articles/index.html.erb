@@ -1,0 +1,41 @@
+<% content_for :title, "Articles - #{@bookmark.title}" %>
+<div class="w-full font-pt-sans">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+  <% end %>
+  <div class="flex justify-between items-center">
+    <h1 class="font-pt-sans font-bold text-4xl">Articles</h1>
+    <%= default_link_to "Back to bookmark", @bookmark %>
+  </div>
+
+  <p class="text-sm text-slate-500 mt-2">
+    <% if @bookmark.feed_last_success_at.present? %>
+      Last updated <%= format_date_short(@bookmark.feed_last_success_at) %>
+    <% else %>
+      Feed has not been successfully fetched yet.
+    <% end %>
+  </p>
+
+  <% if @bookmark.error? %>
+    <div class="py-2 px-3 bg-red-50 my-5 text-red-600 font-medium rounded-md">
+      Feed checking is paused after repeated failures<%= ": #{@bookmark.feed_error_message}" if @bookmark.feed_error_message.present? %>.
+      <%= button_to "Retry feed", retry_feed_bookmark_path(@bookmark), method: :post, class: "underline cursor-pointer" %>
+    </div>
+  <% end %>
+
+  <div class="space-y-4 mt-5">
+    <% if @feed_articles.any? %>
+      <% @feed_articles.each do |article| %>
+        <div id="<%= dom_id article %>" class="border-b border-gray-200 pb-3">
+          <a href="<%= article.url %>" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline font-medium">
+            <%= article.title %>
+          </a>
+          <div class="text-sm text-slate-500"><%= format_date_short(article.published_at) if article.published_at %></div>
+          <p class="text-sm text-slate-600"><%= truncate(strip_tags(article.description.to_s), length: 200) %></p>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-center my-10">No articles found yet.</p>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<% content_for :title, "Feed" %>
+<div class="w-full font-pt-sans">
+  <div class="flex justify-between items-center">
+    <h1 class="font-pt-sans font-bold text-4xl">Feed</h1>
+  </div>
+  <div class="space-y-4 mt-5">
+    <% if @feed_articles.any? %>
+      <% @feed_articles.each do |article| %>
+        <div id="<%= dom_id article %>" class="border-b border-gray-200 pb-3">
+          <%= favicon_image_tag(article.bookmark, class: "inline object-contain w-[1rem]") %>
+          <a href="<%= article.url %>" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline font-medium">
+            <%= article.title %>
+          </a>
+          <div class="text-sm text-slate-500">
+            <%= link_to article.bookmark.title, article.bookmark.url, class: "hover:underline" %>
+            <% if article.published_at %>
+              &middot; <%= format_date_short(article.published_at) %>
+            <% end %>
+          </div>
+          <p class="text-sm text-slate-600"><%= truncate(strip_tags(article.description.to_s), length: 500) %></p>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-center my-10">No articles found yet.</p>
+    <% end %>
+  </div>
+</div>

@@ -1,10 +1,14 @@
 class Bookmark < ApplicationRecord
+  MAX_FEED_FAILURES = 3
+
   belongs_to :user
   has_and_belongs_to_many :tags
+  has_many :feed_articles, dependent: :destroy
   has_one_attached :icon
   has_one_attached :apple_touch_icon
 
   after_create :download_favicons
+  after_update :reset_feed_status_if_feed_url_changed
 
   validates :title, presence: true
   validates :url,
@@ -33,6 +37,7 @@ class Bookmark < ApplicationRecord
   attr_accessor :tag_search
 
   scope :search_by_title, ->(query) { where("LOWER(title) LIKE ?", "%#{query.downcase}%") }
+  scope :with_active_feed, -> { where.not(feed_url: [ nil, "" ]).where(feed_status: "ok") }
 
   def tag_list
     tags.pluck(:name).join(", ")
@@ -50,5 +55,43 @@ class Bookmark < ApplicationRecord
 
   def download_favicons
     DownloadFaviconsJob.perform_later(id)
+  end
+
+  def error?
+    feed_status == "error"
+  end
+
+  def record_feed_check_success!
+    update!(
+      feed_status: "ok",
+      feed_failure_count: 0,
+      feed_checked_at: Time.current,
+      feed_last_success_at: Time.current,
+      feed_error_message: nil
+    )
+  end
+
+  def record_feed_check_failure!(message)
+    new_failure_count = feed_failure_count + 1
+
+    update!(
+      feed_failure_count: new_failure_count,
+      feed_checked_at: Time.current,
+      feed_error_message: message,
+      feed_status: new_failure_count >= MAX_FEED_FAILURES ? "error" : "ok"
+    )
+  end
+
+  def retry_feed!
+    update!(feed_status: "ok", feed_failure_count: 0, feed_error_message: nil)
+  end
+
+  private
+
+  def reset_feed_status_if_feed_url_changed
+    return unless saved_change_to_feed_url?
+    return if feed_status == "ok" && feed_failure_count.zero?
+
+    update_columns(feed_status: "ok", feed_failure_count: 0, feed_error_message: nil)
   end
 end
