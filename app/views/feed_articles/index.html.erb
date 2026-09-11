@@ -17,7 +17,7 @@
               &middot; <%= format_date_short(article.published_at) %>
             <% end %>
           </div>
-          <p class="text-sm text-slate-600"><%= strip_tags(article.description.to_s) %></p>
+          <p class="text-sm text-slate-600"><%= truncate(strip_tags(article.description.to_s), length: 500) %></p>
         </div>
       <% end %>
     <% else %>
