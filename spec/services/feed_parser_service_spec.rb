@@ -56,8 +56,8 @@ RSpec.describe FeedParserService do
   end
 
   def stub_download(body:, code: "200")
-    download_service = instance_double(DownloadWebpageService)
-    allow(DownloadWebpageService).to receive(:new).and_return(download_service)
+    download_service = instance_double(DownloadFeedService)
+    allow(DownloadFeedService).to receive(:new).and_return(download_service)
     allow(download_service).to receive(:request_page).with(feed_url)
       .and_return(instance_double(Net::HTTPResponse, body: body, code: code))
     download_service
@@ -127,10 +127,10 @@ RSpec.describe FeedParserService do
     end
 
     it "raises FeedFetchError when the download service raises" do
-      download_service = instance_double(DownloadWebpageService)
-      allow(DownloadWebpageService).to receive(:new).and_return(download_service)
+      download_service = instance_double(DownloadFeedService)
+      allow(DownloadFeedService).to receive(:new).and_return(download_service)
       allow(download_service).to receive(:request_page).with(feed_url)
-        .and_raise(DownloadWebpageService::DownloadWebpageServiceError, "boom")
+        .and_raise(DownloadFeedService::DownloadFeedServiceError, "boom")
 
       expect { service.fetch_and_parse(feed_url) }.to raise_error(FeedParserService::FeedFetchError)
     end

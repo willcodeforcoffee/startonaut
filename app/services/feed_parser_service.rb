@@ -13,8 +13,8 @@ class FeedParserService
   private
 
   def download_feed(feed_url)
-    DownloadWebpageService.new.request_page(feed_url)
-  rescue DownloadWebpageService::DownloadWebpageServiceError => e
+    DownloadFeedService.new.request_page(feed_url)
+  rescue DownloadFeedService::DownloadFeedServiceError => e
     raise FeedFetchError.new("Could not download feed #{feed_url}: #{e.message}", e)
   end
 

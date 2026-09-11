@@ -4,7 +4,9 @@ class DownloadWebpageService
   require "net/http"
   require "uri"
 
-  def request_page(url)
+  DEFAULT_ACCEPT = "text/html,application/xhtml+xml,image/*".freeze
+
+  def request_page(url, accept: DEFAULT_ACCEPT)
     uri = URI.parse(url)
     return nil unless %w[http https].include?(uri.scheme)
 
@@ -15,7 +17,7 @@ class DownloadWebpageService
 
     request = Net::HTTP::Get.new(uri.request_uri)
     request["User-Agent"] = "Mozilla/5.0 (Startonaut.com Favicon Fetcher)"
-    request["Accept"] = "text/html,application/xhtml+xml,image/*"
+    request["Accept"] = accept
 
     response = http.request(request)
 
