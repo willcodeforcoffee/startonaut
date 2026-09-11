@@ -78,3 +78,6 @@ group :test do
   # Add support for assigns() and assert_template in controller tests
   gem "rails-controller-testing"
 end
+
+# Pin json to v2 for compatibility with bootsnap
+gem "json", "~> 2.10.0" # or '2.3.1' and above under 2.x
