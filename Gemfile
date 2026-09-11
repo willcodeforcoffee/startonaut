@@ -80,4 +80,4 @@ group :test do
 end
 
 # Pin json to v2 for compatibility with bootsnap
-gem "json", "~> 2.10.0" # or '2.3.1' and above under 2.x
+gem "json", "~> 3.0.1" # or '2.3.1' and above under 2.x
