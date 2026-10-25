@@ -1,0 +1,36 @@
+<% content_for :title, "Admin: Users" %>
+<div class="w-full font-pt-sans">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="font-bold text-4xl">Users</h1>
+    <span class="text-baby-powder-300"><%= pluralize(@users.size, "user") %></span>
+  </div>
+  <div class="overflow-x-auto border border-gray-700 rounded-lg bg-rich-black-900">
+    <table class="w-full text-left text-sm">
+      <thead class="border-b border-gray-700 text-baby-powder-300">
+        <tr>
+          <th class="px-4 py-3 font-semibold min-w-[22rem] w-[42%]">Email</th>
+          <th class="px-4 py-3 font-semibold text-right">Bookmarks</th>
+          <th class="px-4 py-3 font-semibold text-right">Tags</th>
+          <th class="px-4 py-3 font-semibold">Signed up</th>
+          <th class="px-4 py-3 font-semibold">Last signed in</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr id="<%= dom_id user %>" class="border-b border-gray-800 last:border-0 align-top">
+            <td class="px-4 py-3">
+              <%= user.email_address %>
+              <% if user.admin? %>
+                <span class="ml-2 text-xs text-bright-turquoise-300">admin</span>
+              <% end %>
+            </td>
+            <td class="px-4 py-3 text-right"><%= user.bookmarks_count %></td>
+            <td class="px-4 py-3 text-right"><%= user.tags_count %></td>
+            <td class="px-4 py-3"><%= format_date_short(user.created_at) %></td>
+            <td class="px-4 py-3"><%= format_date_short(user.last_signed_in_at) || "Never" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

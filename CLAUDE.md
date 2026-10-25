@@ -65,7 +65,11 @@ is included in `ApplicationController` and requires authentication on every acti
 - Use `allow_unauthenticated_access(**options)` (class method) in a controller to skip the
   `require_authentication` before_action, e.g. for sign-in/registration pages.
 - `start_new_session_for(user)` / `terminate_session` create/destroy `Session` records tied to
-  `cookies.signed.permanent[:session_id]`.
+  `cookies.signed.permanent[:session_id]`. Sign-in also stamps `users.last_signed_in_at` (sessions are
+  deleted on logout, so they can't be used as login history).
+- Admins: `users.admin` boolean, granted only via `bin/rails admin:grant[email]` / `admin:revoke[email]` (`admin:list` shows current admins)
+  (never permit it in controller params). Controllers under `app/controllers/admin/` inherit
+  `Admin::BaseController`, which responds 404 to non-admins.
 
 ### Core Models
 
