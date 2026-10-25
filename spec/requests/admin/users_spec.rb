@@ -58,10 +58,10 @@ RSpec.describe "/admin/users", type: :request do
       row = Nokogiri::HTML(response.body).at_css("#user_#{other_user.id}")
       cells = row.css("td").map { |td| td.text.strip }
       expect(cells[0]).to eq(other_user.email_address)
-      expect(cells[1]).to eq("2026-01-02")
-      expect(cells[2]).to eq("2026-03-04")
-      expect(cells[3]).to eq("2")
-      expect(cells[4]).to eq(other_user.tags.count.to_s)
+      expect(cells[1]).to eq("2")
+      expect(cells[2]).to eq(other_user.tags.count.to_s)
+      expect(cells[3]).to eq("2026-01-02")
+      expect(cells[4]).to eq("2026-03-04")
     end
   end
 end
