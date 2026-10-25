@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 
 Startonaut is a Rails 8 bookmark manager / personal start page: bookmarks with automatic favicon
-downloading, tag management, and Netscape bookmark import/export. SQLite is used for everything
+downloading, tag management, RSS/Atom feed reading, and Netscape bookmark import/export. SQLite is used for everything
 (dev/test/production), via the Solid* stack (solid_cache, solid_queue, solid_cable).
 
 ## Development Commands
@@ -31,13 +31,17 @@ RSpec + FactoryBot.
 bundle exec rspec                        # Full suite
 bundle exec rspec spec/models/bookmark_spec.rb          # Single file
 bundle exec rspec spec/models/bookmark_spec.rb:42        # Single example at line 42
+bin/rails db:test:prepare spec          # What CI runs
 ```
+
+Request and view specs get `sign_in_as(user)` / `sign_out` from `spec/support/authentication_support.rb`.
 
 ### Linting / Static Analysis
 
 ```bash
 bin/rubocop         # Omakase Ruby style (rubocop-rails-omakase)
 bin/brakeman         # Security static analysis
+bin/importmap audit  # JS dependency audit (also run in CI)
 ```
 
 ### Deployment (Kamal)
@@ -56,7 +60,8 @@ bin/rails deploy:show_env_vars      # Show which env vars will be used
 
 Session-based, cookie-signed (not Devise). `Authentication` concern (`app/controllers/concerns/authentication.rb`)
 is included in `ApplicationController` and requires authentication on every action by default.
-- `Current.session` holds the current session (thread-safe, via `ActiveSupport::CurrentAttributes`).
+- `Current.session` holds the current session (thread-safe, via `ActiveSupport::CurrentAttributes`);
+  `Current.user` delegates to it. Scope queries through `Current.user` (e.g. `Current.user.bookmarks.find`).
 - Use `allow_unauthenticated_access(**options)` (class method) in a controller to skip the
   `require_authentication` before_action, e.g. for sign-in/registration pages.
 - `start_new_session_for(user)` / `terminate_session` create/destroy `Session` records tied to
@@ -66,8 +71,9 @@ is included in `ApplicationController` and requires authentication on every acti
 
 ```ruby
 User -> has_many :bookmarks, :sessions, :tags
-Bookmark -> belongs_to :user; has_and_belongs_to_many :tags
+Bookmark -> belongs_to :user; has_and_belongs_to_many :tags; has_many :feed_articles
 Tag -> belongs_to :user; has_and_belongs_to_many :bookmarks
+FeedArticle -> belongs_to :bookmark  (unique guid per bookmark)
 ```
 
 - `Bookmark#tag_list=` accepts a comma-separated string, splitting/downcasing/`find_or_create_by`-ing
@@ -80,15 +86,29 @@ Tag -> belongs_to :user; has_and_belongs_to_many :bookmarks
 - `Bookmark#after_create` enqueues `DownloadFaviconsJob` to fetch favicon/apple-touch-icon
   asynchronously (stored via ActiveStorage as `bookmark.icon` / `bookmark.apple_touch_icon`).
 
+### Feed Reader
+
+A bookmark with a `feed_url` is polled for RSS/Atom articles:
+- `config/recurring.yml` schedules `ScanFeedsJob` every 4 hours (Solid Queue recurring tasks), which
+  enqueues `FetchFeedArticlesJob` per `Bookmark.with_active_feed`.
+- `FetchFeedArticlesJob` → `FeedParserService` (→ `DownloadFeedService` → `DownloadWebpageService`,
+  with RSS/Atom `Accept` headers) normalizes RSS and Atom into hashes, then stores `FeedArticle`s
+  idempotently via `find_or_create_by(guid:)`.
+- Failure tracking lives on `Bookmark` (`feed_status`, `feed_failure_count`, `feed_error_message`, ...):
+  after `MAX_FEED_FAILURES` (3) consecutive failures `feed_status` becomes `"error"` and the feed stops
+  being scanned until `bookmarks#retry_feed` (or changing `feed_url`) resets it.
+
 ### Feature Flags
 
-Simple env-var-backed flags in `app/models/feature_flag.rb` (e.g. `FeatureFlag.enable_new_user_registration?`),
+Simple env-var-backed flags in `app/models/feature_flag.rb` (`enable_new_user_registration?`, `enable_user_mailer?`),
 not a database/admin-driven flag system. Add new flags the same way if needed.
 
 ### Services
 
 `app/services/`, errors raised as `ServiceError` (base class in `service_error.rb`).
-- `DownloadWebpageService` — HTTP fetch with error handling, used by favicon/import logic.
+- `DownloadWebpageService` — HTTP fetch with error handling, used by favicon/import/feed logic.
+  Wrapping services re-raise lower-level errors as their own `ServiceError` subclass.
+- `FeedParserService` / `DownloadFeedService` — see Feed Reader above.
 - `BookmarkHtmlParser` — extracts favicon/metadata from a fetched page.
 - `NetscapeBookmarksImport` — parses Netscape-format bookmark export HTML; returns
   `[imported, duplicates, errors]` arrays for user-facing import feedback.
@@ -107,6 +127,8 @@ controllers live in `app/javascript/controllers`.
 
 ### Notable Routes/Controllers
 
+- `home#index` — unauthenticated landing; redirects signed-in users to `pages#index` (the start page).
+- `feed_articles#index` (all of a user's articles) and nested `bookmarks/:id/feed_articles`.
 - `bookmarks#fetch_remote_bookmark` — server-side preview fetch when adding a bookmark by URL.
 - `bookmarks_favicon_proxy` (nested under `bookmarks`) — serves/proxies cached favicon images.
 - `tags#search` — tag autocomplete endpoint.
