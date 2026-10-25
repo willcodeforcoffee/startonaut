@@ -20,6 +20,11 @@ Rails.application.routes.draw do
   end
   resources :feed_articles, only: [ :index ]
 
+  namespace :admin do
+    resources :users, only: [ :index ]
+    root "users#index"
+  end
+
   # Bookmark import routes
   resources :import_bookmarks, only: [ :new, :create ]
   resources :pages, only: [ :index ] do
