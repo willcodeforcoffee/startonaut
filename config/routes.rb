@@ -22,6 +22,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :users, only: [ :index ]
+    resource :feature_flags, only: [ :show, :update ]
     root "users#index"
   end
 

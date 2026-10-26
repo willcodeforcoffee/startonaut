@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_25_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_25_130000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -70,6 +70,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_25_120000) do
   create_table "bookmarks_tags", id: false, force: :cascade do |t|
     t.integer "bookmark_id", null: false
     t.integer "tag_id", null: false
+  end
+
+  create_table "feature_flags", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.boolean "enabled", default: false, null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_feature_flags_on_name", unique: true
   end
 
   create_table "feed_articles", force: :cascade do |t|

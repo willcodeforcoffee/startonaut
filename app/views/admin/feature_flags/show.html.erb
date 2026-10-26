@@ -1,0 +1,38 @@
+<% content_for :title, "Admin: Feature Flags" %>
+<div class="w-full font-pt-sans">
+  <%= render "admin/nav" %>
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+  <% end %>
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="font-bold text-4xl">Feature Flags</h1>
+  </div>
+  <%= form_with url: admin_feature_flags_path, method: :patch, scope: :feature_flags do |form| %>
+    <div class="border border-gray-700 rounded-lg bg-rich-black-900 divide-y divide-gray-800">
+      <% FeatureFlag::DEFINITIONS.each do |name, definition| %>
+        <div id="feature_flag_<%= name %>" class="p-4">
+          <%= form.check_box name, checked: FeatureFlag.enabled?(name), class: "mr-2" %>
+          <%= form.label name, name.to_s.humanize, class: "font-medium" %>
+          <p class="text-baby-powder-300 text-sm mt-1"><%= definition[:description] %></p>
+          <p class="text-gray-500 text-xs mt-1" data-env-setting>
+            Environment: <code><%= definition[:env] %></code> =
+            <% if (env_value = FeatureFlag.env_value(name)).nil? %>
+              <span>not set</span> (off)
+            <% else %>
+              <code><%= env_value %></code> (<%= FeatureFlag.env_default(name) ? "on" : "off" %>)
+            <% end %>
+            &middot;
+            <% if FeatureFlag.stored?(name) %>
+              <span class="text-bright-turquoise-300">Using saved setting</span>
+            <% else %>
+              Using environment (not saved yet)
+            <% end %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+    <div class="mt-5">
+      <%= form.submit "Save" %>
+    </div>
+  <% end %>
+</div>

@@ -104,8 +104,11 @@ A bookmark with a `feed_url` is polled for RSS/Atom articles:
 
 ### Feature Flags
 
-Simple env-var-backed flags in `app/models/feature_flag.rb` (`enable_new_user_registration?`, `enable_user_mailer?`),
-not a database/admin-driven flag system. Add new flags the same way if needed.
+`FeatureFlag` (`app/models/feature_flag.rb`) is backed by the `feature_flags` table and toggled by
+admins at `/admin/feature_flags`. A stored row wins; with no row the flag falls back to its env var
+(`FEATURE_FLAG_*`), so deployments that never touch the admin page behave as before. To add a flag, add
+an entry to `FeatureFlag::DEFINITIONS` (description + env var); this generates `FeatureFlag.<name>?`
+and a checkbox on the admin page.
 
 ### Services
 
