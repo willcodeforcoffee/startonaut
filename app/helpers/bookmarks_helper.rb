@@ -5,12 +5,6 @@ module BookmarksHelper
     date.strftime("%Y-%m-%d")
   end
 
-  # Format a date or datetime in YYYY-MM-DD HH:MM format
-  def format_datetime_short(datetime)
-    return nil unless datetime
-    datetime.strftime("%Y-%m-%d %H:%M")
-  end
-
   # Data attributes that record a click (see bookmark_click_controller.js) when a bookmark link is opened
   def bookmark_click_data(bookmark)
     {

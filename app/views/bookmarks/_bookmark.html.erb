@@ -27,7 +27,7 @@
   </div>
   <div>
     <strong class="block font-medium mb-1">Last clicked:</strong>
-    <%= format_datetime_short(bookmark.last_clicked_at) || "Never" %>
+    <%= local_time_tag(bookmark.last_clicked_at) || "Never" %>
   </div>
   <div>
     <%= favicon_image_tag(bookmark, class: "mx-auto size-12 md:size-24 rounded-[1vw] outline-1 -outline-offset-1 outline-black/5 dark:outline-bright-turquoise-300/10") %>

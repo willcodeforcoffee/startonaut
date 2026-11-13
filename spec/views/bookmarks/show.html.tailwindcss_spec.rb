@@ -26,7 +26,8 @@ RSpec.describe "bookmarks/show", type: :view do
 
     render
     expect(rendered).to match(/Clicks:<\/strong>\s*2/)
-    expect(rendered).to match(/Last clicked:<\/strong>\s*2026-11-12 17:42/)
+    expect(rendered).to include(%(datetime="2026-11-12T17:42:00Z"))
+    expect(rendered).to include("2026-11-12 17:42 UTC")
   end
 
   it "tracks clicks on the bookmark links" do
