@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_25_130000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_13_120000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -47,6 +47,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_25_130000) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "bookmark_clicks", force: :cascade do |t|
+    t.integer "bookmark_id", null: false
+    t.datetime "clicked_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bookmark_id", "clicked_at"], name: "index_bookmark_clicks_on_bookmark_id_and_clicked_at"
+    t.index ["bookmark_id"], name: "index_bookmark_clicks_on_bookmark_id"
   end
 
   create_table "bookmarks", force: :cascade do |t|
@@ -134,6 +143,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_25_130000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "bookmark_clicks", "bookmarks"
   add_foreign_key "bookmarks", "users"
   add_foreign_key "feed_articles", "bookmarks"
   add_foreign_key "pages", "users"

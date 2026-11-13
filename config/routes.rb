@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :bookmarks do
     resources :favicon, only: [ :index ], controller: "bookmarks_favicon_proxy"
     resources :feed_articles, only: [ :index ], controller: "bookmarks_feed_articles"
+    resources :clicks, only: [ :create ], controller: "bookmark_clicks"
     member do
       post :retry_feed
     end

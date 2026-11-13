@@ -1,4 +1,4 @@
-<a href="<%= bookmark.url %>" target="_blank" rel="noopener noreferrer" class="text-baby-powder-50 hover:underline">
+<a href="<%= bookmark.url %>" target="_blank" rel="noopener noreferrer" <%= tag.attributes(data: bookmark_click_data(bookmark)) %> class="text-baby-powder-50 hover:underline">
   <span class="relative mx-auto block size-12 md:size-24">
     <%= favicon_image_tag(bookmark, class: "size-12 md:size-24 rounded-[1vw] outline-1 -outline-offset-1 outline-black/5 dark:outline-bright-turquoise-300/10") %>
     <% if bookmark.feed_url.present? # Show the feed icon over the favicon %>

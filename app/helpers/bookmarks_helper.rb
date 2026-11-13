@@ -5,6 +5,15 @@ module BookmarksHelper
     date.strftime("%Y-%m-%d")
   end
 
+  # Data attributes that record a click (see bookmark_click_controller.js) when a bookmark link is opened
+  def bookmark_click_data(bookmark)
+    {
+      controller: "bookmark-click",
+      bookmark_click_url_value: bookmark_clicks_path(bookmark),
+      action: "click->bookmark-click#track auxclick->bookmark-click#track"
+    }
+  end
+
   def favicon_image_tag(bookmark, options = {})
     image_tag bookmark_favicon_index_path(bookmark_id: bookmark.id), options.merge(alt: "Site Favicon image for #{bookmark.title}")
   end
