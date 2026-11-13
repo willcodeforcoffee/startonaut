@@ -4,6 +4,7 @@ class Bookmark < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :tags
   has_many :feed_articles, dependent: :destroy
+  has_many :clicks, class_name: "BookmarkClick", dependent: :destroy
   has_one_attached :icon
   has_one_attached :apple_touch_icon
 
@@ -51,6 +52,14 @@ class Bookmark < ApplicationRecord
     self.tags = names.split(",").map(&:strip).reject(&:blank?).map do |name|
       user.tags.find_or_create_by(name: name.downcase)
     end
+  end
+
+  def click_count
+    clicks.count
+  end
+
+  def last_clicked_at
+    clicks.maximum(:clicked_at)
   end
 
   def download_favicons

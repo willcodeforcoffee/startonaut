@@ -258,4 +258,28 @@ RSpec.describe Bookmark, type: :model do
       end
     end
   end
+
+  describe "click tracking" do
+    let(:bookmark) { create(:bookmark) }
+
+    it "has no clicks by default" do
+      expect(bookmark.click_count).to eq(0)
+      expect(bookmark.last_clicked_at).to be_nil
+    end
+
+    it "counts clicks and returns the most recent click time" do
+      latest = Time.zone.parse("2026-11-12 17:42")
+      create(:bookmark_click, bookmark: bookmark, clicked_at: latest)
+      create(:bookmark_click, bookmark: bookmark, clicked_at: latest - 3.days)
+
+      expect(bookmark.click_count).to eq(2)
+      expect(bookmark.last_clicked_at).to eq(latest)
+    end
+
+    it "destroys clicks with the bookmark" do
+      create(:bookmark_click, bookmark: bookmark)
+
+      expect { bookmark.destroy }.to change(BookmarkClick, :count).by(-1)
+    end
+  end
 end
