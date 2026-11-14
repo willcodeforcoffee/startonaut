@@ -2,7 +2,7 @@
   <% if show_source %>
     <%= favicon_image_tag(feed_article.bookmark, class: "inline object-contain w-[1rem]") %>
   <% end %>
-  <a href="<%= feed_article.url %>" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline font-medium">
+  <a href="<%= feed_article.url %>" target="_blank" rel="noopener noreferrer" <%= tag.attributes(data: bookmark_click_data(feed_article.bookmark)) %> class="text-blue-500 hover:underline font-medium">
     <%= feed_article.title %>
   </a>
   <div class="text-sm text-slate-500">
