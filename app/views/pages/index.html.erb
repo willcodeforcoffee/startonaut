@@ -10,9 +10,9 @@
       <h2 class="font-semibold text-2xl mb-4 mr-6">Favorite Tags</h2>
       <div class="flex flex-row flex-wrap gap-2 items-center">
         <% @favorite_tags.each do |tag| %>
-          <%= link_to tag_path(tag), class: "inline-flex items-center px-3 py-1 bg-gray-100 hover:bg-bright-turquoise-100 text-gray-700 hover:text-bright-turquoise-800 rounded-full transition-colors" do %>
+          <%= link_to toggle_tag_filter_path(tag.name), class: tag_filter_link_classes(tag.name, size: "px-3 py-1"), aria: { pressed: selected_tag_names.include?(tag.name) } do %>
             #<%= tag.name %>
-            <span class="ml-1 text-gray-500">(<%= tag.bookmarks.count %>)</span>
+            <span class="ml-1 opacity-60">(<%= tag.bookmarks_count %>)</span>
           <% end %>
         <% end %>
       </div>
@@ -24,55 +24,15 @@
   <% if @today_bookmarks.any? %>
     <%= render "icon_panel", title: "##{Tag.todays_name}", bookmarks: @today_bookmarks %>
   <% end %>
-  <%= render "shared/search", path: search_pages_path %>
+  <%= render "shared/search", path: search_pages_path, tags: selected_tag_names %>
   <!-- Main content area with bookmarks and tags sidebar -->
   <h2 class="font-semibold text-2xl mb-4 mr-6">All Bookmarks</h2>
   <div class="flex flex-col lg:flex-row gap-6">
     <!-- Tags sidebar - appears first on mobile (top), second on desktop (right) -->
-    <div class="w-full lg:w-80 shrink-0 order-1 lg:order-2" data-controller="collapsible">
-      <!-- Toggle button for mobile/tablet -->
-      <button
-        type="button"
-        class="lg:hidden w-full flex items-center justify-between p-3 bg-gray-50 rounded-md mb-4 hover:bg-gray-100 transition-colors"
-        data-action="click->collapsible#toggle"
-        data-collapsible-target="toggleButton"
-        >
-        <span class="font-medium text-gray-900">Tags</span>
-        <svg class="w-5 h-5 text-gray-500 transform transition-transform" data-collapsible-target="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-        </svg>
-      </button>
-      <!-- Tags content -->
-      <div class="hidden lg:block" data-collapsible-target="content">
-        <div class="bg-rich-black-900 border border-rich-black-700 rounded-lg p-4">
-          <h2 class="font-semibold text-lg mb-4 text-baby-powder-50">Tags</h2>
-          <% if @tags_by_letter.any? %>
-            <div class="space-y-4">
-              <% @tags_by_letter.each do |letter, tags| %>
-                <div>
-                  <h3 class="font-bold text-red-violet-600 text-sm mb-2"><%= letter %></h3>
-                  <div class="flex flex-wrap gap-1">
-                    <% tags.each do |tag| %>
-                      <%= link_to tag_path(tag), class: "inline-flex items-center px-2 py-1 text-xs bg-gray-100 hover:bg-bright-turquoise-100 text-gray-700 hover:text-bright-turquoise-800 rounded-full transition-colors" do %>
-                        <% if tag.favorite? %>
-                          <span class="text-yellow-500 mr-1">★</span>
-                        <% end %>
-                        #<%= tag.name %>
-                        <span class="ml-1 text-gray-500">(<%= tag.bookmarks.count %>)</span>
-                      <% end %>
-                    <% end %>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          <% else %>
-            <p class="text-gray-500 text-sm">No tags found.</p>
-          <% end %>
-        </div>
-      </div>
-    </div>
+    <%= render "shared/tag_filter_sidebar", tags_by_letter: @tags_by_letter %>
     <!-- Bookmarks list (main content) - appears second on mobile (bottom), first on desktop (left) -->
     <div class="flex-1 order-2 lg:order-1">
+      <%= render "shared/tag_filter_summary" %>
       <% if @bookmarks.any? %>
         <ul role="list" class="mx-auto mt-5 gap-x-8 gap-y-16 text-center max-w-2xl grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:mx-0 lg:max-w-none lg:grid-cols-5 xl:grid-cols-6">
           <% @bookmarks.each do |bookmark| %>
@@ -82,7 +42,11 @@
           <% end %>
         </ul>
       <% else %>
-        <p class="text-center my-10">You haven't created any bookmarks yet!</p>
+        <% if selected_tag_names.any? %>
+          <p class="text-center my-10">No bookmarks have all of the selected tags.</p>
+        <% else %>
+          <p class="text-center my-10">You haven't created any bookmarks yet!</p>
+        <% end %>
       <% end %>
     </div>
   </div>

@@ -1,0 +1,12 @@
+<%# The active tag filter, with links to remove each tag or clear them all %>
+<% if selected_tag_names.any? %>
+  <div class="flex flex-wrap items-center gap-2 mb-4 text-sm" id="tag_filter_summary">
+    <span class="text-slate-500">Tagged with all of:</span>
+    <% selected_tag_names.each do |name| %>
+      <%= link_to toggle_tag_filter_path(name), class: tag_filter_link_classes(name), title: "Remove ##{name} from the filter" do %>
+        #<%= name %><span class="ml-1" aria-hidden="true">×</span>
+      <% end %>
+    <% end %>
+    <%= link_to "Clear", tag_filter_path([]), class: "text-bright-turquoise-300 hover:underline" %>
+  </div>
+<% end %>

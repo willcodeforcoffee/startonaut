@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_14_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_14_180000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -79,6 +79,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_14_120000) do
   create_table "bookmarks_tags", id: false, force: :cascade do |t|
     t.integer "bookmark_id", null: false
     t.integer "tag_id", null: false
+    t.index ["bookmark_id"], name: "index_bookmarks_tags_on_bookmark_id"
+    t.index ["tag_id", "bookmark_id"], name: "index_bookmarks_tags_on_tag_id_and_bookmark_id"
   end
 
   create_table "feature_flags", force: :cascade do |t|

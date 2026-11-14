@@ -1,5 +1,7 @@
 <div id="search" class="flex flex-col mt-5 mb-5">
   <%= form_with url: local_assigns[:path], method: :post, class: "flex space-x-2" do %>
+    <%# Keep the tag filter when searching %>
+    <%= hidden_field_tag :tags, local_assigns[:tags].join(","), id: nil if local_assigns[:tags].present? %>
     <%= text_field_tag :q, params[:q], placeholder: "Search bookmarks...", aria: { label: "Search bookmarks" }, class: ThemeHelper::THEME_INPUT_CLASSES.join(" ") %>
     <%= submit_tag "Search", name: nil, class: (ThemeHelper::THEME_LINK_CLASSES + ThemeHelper::THEME_LINK_STYLES[:primary]).join(" ") %>
   <% end %>

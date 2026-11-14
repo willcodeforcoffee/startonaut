@@ -39,6 +39,17 @@ class Bookmark < ApplicationRecord
 
   scope :search_by_title, ->(query) { where("LOWER(title) LIKE ?", "%#{query.downcase}%") }
   scope :with_active_feed, -> { where.not(feed_url: [ nil, "" ]).where(feed_status: "ok") }
+  # Bookmarks that have every one of the given tag names; all bookmarks when no names are given
+  scope :tagged_with_all, ->(names) {
+    names = Array(names).map { it.to_s.strip.downcase }.reject(&:blank?).uniq
+    next all if names.empty?
+
+    where(id: Bookmark.joins(:tags)
+      .where(tags: { name: names })
+      .group("bookmarks.id")
+      .having("COUNT(DISTINCT tags.id) = ?", names.size)
+      .select("bookmarks.id"))
+  }
 
   def tag_list
     tags.pluck(:name).join(", ")
