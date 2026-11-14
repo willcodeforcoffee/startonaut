@@ -259,6 +259,35 @@ RSpec.describe Bookmark, type: :model do
     end
   end
 
+  describe ".tagged_with_all" do
+    let(:user) { create(:user) }
+    let(:ruby) { create(:tag, name: "ruby", user: user) }
+    let(:rails) { create(:tag, name: "rails", user: user) }
+    let!(:both) { create(:bookmark, user: user, url: "https://both.example.com").tap { it.tags << [ ruby, rails ] } }
+    let!(:ruby_only) { create(:bookmark, user: user, url: "https://ruby.example.com").tap { it.tags << ruby } }
+    let!(:untagged) { create(:bookmark, user: user, url: "https://untagged.example.com") }
+
+    it "returns bookmarks with the tag" do
+      expect(user.bookmarks.tagged_with_all([ "ruby" ])).to contain_exactly(both, ruby_only)
+    end
+
+    it "returns only bookmarks with every one of the tags" do
+      expect(user.bookmarks.tagged_with_all([ "ruby", "rails" ])).to contain_exactly(both)
+    end
+
+    it "returns all bookmarks when no tags are given" do
+      expect(user.bookmarks.tagged_with_all([])).to contain_exactly(both, ruby_only, untagged)
+    end
+
+    it "returns nothing for a tag that doesn't exist" do
+      expect(user.bookmarks.tagged_with_all([ "ruby", "missing" ])).to be_empty
+    end
+
+    it "normalizes tag names and ignores duplicates" do
+      expect(user.bookmarks.tagged_with_all([ " Ruby ", "ruby", "RAILS" ])).to contain_exactly(both)
+    end
+  end
+
   describe "click tracking" do
     let(:bookmark) { create(:bookmark) }
 

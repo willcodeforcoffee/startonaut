@@ -103,6 +103,34 @@ RSpec.describe "Feed article paging", type: :request do
     it_behaves_like "a river of news"
   end
 
+  describe "GET /feed_articles filtered by tags" do
+    let(:ruby) { FactoryBot.create(:tag, name: "ruby", user: user) }
+    let(:rails) { FactoryBot.create(:tag, name: "rails", user: user) }
+    let(:matching_bookmarks) do
+      [
+        FactoryBot.create(:bookmark, :with_feed_url, user: user, url: "https://both-1.example.com").tap { it.tags << [ ruby, rails ] },
+        FactoryBot.create(:bookmark, :with_feed_url, user: user, url: "https://both-2.example.com").tap { it.tags << [ ruby, rails ] }
+      ]
+    end
+    let(:other_bookmarks) do
+      [
+        FactoryBot.create(:bookmark, :with_feed_url, user: user, url: "https://ruby-only.example.com").tap { it.tags << ruby },
+        FactoryBot.create(:bookmark, :with_feed_url, user: user, url: "https://untagged.example.com")
+      ]
+    end
+    let!(:articles) do
+      matching = create_articles(matching_bookmarks)
+      # Articles that must be filtered out, interleaved in time with the matching ones
+      60.times do |i|
+        FactoryBot.create(:feed_article, bookmark: other_bookmarks[i % 2], published_at: base_time - i.minutes - 30.seconds)
+      end
+      matching
+    end
+    let(:first_page_url) { feed_articles_path(tags: "ruby,rails") }
+
+    it_behaves_like "a river of news"
+  end
+
   describe "GET /bookmarks/:bookmark_id/feed_articles" do
     let(:bookmark) { FactoryBot.create(:bookmark, :with_feed_url, user: user) }
     let!(:articles) { create_articles([ bookmark ]) }

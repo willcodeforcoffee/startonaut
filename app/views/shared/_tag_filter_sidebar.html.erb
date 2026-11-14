@@ -1,0 +1,48 @@
+<%# Tags sidebar; clicking a tag adds it to (or removes it from) the page's tag filter %>
+<div class="w-full lg:w-80 shrink-0 order-1 lg:order-2" data-controller="collapsible">
+  <!-- Toggle button for mobile/tablet -->
+  <button
+    type="button"
+    class="lg:hidden w-full flex items-center justify-between p-3 bg-gray-50 rounded-md mb-4 hover:bg-gray-100 transition-colors"
+    data-action="click->collapsible#toggle"
+    data-collapsible-target="toggleButton"
+    >
+    <span class="font-medium text-gray-900">Tags<%= " (#{selected_tag_names.size} selected)" if selected_tag_names.any? %></span>
+    <svg class="w-5 h-5 text-gray-500 transform transition-transform" data-collapsible-target="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </button>
+  <!-- Tags content -->
+  <div class="hidden lg:block" data-collapsible-target="content">
+    <div class="bg-rich-black-900 border border-rich-black-700 rounded-lg p-4">
+      <div class="flex items-baseline justify-between mb-4">
+        <h2 class="font-semibold text-lg text-baby-powder-50">Tags</h2>
+        <% if selected_tag_names.any? %>
+          <%= link_to "Clear", tag_filter_path([]), class: "text-sm text-bright-turquoise-300 hover:underline" %>
+        <% end %>
+      </div>
+      <% if tags_by_letter.any? %>
+        <div class="space-y-4">
+          <% tags_by_letter.each do |letter, tags| %>
+            <div>
+              <h3 class="font-bold text-red-violet-600 text-sm mb-2"><%= letter %></h3>
+              <div class="flex flex-wrap gap-1">
+                <% tags.each do |tag| %>
+                  <%= link_to toggle_tag_filter_path(tag.name), class: tag_filter_link_classes(tag.name), aria: { pressed: selected_tag_names.include?(tag.name) } do %>
+                    <% if tag.favorite? %>
+                      <span class="text-yellow-500 mr-1">★</span>
+                    <% end %>
+                    #<%= tag.name %>
+                    <span class="ml-1 opacity-60">(<%= tag.bookmarks_count %>)</span>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-gray-500 text-sm">No tags found.</p>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -10,6 +10,6 @@
   <% elsif feed_articles.any? || params[:before].present? %>
     <p class="text-center text-slate-500 my-6">You're all caught up.</p>
   <% else %>
-    <p class="text-center my-10">No articles found yet.</p>
+    <p class="text-center my-10"><%= local_assigns.fetch(:empty_message, "No articles found yet.") %></p>
   <% end %>
 <% end %>
