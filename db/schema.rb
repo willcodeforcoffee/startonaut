@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_13_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_14_120000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -95,12 +95,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_13_120000) do
     t.string "url"
     t.text "description"
     t.string "guid"
-    t.datetime "published_at"
+    t.datetime "published_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bookmark_id", "guid"], name: "index_feed_articles_on_bookmark_id_and_guid", unique: true
-    t.index ["bookmark_id", "published_at"], name: "index_feed_articles_on_bookmark_id_and_published_at"
+    t.index ["bookmark_id", "published_at", "id"], name: "index_feed_articles_on_bookmark_id_and_published_at_and_id"
     t.index ["bookmark_id"], name: "index_feed_articles_on_bookmark_id"
+    t.index ["published_at", "id"], name: "index_feed_articles_on_published_at_and_id"
   end
 
   create_table "pages", force: :cascade do |t|

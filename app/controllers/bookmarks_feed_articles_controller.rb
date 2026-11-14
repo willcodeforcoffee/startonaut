@@ -3,7 +3,7 @@ class BookmarksFeedArticlesController < ApplicationController
 
   # GET /bookmarks/1/feed_articles
   def index
-    @feed_articles = @bookmark.feed_articles.recent_first
+    @feed_articles, @next_cursor = @bookmark.feed_articles.recent_first.page_before(params[:before])
   end
 
   private
