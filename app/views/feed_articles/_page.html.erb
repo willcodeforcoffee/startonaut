@@ -1,0 +1,15 @@
+<%# One page of articles, ending in a lazy frame that loads the next page when scrolled into view %>
+<%= turbo_frame_tag feed_page_frame_id(params[:before]), target: "_top", class: "block space-y-4" do %>
+  <% feed_articles.each do |feed_article| %>
+    <%= render "feed_articles/feed_article", feed_article: feed_article, show_source: show_source, description_length: description_length %>
+  <% end %>
+  <% if next_page_path %>
+    <%= turbo_frame_tag feed_page_frame_id(next_cursor), src: next_page_path, loading: :lazy, target: "_top", class: "block space-y-4" do %>
+      <p class="text-center text-slate-500 my-6">Loading more…</p>
+    <% end %>
+  <% elsif feed_articles.any? || params[:before].present? %>
+    <p class="text-center text-slate-500 my-6">You're all caught up.</p>
+  <% else %>
+    <p class="text-center my-10">No articles found yet.</p>
+  <% end %>
+<% end %>

@@ -23,19 +23,12 @@
     </div>
   <% end %>
 
-  <div class="space-y-4 mt-5">
-    <% if @feed_articles.any? %>
-      <% @feed_articles.each do |article| %>
-        <div id="<%= dom_id article %>" class="border-b border-gray-200 pb-3">
-          <a href="<%= article.url %>" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline font-medium">
-            <%= article.title %>
-          </a>
-          <div class="text-sm text-slate-500"><%= format_date_short(article.published_at) if article.published_at %></div>
-          <p class="text-sm text-slate-600"><%= truncate(strip_tags(article.description.to_s), length: 200) %></p>
-        </div>
-      <% end %>
-    <% else %>
-      <p class="text-center my-10">No articles found yet.</p>
-    <% end %>
+  <div class="mt-5">
+    <%= render "feed_articles/page",
+      feed_articles: @feed_articles,
+      next_cursor: @next_cursor,
+      next_page_path: (bookmark_feed_articles_path(@bookmark, before: @next_cursor) if @next_cursor),
+      show_source: false,
+      description_length: 200 %>
   </div>
 </div>

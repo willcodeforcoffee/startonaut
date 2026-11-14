@@ -1,0 +1,16 @@
+<div id="<%= dom_id feed_article %>" class="border-b border-gray-200 pb-3">
+  <% if show_source %>
+    <%= favicon_image_tag(feed_article.bookmark, class: "inline object-contain w-[1rem]") %>
+  <% end %>
+  <a href="<%= feed_article.url %>" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline font-medium">
+    <%= feed_article.title %>
+  </a>
+  <div class="text-sm text-slate-500">
+    <% if show_source %>
+      <%= link_to feed_article.bookmark.title, feed_article.bookmark.url, class: "hover:underline" %>
+      &middot;
+    <% end %>
+    <%= format_date_short(feed_article.published_at) %>
+  </div>
+  <p class="text-sm text-slate-600"><%= truncate(strip_tags(feed_article.description.to_s), length: description_length) %></p>
+</div>
