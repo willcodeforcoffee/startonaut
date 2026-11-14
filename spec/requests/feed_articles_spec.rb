@@ -26,5 +26,20 @@ RSpec.describe "/feed_articles", type: :request do
       expect(response.body).to include(own_article.title)
       expect(response.body).not_to include(other_article.title)
     end
+
+    it "records a click on the article's bookmark when the article is opened" do
+      bookmark = FactoryBot.create(:bookmark, :with_feed_url, user: authentication_user)
+      article = FactoryBot.create(:feed_article, bookmark: bookmark)
+
+      get feed_articles_url
+
+      link = Nokogiri::HTML(response.body).at_css("a[href='#{article.url}']")
+      expect(link["data-controller"]).to eq("bookmark-click")
+      expect(link["data-action"]).to include("click->bookmark-click#track")
+
+      expect {
+        post link["data-bookmark-click-url-value"]
+      }.to change { bookmark.reload.last_clicked_at }.from(nil)
+    end
   end
 end

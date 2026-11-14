@@ -27,6 +27,17 @@ RSpec.describe "/bookmarks/:bookmark_id/feed_articles", type: :request do
       expect(response.body).to include(article.title)
     end
 
+    it "tracks clicks on article links against the bookmark" do
+      bookmark = FactoryBot.create(:bookmark, :with_feed_url, user: authentication_user)
+      article = FactoryBot.create(:feed_article, bookmark: bookmark)
+
+      get bookmark_feed_articles_url(bookmark)
+
+      link = Nokogiri::HTML(response.body).at_css("a[href='#{article.url}']")
+      expect(link["data-controller"]).to eq("bookmark-click")
+      expect(link["data-bookmark-click-url-value"]).to eq(bookmark_clicks_path(bookmark))
+    end
+
     context "when the bookmark belongs to another user" do
       it "raises a not found error" do
         other_user = FactoryBot.create(:user, :with_faker_email)
