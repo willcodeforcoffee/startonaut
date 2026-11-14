@@ -10,7 +10,7 @@ downloading, tag management, RSS/Atom feed reading, and Netscape bookmark import
 
 ## Development Commands
 
-Ruby/Node versions are pinned via `mise.toml` (Ruby 4.0.6, Node 24); env vars load from `.env`
+Ruby/Node versions are pinned via `mise.toml` (Ruby 4.0.9, Node 24); env vars load from `.env`
 (copy from `.env.example` first — see README for details).
 
 ```bash
